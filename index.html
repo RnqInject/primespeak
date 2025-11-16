@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrimeSpeak Academy</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        :root { --primary: #4f46e5; --primary-dark: #3730a3; --secondary: #10b981; --danger: #ef4444; --warning: #f59e0b; --light: #f8fafc; --dark: #1e293b; --gray: #64748b; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 15px; color: var(--dark); }
+        .login-container { max-width: 400px; margin: 50px auto; background: white; border-radius: 15px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 30px; text-align: center; }
+        .login-container h1 { color: var(--primary-dark); margin-bottom: 10px; }
+        .login-container p { color: var(--gray); margin-bottom: 25px; }
+        .login-tabs { display: flex; margin-bottom: 20px; border-radius: 10px; overflow: hidden; background: #f1f5f9; }
+        .login-tab { flex: 1; padding: 12px; border: none; background: none; cursor: pointer; font-weight: 600; }
+        .login-tab.active { background: var(--primary); color: white; }
+        .login-input { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; }
+        .login-input:focus { border-color: var(--primary); outline: none; }
+        .login-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        .login-btn:hover { background: var(--primary-dark); }
+        .container { max-width: 100%; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; margin: 0 auto; display: none; }
+        .header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 25px 15px; text-align: center; position: relative; }
+        .user-info { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 20px; font-size: 0.9em; }
+        .logout-btn { background: rgba(255,255,255,0.3); border: none; color: white; padding: 5px 10px; border-radius: 10px; cursor: pointer; margin-left: 10px; }
+        .nav { display: flex; background: var(--primary-dark); flex-wrap: wrap; }
+        .nav-btn { flex: 1; min-width: 80px; background: none; border: none; color: white; padding: 15px 10px; cursor: pointer; font-size: 12px; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .nav-btn.active { background: var(--primary); }
+        .content { padding: 20px 15px; min-height: 500px; }
+        .section { display: none; }
+        .section.active { display: block; }
+        .card { background: var(--light); border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--primary); }
+        .student-card { display: flex; flex-direction: column; gap: 12px; }
+        .student-info h3 { color: var(--primary-dark); margin-bottom: 6px; font-size: 1.2em; }
+        .student-info p { color: var(--gray); margin: 2px 0; font-size: 0.9em; }
+        .student-stats { display: flex; justify-content: space-between; align-items: center; }
+        .average-grade { font-size: 1.5em; font-weight: bold; color: var(--primary); }
+        .grade { display: inline-flex; align-items: center; justify-content: center; width: 35px; height: 35px; color: white; border-radius: 8px; font-weight: bold; margin: 2px; font-size: 0.9em; border: 2px solid transparent; }
+        .grade-1, .grade-2, .grade-3 { background: #ef4444; }
+        .grade-4, .grade-5, .grade-6 { background: #f59e0b; }
+        .grade-7, .grade-8, .grade-9, .grade-10 { background: #10b981; }
+        .grade-11, .grade-12, .grade-13, .grade-14, .grade-15 { background: #10b981; }
+        .grade-16, .grade-17, .grade-18, .grade-19, .grade-20 { background: #10b981; }
+        .grade-21, .grade-22, .grade-23, .grade-24, .grade-25 { background: #10b981; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--dark); font-size: 0.9em; }
+        .input, .select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
+        .input:focus, .select:focus { border-color: var(--primary); outline: none; }
+        .btn { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; width: 100%; margin-top: 10px; }
+        .btn:hover { background: var(--primary-dark); }
+        .btn-success { background: var(--secondary); }
+        .btn-success:hover { background: #0da271; }
+        .btn-danger { background: var(--danger); }
+        .btn-danger:hover { background: #dc2626; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+        .stat-card { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.08); border-top: 4px solid var(--primary); }
+        .stat-number { font-size: 1.8em; font-weight: bold; color: var(--primary); margin: 5px 0; }
+        .stat-label { color: var(--gray); font-size: 0.8em; }
+        .empty-state { text-align: center; padding: 40px 15px; color: var(--gray); }
+        h2 { margin-bottom: 15px; color: var(--primary-dark); font-size: 1.3em; }
+        h3 { margin-bottom: 10px; color: var(--dark); font-size: 1.1em; }
+        .student-grades-list { margin-top: 20px; }
+        .grade-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #e2e8f0; }
+        .grade-item:last-child { border-bottom: none; }
+        .login-info { background: #f0f9ff; border: 2px solid #0ea5e9; border-radius: 10px; padding: 15px; margin: 10px 0; }
+        .grade-type-tabs { display: flex; margin-bottom: 15px; border-radius: 8px; overflow: hidden; background: #f1f5f9; }
+        .grade-type-tab { flex: 1; padding: 10px; border: none; background: none; cursor: pointer; font-weight: 600; font-size: 12px; }
+        .grade-type-tab.active { background: var(--primary); color: white; }
+        .save-btn { background: var(--secondary); margin-top: 5px; }
+        .save-btn:hover { background: #0da271; }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="loginScreen">
+        <h1>📚 PrimeSpeak Academy</h1>
+        <p>Войдите в систему</p>
+        
+        <div class="login-tabs">
+            <button class="login-tab active" onclick="showLoginTab('teacher')">👨‍🏫 Учитель</button>
+            <button class="login-tab" onclick="showLoginTab('student')">👨‍🎓 Ученик</button>
+        </div>
+
+        <div id="teacherLogin">
+            <input type="text" class="login-input" id="teacherEmail" placeholder="Email учителя">
+            <input type="password" class="login-input" id="teacherPassword" placeholder="Пароль учителя">
+            <button class="login-btn" onclick="loginTeacher()">Войти как учитель</button>
+            <button class="login-btn save-btn" onclick="saveLoginData('teacher')">💾 Сохранить данные входа</button>
+        </div>
+
+        <div id="studentLogin" style="display: none;">
+            <input type="text" class="login-input" id="studentLoginInput" placeholder="Логин ученика">
+            <input type="password" class="login-input" id="studentPassword" placeholder="Пароль ученика">
+            <button class="login-btn" onclick="loginStudent()">Войти как ученик</button>
+            <button class="login-btn save-btn" onclick="saveLoginData('student')">💾 Сохранить данные входа</button>
+        </div>
+
+        <button onclick="testConnection()" style="margin-top: 20px; padding: 10px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
+            🧪 Проверить подключение
+        </button>
+    </div>
+
+    <div class="container" id="mainApp">
+        <div class="header" id="teacherHeader">
+            <div class="user-info">
+                👨‍🏫 <span id="userName">Jasur Sheraliev</span>
+                <button class="logout-btn" onclick="logout()">🚪</button>
+            </div>
+            <h1>📚 English Grades Journal</h1>
+            <div class="company-name">PrimeSpeak Academy</div>
+            <p>10-балльная система • Teacher Portal</p>
+        </div>
+
+        <div class="header" id="studentHeader" style="display: none;">
+            <div class="user-info">
+                👨‍🎓 <span id="studentNameDisplay">Ученик</span>
+                <button class="logout-btn" onclick="logout()">🚪</button>
+            </div>
+            <h1>📚 Мои оценки</h1>
+            <div class="company-name">PrimeSpeak Academy</div>
+            <p>10-балльная система • Student Portal</p>
+        </div>
+
+        <div class="nav" id="teacherNav">
+            <button class="nav-btn active" onclick="showSection('dashboard')">📊<span>Дашборд</span></button>
+            <button class="nav-btn" onclick="showSection('students')">👨‍🎓<span>Ученики</span></button>
+            <button class="nav-btn" onclick="showSection('addStudent')">➕<span>Добавить</span></button>
+            <button class="nav-btn" onclick="showSection('grades')">📝<span>Оценки</span></button>
+        </div>
+
+        <div class="content">
+            <div id="dashboard" class="section active">
+                <h2>📊 Общая статистика</h2>
+                <div class="stats-grid">
+                    <div class="stat-card"><div>👨‍🎓</div><div class="stat-number" id="totalStudents">0</div><div class="stat-label">Учеников</div></div>
+                    <div class="stat-card"><div>⭐</div><div class="stat-number" id="averageGrade">0.0</div><div class="stat-label">Средний балл</div></div>
+                    <div class="stat-card"><div>📝</div><div class="stat-number" id="totalGrades">0</div><div class="stat-label">Оценок</div></div>
+                    <div class="stat-card"><div>📚</div><div class="stat-number">2</div><div class="stat-label">Курса</div></div>
+                </div>
+                <div class="card"><h3>📈 Последние оценки</h3><div id="recentGrades"></div></div>
+            </div>
+
+            <div id="students" class="section">
+                <h2>👨‍🎓 Список учеников</h2>
+                <div id="studentsList"></div>
+            </div>
+
+            <div id="addStudent" class="section">
+                <h2>➕ Добавить ученика</h2>
+                <div class="card">
+                    <div class="form-group">
+                        <label>👤 Полное имя ученика</label>
+                        <input type="text" class="input" id="studentName" placeholder="Имя и фамилия">
+                    </div>
+                    <div class="form-group">
+                        <label>👤 Логин для входа</label>
+                        <input type="text" class="input" id="studentUsername" placeholder="Придумайте логин">
+                    </div>
+                    <div class="form-group">
+                        <label>🔑 Пароль для входа</label>
+                        <input type="text" class="input" id="studentPasswordInput" placeholder="Придумайте пароль">
+                    </div>
+                    <div class="form-group">
+                        <label>📧 Email ученика</label>
+                        <input type="email" class="input" id="studentEmail" placeholder="example@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>📚 Курс</label>
+                        <select class="select" id="studentCourse">
+                            <option value="basic">Начальный английский</option>
+                            <option value="advanced">Продвинутый английский</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="addStudent()">✅ Добавить ученика</button>
+                    <button class="btn save-btn" onclick="saveStudentForm()">💾 Сохранить форму</button>
+                </div>
+            </div>
+
+            <div id="grades" class="section">
+                <h2>📝 Выставление оценок</h2>
+                <div class="card">
+                    <div class="form-group">
+                        <label>👨‍🎓 Выберите ученика</label>
+                        <select class="select" id="gradeStudent"></select>
+                    </div>
+                    
+                    <div class="grade-type-tabs">
+                        <button class="grade-type-tab active" onclick="showGradeType('regular')">📚 Обычные (10 баллов)</button>
+                        <button class="grade-type-tab" onclick="showGradeType('test')">🎓 Тесты (25 баллов)</button>
+                    </div>
+
+                    <div id="regularGrades" class="grade-type-content">
+                        <div class="form-group">
+                            <label>⭐ Оценка (10-балльная система)</label>
+                            <select class="select" id="gradeValue">
+                                <option value="1">1 - Очень плохо</option>
+                                <option value="2">2 - Плохо</option>
+                                <option value="3">3 - Неудовлетворительно</option>
+                                <option value="4">4 - Ниже среднего</option>
+                                <option value="5">5 - Удовлетворительно</option>
+                                <option value="6">6 - Хорошо</option>
+                                <option value="7">7 - Очень хорошо</option>
+                                <option value="8">8 - Отлично</option>
+                                <option value="9">9 - Превосходно</option>
+                                <option value="10">10 - Блестяще</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="testGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>🎓 Оценка за тест (25-балльная система)</label>
+                            <select class="select" id="testGradeValue">
+                                <option value="1">1 балл</option>
+                                <option value="2">2 балла</option>
+                                <option value="3">3 балла</option>
+                                <option value="4">4 балла</option>
+                                <option value="5">5 баллов</option>
+                                <option value="6">6 баллов</option>
+                                <option value="7">7 баллов</option>
+                                <option value="8">8 баллов</option>
+                                <option value="9">9 баллов</option>
+                                <option value="10">10 баллов</option>
+                                <option value="11">11 баллов</option>
+                                <option value="12">12 баллов</option>
+                                <option value="13">13 баллов</option>
+                                <option value="14">14 баллов</option>
+                                <option value="15">15 баллов</option>
+                                <option value="16">16 баллов</option>
+                                <option value="17">17 баллов</option>
+                                <option value="18">18 баллов</option>
+                                <option value="19">19 баллов</option>
+                                <option value="20">20 баллов</option>
+                                <option value="21">21 балл</option>
+                                <option value="22">22 балла</option>
+                                <option value="23">23 балла</option>
+                                <option value="24">24 балла</option>
+                                <option value="25">25 баллов</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📄 Задание/Тема урока</label>
+                        <input type="text" class="input" id="gradeAssignment" placeholder="Present Simple, Homework #5">
+                    </div>
+                    <button class="btn" onclick="addGrade()">📝 Поставить оценку</button>
+                    <button class="btn save-btn" onclick="saveGradeForm()">💾 Сохранить форму</button>
+                </div>
+                <div class="card"><h3>📋 История оценок</h3><div id="gradesHistory"></div></div>
+            </div>
+
+            <div id="studentGrades" class="section">
+                <h2>📊 Мои оценки</h2>
+                <div class="card">
+                    <h3>👋 Привет, <span id="welcomeStudentName">Ученик</span>!</h3>
+                    <p><strong>Твой средний балл:</strong> <span id="studentAverageGrade" style="font-size: 1.5em; color: var(--primary);">0.0</span></p>
+                    <p><strong>Курс:</strong> <span id="studentCourseDisplay">-</span></p>
+                    <p><strong>Зачислен:</strong> <span id="studentJoinDate">-</span></p>
+                </div>
+                <div class="card">
+                    <h3>📝 История моих оценок</h3>
+                    <div class="student-grades-list" id="studentGradesList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ИНИЦИАЛИЗАЦИЯ SUPABASE ПЕРВЫМ ДЕЛОМ!
+        const supabaseUrl = 'https://kgkkdjujxruiakbglnop.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtna2tkanVqeHJ1aWFrYmdsbm9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMyNzI0MDMsImV4cCI6MjA3ODg0ODQwM30.R8vESEB3T-wqPlsykf4YnKm3wawuu70Xeph4GUCigsM';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let currentUser = null;
+        let currentGradeType = 'regular';
+
+        console.log('🚀 Supabase инициализирован:', !!supabase);
+
+        // Функции для сохранения данных
+        function saveLoginData(type) {
+            if (type === 'teacher') {
+                const email = document.getElementById('teacherEmail').value;
+                const password = document.getElementById('teacherPassword').value;
+                if (!email || !password) {
+                    alert('⚠️ Заполните поля для сохранения!');
+                    return;
+                }
+                localStorage.setItem('teacherLogin', JSON.stringify({ email, password }));
+                alert('✅ Данные учителя сохранены!');
+            } else {
+                const username = document.getElementById('studentLoginInput').value;
+                const password = document.getElementById('studentPassword').value;
+                if (!username || !password) {
+                    alert('⚠️ Заполните поля для сохранения!');
+                    return;
+                }
+                localStorage.setItem('studentLogin', JSON.stringify({ username, password }));
+                alert('✅ Данные ученика сохранены!');
+            }
+        }
+
+        function loadSavedLogins() {
+            // Загрузка сохраненных данных учителя
+            const teacherData = localStorage.getItem('teacherLogin');
+            if (teacherData) {
+                const { email, password } = JSON.parse(teacherData);
+                document.getElementById('teacherEmail').value = email;
+                document.getElementById('teacherPassword').value = password;
+            }
+
+            // Загрузка сохраненных данных ученика
+            const studentData = localStorage.getItem('studentLogin');
+            if (studentData) {
+                const { username, password } = JSON.parse(studentData);
+                document.getElementById('studentLoginInput').value = username;
+                document.getElementById('studentPassword').value = password;
+            }
+
+            // Загрузка сохраненных форм
+            loadSavedForms();
+        }
+
+        function saveStudentForm() {
+            const formData = {
+                name: document.getElementById('studentName').value,
+                username: document.getElementById('studentUsername').value,
+                password: document.getElementById('studentPasswordInput').value,
+                email: document.getElementById('studentEmail').value,
+                course: document.getElementById('studentCourse').value
+            };
+            localStorage.setItem('studentForm', JSON.stringify(formData));
+            alert('✅ Форма добавления ученика сохранена!');
+        }
+
+        function saveGradeForm() {
+            const formData = {
+                studentId: document.getElementById('gradeStudent').value,
+                assignment: document.getElementById('gradeAssignment').value,
+                gradeType: currentGradeType,
+                gradeValue: currentGradeType === 'regular' ? 
+                    document.getElementById('gradeValue').value : 
+                    document.getElementById('testGradeValue').value
+            };
+            localStorage.setItem('gradeForm', JSON.stringify(formData));
+            alert('✅ Форма оценки сохранена!');
+        }
+
+        function loadSavedForms() {
+            // Загрузка формы ученика
+            const studentForm = localStorage.getItem('studentForm');
+            if (studentForm) {
+                const data = JSON.parse(studentForm);
+                document.getElementById('studentName').value = data.name || '';
+                document.getElementById('studentUsername').value = data.username || '';
+                document.getElementById('studentPasswordInput').value = data.password || '';
+                document.getElementById('studentEmail').value = data.email || '';
+                if (data.course) document.getElementById('studentCourse').value = data.course;
+            }
+
+            // Загрузка формы оценки
+            const gradeForm = localStorage.getItem('gradeForm');
+            if (gradeForm) {
+                const data = JSON.parse(gradeForm);
+                if (data.studentId) document.getElementById('gradeStudent').value = data.studentId;
+                document.getElementById('gradeAssignment').value = data.assignment || '';
+                
+                if (data.gradeType) {
+                    showGradeType(data.gradeType);
+                    if (data.gradeType === 'regular') {
+                        document.getElementById('gradeValue').value = data.gradeValue || '5';
+                    } else {
+                        document.getElementById('testGradeValue').value = data.gradeValue || '15';
+                    }
+                }
+            }
+        }
+
+        // Функция проверки подключения
+        async function testConnection() {
+            try {
+                console.log('🔍 Проверяю подключение к Supabase...');
+                const { data, error } = await supabase
+                    .from('teacher')
+                    .select('*')
+                    .limit(1);
+                    
+                if (error) {
+                    console.error('❌ Ошибка подключения:', error);
+                    alert('❌ Ошибка подключения к базе: ' + error.message);
+                    return false;
+                }
+                
+                console.log('✅ Подключение к Supabase успешно! Данные:', data);
+                alert('✅ Подключение к базе данных успешно! Теперь можно входить.');
+                return true;
+            } catch (err) {
+                console.error('❌ Критическая ошибка:', err);
+                alert('❌ Критическая ошибка: ' + err.message);
+                return false;
+            }
+        }
+
+        // Функции входа
+        function showLoginTab(tab) {
+            document.querySelectorAll('.login-tab').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('teacherLogin').style.display = tab === 'teacher' ? 'block' : 'none';
+            document.getElementById('studentLogin').style.display = tab === 'student' ? 'block' : 'none';
+        }
+
+        async function loginTeacher() {
+            const email = document.getElementById('teacherEmail').value;
+            const password = document.getElementById('teacherPassword').value;
+            
+            if (!email || !password) {
+                alert('⚠️ Введите email и пароль!');
+                return;
+            }
+            
+            console.log('🔐 Пытаюсь войти как учитель:', email);
+            
+            try {
+                const { data, error } = await supabase
+                    .from('teacher')
+                    .select('id, email, password, name')
+                    .eq('email', email)
+                    .eq('password', password)
+                    .single();
+
+                console.log('📨 Ответ от Supabase:', { data, error });
+
+                if (error) {
+                    if (error.code === 'PGRST116') {
+                        alert('❌ Учитель с такими данными не найден!');
+                    } else {
+                        alert('❌ Ошибка базы данных: ' + error.message);
+                    }
+                    return;
+                }
+
+                if (!data) {
+                    alert('❌ Неправильный email или пароль!');
+                    return;
+                }
+
+                currentUser = data;
+                console.log('✅ Успешный вход:', currentUser);
+                showMainApp('teacher');
+                
+            } catch (err) {
+                console.error('💥 Ошибка при входе:', err);
+                alert('❌ Произошла ошибка при входе: ' + err.message);
+            }
+        }
+
+        async function loginStudent() {
+            const username = document.getElementById('studentLoginInput').value;
+            const password = document.getElementById('studentPassword').value;
+            
+            if (!username || !password) {
+                alert('⚠️ Введите логин и пароль!');
+                return;
+            }
+            
+            console.log('🔐 Пытаюсь войти как ученик:', username);
+            
+            try {
+                const { data, error } = await supabase
+                    .from('students')
+                    .select('*')
+                    .eq('username', username)
+                    .eq('password', password)
+                    .single();
+
+                console.log('📨 Ответ от Supabase:', { data, error });
+
+                if (error) {
+                    if (error.code === 'PGRST116') {
+                        alert('❌ Ученик с такими данными не найден!');
+                    } else {
+                        alert('❌ Ошибка базы данных: ' + error.message);
+                    }
+                    return;
+                }
+
+                if (!data) {
+                    alert('❌ Неправильный логин или пароль!');
+                    return;
+                }
+
+                currentUser = data;
+                console.log('✅ Успешный вход:', currentUser);
+                showMainApp('student');
+                
+            } catch (err) {
+                console.error('💥 Ошибка при входе:', err);
+                alert('❌ Произошла ошибка при входе: ' + err.message);
+            }
+        }
+
+        function showMainApp(role) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            
+            if (role === 'teacher') {
+                document.getElementById('teacherHeader').style.display = 'block';
+                document.getElementById('studentHeader').style.display = 'none';
+                document.getElementById('teacherNav').style.display = 'flex';
+                document.getElementById('userName').textContent = currentUser.name;
+                showSection('dashboard');
+                loadTeacherData();
+                alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
+            } else {
+                document.getElementById('teacherHeader').style.display = 'none';
+                document.getElementById('studentHeader').style.display = 'block';
+                document.getElementById('teacherNav').style.display = 'none';
+                document.getElementById('studentNameDisplay').textContent = currentUser.name;
+                document.getElementById('welcomeStudentName').textContent = currentUser.name;
+                showStudentGrades();
+                alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'block';
+            alert('👋 До свидания!');
+        }
+
+        // Учительские функции
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(sectionName).classList.add('active');
+            if (event) event.currentTarget.classList.add('active');
+        }
+
+        function showGradeType(type) {
+            currentGradeType = type;
+            document.querySelectorAll('.grade-type-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.grade-type-content').forEach(content => content.style.display = 'none');
+            
+            event.target.classList.add('active');
+            document.getElementById(type + 'Grades').style.display = 'block';
+        }
+
+        async function addStudent() {
+            const name = document.getElementById('studentName').value.trim();
+            const username = document.getElementById('studentUsername').value.trim();
+            const password = document.getElementById('studentPasswordInput').value.trim();
+            const email = document.getElementById('studentEmail').value.trim();
+            const course = document.getElementById('studentCourse').value;
+
+            if (!name || !username || !password) {
+                alert('⚠️ Заполните все обязательные поля!');
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from('students')
+                .insert([{
+                    name: name,
+                    username: username,
+                    password: password,
+                    email: email,
+                    course: course,
+                    join_date: new Date().toISOString().split('T')[0]
+                }])
+                .select();
+
+            if (error) {
+                alert('❌ Ошибка: ' + error.message);
+                return;
+            }
+
+            // Очистка формы
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentUsername').value = '';
+            document.getElementById('studentPasswordInput').value = '';
+            document.getElementById('studentEmail').value = '';
+            
+            loadStudents();
+            updateDashboard();
+            loadGradeStudentSelect();
+            
+            alert(`✅ Ученик ${name} добавлен!\n\n📋 Данные для входа:\n👤 Логин: ${username}\n🔑 Пароль: ${password}`);
+        }
+
+        async function addGrade() {
+            const studentId = parseInt(document.getElementById('gradeStudent').value);
+            const assignment = document.getElementById('gradeAssignment').value.trim();
+            
+            let gradeValue;
+            if (currentGradeType === 'regular') {
+                gradeValue = document.getElementById('gradeValue').value;
+            } else {
+                gradeValue = document.getElementById('testGradeValue').value;
+            }
+
+            if (!studentId || !gradeValue || !assignment) {
+                alert('⚠️ Заполните все поля!');
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from('grades')
+                .insert([{
+                    student_id: studentId,
+                    grade: parseInt(gradeValue),
+                    assignment: assignment,
+                    type: currentGradeType,
+                    grade_date: new Date().toISOString().split('T')[0]
+                }])
+                .select();
+
+            if (error) {
+                alert('❌ Ошибка: ' + error.message);
+                return;
+            }
+
+            document.getElementById('gradeAssignment').value = '';
+            loadGradesHistory();
+            updateDashboard();
+            
+            const student = await getStudentById(studentId);
+            alert(`✅ Оценка ${gradeValue} поставлена ученику ${student.name}!`);
+        }
+
+        async function loadTeacherData() {
+            await loadStudents();
+            await loadGradeStudentSelect();
+            await loadGradesHistory();
+            await updateDashboard();
+        }
+
+        async function loadStudents() {
+            const { data: students, error } = await supabase
+                .from('students')
+                .select('*')
+                .order('name');
+
+            if (error) {
+                console.error('Error loading students:', error);
+                return;
+            }
+
+            const list = document.getElementById('studentsList');
+            
+            if (!students || students.length === 0) {
+                list.innerHTML = '<div class="empty-state"><div>👨‍🎓</div><h3>Нет учеников</h3><p>Добавьте первого ученика</p></div>';
+                return;
+            }
+
+            list.innerHTML = '';
+            for (let student of students) {
+                const { data: grades } = await supabase
+                    .from('grades')
+                    .select('grade')
+                    .eq('student_id', student.id);
+
+                const avgGrade = grades && grades.length > 0 
+                    ? (grades.reduce((sum, g) => sum + g.grade, 0) / grades.length).toFixed(1)
+                    : '—';
+
+                const recentGrades = grades ? grades.slice(-3) : [];
+
+                list.innerHTML += `
+                    <div class="card student-card">
+                        <div class="student-info">
+                            <h3>${student.name}</h3>
+                            <div class="login-info">
+                                <strong>Данные для входа:</strong><br>
+                                👤 Логин: <strong>${student.username}</strong><br>
+                                🔑 Пароль: <strong>${student.password}</strong>
+                            </div>
+                            <p>📧 ${student.email || 'Email не указан'}</p>
+                            <p>📚 ${getCourseName(student.course)}</p>
+                            <p>📅 Зачислен: ${student.join_date}</p>
+                        </div>
+                        <div class="student-stats">
+                            <div class="average-grade">${avgGrade}</div>
+                            <div>${recentGrades.map(grade => `<span class="grade grade-${grade.grade}">${grade.grade}</span>`).join('')}</div>
+                            <button class="btn btn-danger" onclick="deleteStudent(${student.id})" style="width: auto; padding: 8px 12px;">🗑️</button>
+                        </div>
+                    </div>`;
+            }
+        }
+
+        async function loadGradeStudentSelect() {
+            const { data: students, error } = await supabase
+                .from('students')
+                .select('id, name, username')
+                .order('name');
+
+            if (error) return;
+
+            const select = document.getElementById('gradeStudent');
+            select.innerHTML = '';
+            students.forEach(student => {
+                select.innerHTML += `<option value="${student.id}">${student.name} (${student.username})</option>`;
+            });
+        }
+
+        async function loadGradesHistory() {
+            const { data: grades, error } = await supabase
+                .from('grades')
+                .select(`
+                    *,
+                    students (name)
+                `)
+                .order('created_at', { ascending: false })
+                .limit(50);
+
+            if (error) {
+                console.error('Error loading grades:', error);
+                return;
+            }
+
+            const history = document.getElementById('gradesHistory');
+            
+            if (!grades || grades.length === 0) {
+                history.innerHTML = '<div class="empty-state"><div>📝</div><p>Нет оценок</p></div>';
+                return;
+            }
+
+            history.innerHTML = '';
+            grades.forEach(grade => {
+                const typeLabel = grade.type === 'test' ? '🎓 Тест' : '📚 Обычная';
+                history.innerHTML += `<div style="padding: 12px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 10px;"><span class="grade grade-${grade.grade}">${grade.grade}</span><div style="flex: 1;"><strong>${grade.students.name}</strong><br><small style="color: var(--gray);">${typeLabel} • ${grade.assignment} • ${grade.grade_date}</small></div></div>`;
+            });
+        }
+
+        async function updateDashboard() {
+            const { data: students } = await supabase.from('students').select('id');
+            const { data: grades } = await supabase.from('grades').select('grade');
+
+            document.getElementById('totalStudents').textContent = students ? students.length : 0;
+            
+            const totalGrades = grades ? grades.length : 0;
+            const totalGradeSum = grades ? grades.reduce((sum, g) => sum + g.grade, 0) : 0;
+            const average = totalGrades > 0 ? (totalGradeSum / totalGrades).toFixed(1) : '0.0';
+            
+            document.getElementById('averageGrade').textContent = average;
+            document.getElementById('totalGrades').textContent = totalGrades;
+            
+            await updateRecentGrades();
+        }
+
+        async function updateRecentGrades() {
+            const { data: grades, error } = await supabase
+                .from('grades')
+                .select(`
+                    *,
+                    students (name)
+                `)
+                .order('created_at', { ascending: false })
+                .limit(5);
+
+            if (error) return;
+
+            const recent = document.getElementById('recentGrades');
+            
+            if (!grades || grades.length === 0) {
+                recent.innerHTML = '<p style="color: var(--gray); text-align: center; padding: 20px;">Нет недавних оценок</p>';
+                return;
+            }
+            
+            recent.innerHTML = '';
+            grades.forEach(grade => {
+                recent.innerHTML += `<div style="display: flex; align-items: center; gap: 12px; padding: 10px; border-bottom: 1px solid #e2e8f0;"><span class="grade grade-${grade.grade}">${grade.grade}</span><div style="flex: 1;"><strong>${grade.students.name}</strong><div style="color: var(--gray); font-size: 0.8em;">${grade.assignment}</div></div><small style="color: var(--gray); font-size: 0.8em;">${grade.grade_date}</small></div>`;
+            });
+        }
+
+        // Функции ученика
+        async function showStudentGrades() {
+            const { data: grades, error } = await supabase
+                .from('grades')
+                .select('*')
+                .eq('student_id', currentUser.id)
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error loading student grades:', error);
+                return;
+            }
+
+            const avgGrade = grades && grades.length > 0 
+                ? (grades.reduce((sum, g) => sum + g.grade, 0) / grades.length).toFixed(1)
+                : '0.0';
+            
+            document.getElementById('studentAverageGrade').textContent = avgGrade;
+            document.getElementById('studentCourseDisplay').textContent = getCourseName(currentUser.course);
+            document.getElementById('studentJoinDate').textContent = currentUser.join_date;
+            
+            const gradesList = document.getElementById('studentGradesList');
+            if (!grades || grades.length === 0) {
+                gradesList.innerHTML = '<div class="empty-state"><div>📝</div><p>У вас пока нет оценок</p></div>';
+                return;
+            }
+            
+            gradesList.innerHTML = '';
+            grades.forEach(grade => {
+                const typeLabel = grade.type === 'test' ? '🎓 Тест' : '📚 Обычная';
+                gradesList.innerHTML += `
+                    <div class="grade-item">
+                        <div>
+                            <strong>${grade.assignment}</strong>
+                            <div style="color: var(--gray); font-size: 0.9em;">${typeLabel} • ${grade.grade_date}</div>
+                        </div>
+                        <span class="grade grade-${grade.grade}">${grade.grade}</span>
+                    </div>
+                `;
+            });
+            
+            showSection('studentGrades');
+        }
+
+        // Вспомогательные функции
+        function getCourseName(course) {
+            return course === 'basic' ? 'Начальный английский' : 'Продвинутый английский';
+        }
+
+        async function getStudentById(studentId) {
+            const { data, error } = await supabase
+                .from('students')
+                .select('*')
+                .eq('id', studentId)
+                .single();
+
+            return data;
+        }
+
+        async function deleteStudent(studentId) {
+            if (!confirm('Удалить этого ученика? Все его оценки также будут удалены.')) return;
+
+            // Сначала удаляем оценки ученика
+            await supabase.from('grades').delete().eq('student_id', studentId);
+            // Затем удаляем ученика
+            const { error } = await supabase.from('students').delete().eq('id', studentId);
+
+            if (error) {
+                alert('❌ Ошибка при удалении: ' + error.message);
+                return;
+            }
+
+            loadStudents();
+            loadGradeStudentSelect();
+            updateDashboard();
+            alert('🗑️ Ученик удален');
+        }
+
+        // Авто-загрузка сохраненных данных при загрузке страницы
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 PrimeSpeak Academy загружается...');
+            console.log('🔧 Supabase готов к работе:', !!supabase);
+            loadSavedLogins();
+        });
+    </script>
+</body>
+                          </html>
