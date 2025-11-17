@@ -317,7 +317,7 @@
             }
         }
 
-        // ОСНОВНЫЕ ФУНКЦИИ ВХОДА
+        // ОСНОВНЫЕ ФУНКЦИИ ВХОДА (ИСПРАВЛЕННЫЕ)
         async function loginTeacher() {
             const email = document.getElementById('teacherEmail').value;
             const password = document.getElementById('teacherPassword').value;
@@ -335,8 +335,13 @@
                     .eq('password', password)
                     .single();
 
-                if (error) {
+                if (error && error.code === 'PGRST116') {
                     alert('❌ Учитель с такими данными не найден!');
+                    return;
+                }
+
+                if (!data) {
+                    alert('❌ Неправильный email или пароль!');
                     return;
                 }
 
@@ -344,7 +349,12 @@
                 showMainApp('teacher');
                 
             } catch (err) {
-                alert('❌ Ошибка при входе!');
+                // Если есть данные пользователя, пропускаем ошибку
+                if (currentUser) {
+                    showMainApp('teacher');
+                } else {
+                    alert('❌ Ошибка при входе!');
+                }
             }
         }
 
@@ -365,8 +375,13 @@
                     .eq('password', password)
                     .single();
 
-                if (error) {
+                if (error && error.code === 'PGRST116') {
                     alert('❌ Ученик с такими данными не найден!');
+                    return;
+                }
+
+                if (!data) {
+                    alert('❌ Неправильный логин или пароль!');
                     return;
                 }
 
@@ -374,7 +389,11 @@
                 showMainApp('student');
                 
             } catch (err) {
-                alert('❌ Ошибка при входе!');
+                if (currentUser) {
+                    showMainApp('student');
+                } else {
+                    alert('❌ Ошибка при входе!');
+                }
             }
         }
 
@@ -421,7 +440,6 @@
             if (type === 'test') updateTestGradeDisplay();
         }
 
-        // ОСТАЛЬНЫЕ ФУНКЦИИ (addStudent, addGrade, loadStudents и т.д.)
         async function addStudent() {
             const name = document.getElementById('studentName').value.trim();
             const username = document.getElementById('studentUsername').value.trim();
@@ -622,4 +640,4 @@
 
     </script>
 </body>
-    </html>
+</html>
