@@ -69,29 +69,6 @@
         .save-btn { background: var(--secondary); margin-top: 5px; }
         .save-btn:hover { background: #0da271; }
         
-        /* Стили для календаря */
-        .calendar { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; }
-        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
-        .calendar-day { text-align: center; padding: 10px; border-radius: 8px; cursor: pointer; }
-        .calendar-day:hover { background: #f1f5f9; }
-        .calendar-day.today { background: var(--primary); color: white; }
-        .calendar-day.has-event { background: #f0f9ff; border: 2px solid #0ea5e9; }
-        .calendar-day.weekend { color: var(--danger); }
-        .calendar-event { background: var(--secondary); color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.8em; margin-top: 4px; }
-        
-        /* Стили для расписания */
-        .schedule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
-        .schedule-item { background: white; padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary); }
-        .schedule-time { font-weight: bold; color: var(--primary); margin-bottom: 5px; }
-        .schedule-subject { font-size: 1.1em; margin-bottom: 5px; }
-        .schedule-teacher { color: var(--gray); font-size: 0.9em; }
-        
-        /* Стили для уведомлений */
-        .notification { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 10px; padding: 15px; margin-bottom: 10px; }
-        .notification.upcoming { background: #f0f9ff; border-color: #0ea5e9; }
-        .notification.important { background: #fee2e2; border-color: #ef4444; }
-        
         /* Стили для разных типов оценок */
         .grade-type-badge { 
             display: inline-block; 
@@ -125,6 +102,29 @@
         .test-grade { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
         .project-grade { background: linear-gradient(135deg, #ec4899, #be185d); }
         .attendance-grade { background: linear-gradient(135deg, #6b7280, #4b5563); }
+        
+        /* Стили для календаря */
+        .calendar { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+        .calendar-day { text-align: center; padding: 10px; border-radius: 8px; cursor: pointer; }
+        .calendar-day:hover { background: #f1f5f9; }
+        .calendar-day.today { background: var(--primary); color: white; }
+        .calendar-day.has-event { background: #f0f9ff; border: 2px solid #0ea5e9; }
+        .calendar-day.weekend { color: var(--danger); }
+        .calendar-event { background: var(--secondary); color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.8em; margin-top: 4px; }
+        
+        /* Стили для расписания */
+        .schedule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .schedule-item { background: white; padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary); }
+        .schedule-time { font-weight: bold; color: var(--primary); margin-bottom: 5px; }
+        .schedule-subject { font-size: 1.1em; margin-bottom: 5px; }
+        .schedule-teacher { color: var(--gray); font-size: 0.9em; }
+        
+        /* Стили для уведомлений */
+        .notification { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 10px; padding: 15px; margin-bottom: 10px; }
+        .notification.upcoming { background: #f0f9ff; border-color: #0ea5e9; }
+        .notification.important { background: #fee2e2; border-color: #ef4444; }
     </style>
 </head>
 <body>
@@ -221,8 +221,31 @@
             <div id="addStudent" class="section">
                 <h2>➕ Добавить ученика</h2>
                 <div class="card">
-                    <!-- Форма добавления ученика -->
+                    <div class="form-group">
+                        <label>👤 Полное имя ученика</label>
+                        <input type="text" class="input" id="studentName" placeholder="Имя и фамилия">
+                    </div>
+                    <div class="form-group">
+                        <label>👤 Логин для входа</label>
+                        <input type="text" class="input" id="studentUsername" placeholder="Придумайте логин">
+                    </div>
+                    <div class="form-group">
+                        <label>🔑 Пароль для входа</label>
+                        <input type="text" class="input" id="studentPasswordInput" placeholder="Придумайте пароль">
+                    </div>
+                    <div class="form-group">
+                        <label>📧 Email ученика</label>
+                        <input type="email" class="input" id="studentEmail" placeholder="example@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>📚 Курс</label>
+                        <select class="select" id="studentCourse">
+                            <option value="basic">Начальный английский</option>
+                            <option value="advanced">Продвинутый английский</option>
+                        </select>
+                    </div>
                     <button class="btn" onclick="addStudent()">✅ Добавить ученика</button>
+                    <button class="btn save-btn" onclick="saveStudentForm()">💾 Сохранить форму</button>
                 </div>
             </div>
 
@@ -230,8 +253,174 @@
             <div id="grades" class="section">
                 <h2>📝 Выставление оценок</h2>
                 <div class="card">
-                    <!-- Форма оценок -->
+                    <div class="form-group">
+                        <label>👨‍🎓 Выберите ученика</label>
+                        <select class="select" id="gradeStudent"></select>
+                    </div>
+                    
+                    <div class="grade-type-tabs">
+                        <button class="grade-type-tab active" onclick="showGradeType('regular')">📚 Обычные</button>
+                        <button class="grade-type-tab" onclick="showGradeType('test')">🎓 Тесты</button>
+                        <button class="grade-type-tab" onclick="showGradeType('homework')">🏠 Домашние</button>
+                        <button class="grade-type-tab" onclick="showGradeType('activity')">💪 Активность</button>
+                        <button class="grade-type-tab" onclick="showGradeType('project')">📁 Проекты</button>
+                        <button class="grade-type-tab" onclick="showGradeType('oral')">🎤 Устные</button>
+                        <button class="grade-type-tab" onclick="showGradeType('attendance')">📅 Посещаемость</button>
+                    </div>
+
+                    <!-- Обычные оценки (10 баллов) -->
+                    <div id="regularGrades" class="grade-type-content">
+                        <div class="form-group">
+                            <label>⭐ Оценка (10-балльная система)</label>
+                            <select class="select" id="gradeValue">
+                                <option value="1">1 - Очень плохо</option>
+                                <option value="2">2 - Плохо</option>
+                                <option value="3">3 - Неудовлетворительно</option>
+                                <option value="4">4 - Ниже среднего</option>
+                                <option value="5">5 - Удовлетворительно</option>
+                                <option value="6">6 - Хорошо</option>
+                                <option value="7">7 - Очень хорошо</option>
+                                <option value="8">8 - Отлично</option>
+                                <option value="9">9 - Превосходно</option>
+                                <option value="10">10 - Блестяще</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Тесты (25 баллов) -->
+                    <div id="testGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>🎓 Оценка за тест (25-балльная система) 
+                                <span id="testGradeDisplay" style="color: var(--primary); font-weight: bold; margin-left: 10px;">15/25</span>
+                            </label>
+                            <select class="select" id="testGradeValue" onchange="updateTestGradeDisplay()">
+                                <option value="1">1 балл</option>
+                                <option value="2">2 балла</option>
+                                <option value="3">3 балла</option>
+                                <option value="4">4 балла</option>
+                                <option value="5">5 баллов</option>
+                                <option value="6">6 баллов</option>
+                                <option value="7">7 баллов</option>
+                                <option value="8">8 баллов</option>
+                                <option value="9">9 баллов</option>
+                                <option value="10">10 баллов</option>
+                                <option value="11">11 баллов</option>
+                                <option value="12">12 баллов</option>
+                                <option value="13">13 баллов</option>
+                                <option value="14">14 баллов</option>
+                                <option value="15" selected>15 баллов</option>
+                                <option value="16">16 баллов</option>
+                                <option value="17">17 баллов</option>
+                                <option value="18">18 баллов</option>
+                                <option value="19">19 баллов</option>
+                                <option value="20">20 баллов</option>
+                                <option value="21">21 балл</option>
+                                <option value="22">22 балла</option>
+                                <option value="23">23 балла</option>
+                                <option value="24">24 балла</option>
+                                <option value="25">25 баллов</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Домашние задания (10 баллов) -->
+                    <div id="homeworkGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>🏠 Домашнее задание (10-балльная система)</label>
+                            <select class="select" id="homeworkGradeValue">
+                                <option value="1">1 - Не сдано</option>
+                                <option value="2">2 - Очень плохо</option>
+                                <option value="3">3 - Плохо</option>
+                                <option value="4">4 - Ниже среднего</option>
+                                <option value="5">5 - Удовлетворительно</option>
+                                <option value="6">6 - Хорошо</option>
+                                <option value="7">7 - Очень хорошо</option>
+                                <option value="8">8 - Отлично</option>
+                                <option value="9">9 - Превосходно</option>
+                                <option value="10">10 - Идеально</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Активность на уроке (5 баллов) -->
+                    <div id="activityGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>💪 Активность на уроке (5-балльная система)</label>
+                            <select class="select" id="activityGradeValue">
+                                <option value="1">1 - Пассивный</option>
+                                <option value="2">2 - Редко участвует</option>
+                                <option value="3">3 - Средняя активность</option>
+                                <option value="4">4 - Активный</option>
+                                <option value="5">5 - Очень активный</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Проектные работы (20 баллов) -->
+                    <div id="projectGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>📁 Проектная работа (20-балльная система)</label>
+                            <select class="select" id="projectGradeValue">
+                                <option value="1">1 балл</option>
+                                <option value="2">2 балла</option>
+                                <option value="3">3 балла</option>
+                                <option value="4">4 балла</option>
+                                <option value="5">5 баллов</option>
+                                <option value="6">6 баллов</option>
+                                <option value="7">7 баллов</option>
+                                <option value="8">8 баллов</option>
+                                <option value="9">9 баллов</option>
+                                <option value="10">10 баллов</option>
+                                <option value="11">11 баллов</option>
+                                <option value="12">12 баллов</option>
+                                <option value="13">13 баллов</option>
+                                <option value="14">14 баллов</option>
+                                <option value="15">15 баллов</option>
+                                <option value="16">16 баллов</option>
+                                <option value="17">17 баллов</option>
+                                <option value="18">18 баллов</option>
+                                <option value="19">19 баллов</option>
+                                <option value="20">20 баллов</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Устные ответы (5 баллов) -->
+                    <div id="oralGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>🎤 Устный ответ (5-балльная система)</label>
+                            <select class="select" id="oralGradeValue">
+                                <option value="1">1 - Не ответил</option>
+                                <option value="2">2 - С ошибками</option>
+                                <option value="3">3 - Удовлетворительно</option>
+                                <option value="4">4 - Хорошо</option>
+                                <option value="5">5 - Отлично</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Посещаемость (2 балла) -->
+                    <div id="attendanceGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>📅 Посещаемость</label>
+                            <select class="select" id="attendanceGradeValue">
+                                <option value="2">✅ Присутствовал</option>
+                                <option value="1">⏰ Опоздал</option>
+                                <option value="0">❌ Отсутствовал</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📄 Задание/Тема урока</label>
+                        <input type="text" class="input" id="gradeAssignment" placeholder="Present Simple, Homework #5, Project Work">
+                    </div>
+                    <div class="form-group">
+                        <label>📝 Комментарий (опционально)</label>
+                        <textarea class="input" id="gradeComment" placeholder="Дополнительные комментарии..." rows="2"></textarea>
+                    </div>
                     <button class="btn" onclick="addGrade()">📝 Поставить оценку</button>
+                    <button class="btn save-btn" onclick="saveGradeForm()">💾 Сохранить форму</button>
                 </div>
                 <div class="card"><h3>📋 История оценок</h3><div id="gradesHistory"></div></div>
             </div>
@@ -353,7 +542,12 @@
                 </div>
 
                 <div class="card">
-                    <h3>📝 Мои последние оценки</h3>
+                    <h3>📊 Статистика по типам оценок</h3>
+                    <div id="studentGradeStats"></div>
+                </div>
+
+                <div class="card">
+                    <h3>📝 История моих оценок</h3>
                     <div class="student-grades-list" id="studentGradesList"></div>
                 </div>
             </div>
@@ -380,6 +574,713 @@
             'oral': { name: '🎤 Устная', max: 5, color: '#06b6d4' },
             'attendance': { name: '📅 Посещаемость', max: 2, color: '#6b7280' }
         };
+
+        // ФУНКЦИЯ ДЛЯ ОТОБРАЖЕНИЯ "ОЦЕНКА/25"
+        function updateTestGradeDisplay() {
+            const gradeValue = document.getElementById('testGradeValue').value;
+            document.getElementById('testGradeDisplay').textContent = `${gradeValue}/25`;
+        }
+
+        // ФУНКЦИИ СОХРАНЕНИЯ
+        function saveLoginData(type) {
+            if (type === 'teacher') {
+                const email = document.getElementById('teacherEmail').value;
+                const password = document.getElementById('teacherPassword').value;
+                if (email && password) {
+                    localStorage.setItem('teacherLogin', JSON.stringify({ email, password }));
+                    alert('✅ Данные учителя сохранены!');
+                }
+            } else {
+                const username = document.getElementById('studentLoginInput').value;
+                const password = document.getElementById('studentPassword').value;
+                if (username && password) {
+                    localStorage.setItem('studentLogin', JSON.stringify({ username, password }));
+                    alert('✅ Данные ученика сохранены!');
+                }
+            }
+        }
+
+        function saveStudentForm() {
+            const formData = {
+                name: document.getElementById('studentName').value,
+                username: document.getElementById('studentUsername').value,
+                password: document.getElementById('studentPasswordInput').value,
+                email: document.getElementById('studentEmail').value,
+                course: document.getElementById('studentCourse').value
+            };
+            localStorage.setItem('studentForm', JSON.stringify(formData));
+            alert('✅ Форма добавления ученика сохранена!');
+        }
+
+        function saveGradeForm() {
+            const formData = {
+                studentId: document.getElementById('gradeStudent').value,
+                assignment: document.getElementById('gradeAssignment').value,
+                gradeType: currentGradeType,
+                gradeValue: currentGradeType === 'regular' ? 
+                    document.getElementById('gradeValue').value : 
+                    document.getElementById('testGradeValue').value
+            };
+            localStorage.setItem('gradeForm', JSON.stringify(formData));
+            alert('✅ Форма оценки сохранена!');
+        }
+
+        // ЗАГРУЗКА СОХРАНЕННЫХ ДАННЫХ
+        function loadSavedLogins() {
+            const teacherData = localStorage.getItem('teacherLogin');
+            if (teacherData) {
+                const { email, password } = JSON.parse(teacherData);
+                document.getElementById('teacherEmail').value = email;
+                document.getElementById('teacherPassword').value = password;
+            }
+            const studentData = localStorage.getItem('studentLogin');
+            if (studentData) {
+                const { username, password } = JSON.parse(studentData);
+                document.getElementById('studentLoginInput').value = username;
+                document.getElementById('studentPassword').value = password;
+            }
+            loadSavedForms();
+        }
+
+        function loadSavedForms() {
+            const studentForm = localStorage.getItem('studentForm');
+            if (studentForm) {
+                const data = JSON.parse(studentForm);
+                document.getElementById('studentName').value = data.name || '';
+                document.getElementById('studentUsername').value = data.username || '';
+                document.getElementById('studentPasswordInput').value = data.password || '';
+                document.getElementById('studentEmail').value = data.email || '';
+                if (data.course) document.getElementById('studentCourse').value = data.course;
+            }
+
+            const gradeForm = localStorage.getItem('gradeForm');
+            if (gradeForm) {
+                const data = JSON.parse(gradeForm);
+                if (data.studentId) document.getElementById('gradeStudent').value = data.studentId;
+                document.getElementById('gradeAssignment').value = data.assignment || '';
+                
+                if (data.gradeType) {
+                    showGradeType(data.gradeType);
+                    if (data.gradeType === 'regular') {
+                        document.getElementById('gradeValue').value = data.gradeValue || '5';
+                    } else {
+                        document.getElementById('testGradeValue').value = data.gradeValue || '15';
+                    }
+                }
+            }
+        }
+
+        // ФУНКЦИЯ ПРОВЕРКИ ПОДКЛЮЧЕНИЯ
+        async function testConnection() {
+            try {
+                console.log('🔍 Проверяю подключение к Supabase...');
+                const { data, error } = await supabase
+                    .from('teacher')
+                    .select('*')
+                    .limit(1);
+                    
+                if (error) {
+                    console.error('❌ Ошибка подключения:', error);
+                    alert('❌ Ошибка подключения к базе: ' + error.message);
+                    return false;
+                }
+                
+                console.log('✅ Подключение к Supabase успешно! Данные:', data);
+                alert('✅ Подключение к базе данных успешно!');
+                return true;
+            } catch (err) {
+                console.error('❌ Критическая ошибка:', err);
+                alert('❌ Критическая ошибка: ' + err.message);
+                return false;
+            }
+        }
+
+        // ФУНКЦИИ ВХОДА (ИСПРАВЛЕННЫЕ)
+        function showLoginTab(tab) {
+            document.querySelectorAll('.login-tab').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('teacherLogin').style.display = tab === 'teacher' ? 'block' : 'none';
+            document.getElementById('studentLogin').style.display = tab === 'student' ? 'block' : 'none';
+        }
+
+        async function loginTeacher() {
+            const email = document.getElementById('teacherEmail').value;
+            const password = document.getElementById('teacherPassword').value;
+            
+            if (!email || !password) {
+                alert('⚠️ Введите email и пароль!');
+                return;
+            }
+            
+            console.log('🔐 Пытаюсь войти как учитель:', email);
+            
+            try {
+                const { data, error } = await supabase
+                    .from('teacher')
+                    .select('*')
+                    .eq('email', email)
+                    .eq('password', password)
+                    .single();
+
+                console.log('📨 Ответ от Supabase:', { data, error });
+
+                if (error) {
+                    if (error.code === 'PGRST116') {
+                        alert('❌ Учитель с такими данными не найден!');
+                    } else {
+                        alert('❌ Ошибка базы данных: ' + error.message);
+                    }
+                    return;
+                }
+
+                if (!data) {
+                    alert('❌ Неправильный email или пароль!');
+                    return;
+                }
+
+                currentUser = data;
+                console.log('✅ Успешный вход учителя:', currentUser);
+                showMainApp('teacher');
+                
+            } catch (err) {
+                console.error('💥 Ошибка при входе:', err);
+                alert('❌ Произошла ошибка при входе: ' + err.message);
+            }
+        }
+
+        async function loginStudent() {
+            const username = document.getElementById('studentLoginInput').value;
+            const password = document.getElementById('studentPassword').value;
+            
+            if (!username || !password) {
+                alert('⚠️ Введите логин и пароль!');
+                return;
+            }
+            
+            console.log('🔐 Пытаюсь войти как ученик:', username);
+            
+            try {
+                const { data, error } = await supabase
+                    .from('students')
+                    .select('*')
+                    .eq('username', username)
+                    .eq('password', password)
+                    .single();
+
+                console.log('📨 Ответ от Supabase:', { data, error });
+
+                if (error) {
+                    if (error.code === 'PGRST116') {
+                        alert('❌ Ученик с такими данными не найден!');
+                    } else {
+                        alert('❌ Ошибка базы данных: ' + error.message);
+                    }
+                    return;
+                }
+
+                if (!data) {
+                    alert('❌ Неправильный логин или пароль!');
+                    return;
+                }
+
+                currentUser = data;
+                console.log('✅ Успешный вход ученика:', currentUser);
+                showMainApp('student');
+                
+            } catch (err) {
+                console.error('💥 Ошибка при входе:', err);
+                alert('❌ Произошла ошибка при входе: ' + err.message);
+            }
+        }
+
+        function showMainApp(role) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            
+            if (role === 'teacher') {
+                document.getElementById('teacherHeader').style.display = 'block';
+                document.getElementById('studentHeader').style.display = 'none';
+                document.getElementById('teacherNav').style.display = 'flex';
+                document.getElementById('userName').textContent = currentUser.name;
+                showSection('dashboard');
+                loadTeacherData();
+                alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
+            } else {
+                document.getElementById('teacherHeader').style.display = 'none';
+                document.getElementById('studentHeader').style.display = 'block';
+                document.getElementById('teacherNav').style.display = 'none';
+                document.getElementById('studentNameDisplay').textContent = currentUser.name;
+                document.getElementById('welcomeStudentName').textContent = currentUser.name;
+                showStudentGrades();
+                alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
+            }
+            
+            // Загрузка расписания и событий
+            loadSchedule();
+            loadCalendarEvents();
+            generateCalendar();
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'block';
+            alert('👋 До свидания!');
+        }
+
+        // УЧИТЕЛЬСКИЕ ФУНКЦИИ
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(sectionName).classList.add('active');
+            if (event) event.currentTarget.classList.add('active');
+        }
+
+        function showGradeType(type) {
+            currentGradeType = type;
+            document.querySelectorAll('.grade-type-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.grade-type-content').forEach(content => content.style.display = 'none');
+            
+            event.target.classList.add('active');
+            document.getElementById(type + 'Grades').style.display = 'block';
+            if (type === 'test') updateTestGradeDisplay();
+        }
+
+        async function addStudent() {
+            const name = document.getElementById('studentName').value.trim();
+            const username = document.getElementById('studentUsername').value.trim();
+            const password = document.getElementById('studentPasswordInput').value.trim();
+            const email = document.getElementById('studentEmail').value.trim();
+            const course = document.getElementById('studentCourse').value;
+
+            if (!name || !username || !password) {
+                alert('⚠️ Заполните все обязательные поля!');
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from('students')
+                .insert([{
+                    name: name,
+                    username: username,
+                    password: password,
+                    email: email,
+                    course: course,
+                    join_date: new Date().toISOString().split('T')[0]
+                }])
+                .select();
+
+            if (error) {
+                alert('❌ Ошибка: ' + error.message);
+                return;
+            }
+
+            // Очистка формы
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentUsername').value = '';
+            document.getElementById('studentPasswordInput').value = '';
+            document.getElementById('studentEmail').value = '';
+            
+            loadStudents();
+            updateDashboard();
+            loadGradeStudentSelect();
+            
+            alert(`✅ Ученик ${name} добавлен!\n\n📋 Данные для входа:\n👤 Логин: ${username}\n🔑 Пароль: ${password}`);
+        }
+
+        async function addGrade() {
+            const studentId = parseInt(document.getElementById('gradeStudent').value);
+            const assignment = document.getElementById('gradeAssignment').value.trim();
+            
+            let gradeValue;
+            if (currentGradeType === 'regular') {
+                gradeValue = document.getElementById('gradeValue').value;
+            } else if (currentGradeType === 'test') {
+                gradeValue = document.getElementById('testGradeValue').value;
+            } else if (currentGradeType === 'homework') {
+                gradeValue = document.getElementById('homeworkGradeValue').value;
+            } else if (currentGradeType === 'activity') {
+                gradeValue = document.getElementById('activityGradeValue').value;
+            } else if (currentGradeType === 'project') {
+                gradeValue = document.getElementById('projectGradeValue').value;
+            } else if (currentGradeType === 'oral') {
+                gradeValue = document.getElementById('oralGradeValue').value;
+            } else if (currentGradeType === 'attendance') {
+                gradeValue = document.getElementById('attendanceGradeValue').value;
+            }
+
+            if (!studentId || !gradeValue || !assignment) {
+                alert('⚠️ Заполните все поля!');
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from('grades')
+                .insert([{
+                    student_id: studentId,
+                    grade: parseInt(gradeValue),
+                    assignment: assignment,
+                    type: currentGradeType,
+                    grade_date: new Date().toISOString().split('T')[0]
+                }])
+                .select();
+
+            if (error) {
+                alert('❌ Ошибка: ' + error.message);
+                return;
+            }
+
+            document.getElementById('gradeAssignment').value = '';
+            document.getElementById('gradeComment').value = '';
+            loadGradesHistory();
+            updateDashboard();
+            
+            const student = await getStudentById(studentId);
+            alert(`✅ Оценка ${gradeValue}${currentGradeType === 'test' ? '/25' : ''} поставлена ученику ${student.name}!`);
+        }
+
+        async function loadTeacherData() {
+            await loadStudents();
+            await loadGradeStudentSelect();
+            await loadGradesHistory();
+            await updateDashboard();
+        }
+
+        async function loadStudents() {
+            const { data: students, error } = await supabase
+                .from('students')
+                .select('*')
+                .order('name');
+
+            if (error) {
+                console.error('Error loading students:', error);
+                return;
+            }
+
+            const list = document.getElementById('studentsList');
+            
+            if (!students || students.length === 0) {
+                list.innerHTML = '<div class="empty-state"><div>👨‍🎓</div><h3>Нет учеников</h3><p>Добавьте первого ученика</p></div>';
+                return;
+            }
+
+            list.innerHTML = '';
+            for (let student of students) {
+                const { data: grades } = await supabase
+                    .from('grades')
+                    .select('grade, type')
+                    .eq('student_id', student.id);
+
+                const avgGrade = grades && grades.length > 0 
+                    ? (grades.reduce((sum, g) => sum + (g.type === 'test' ? g.grade/2.5 : g.grade), 0) / grades.length).toFixed(1)
+                    : '—';
+
+                const recentGrades = grades ? grades.slice(-3) : [];
+
+                list.innerHTML += `
+                    <div class="card student-card">
+                        <div class="student-info">
+                            <h3>${student.name}</h3>
+                            <div class="login-info">
+                                <strong>Данные для входа:</strong><br>
+                                👤 Логин: <strong>${student.username}</strong><br>
+                                🔑 Пароль: <strong>${student.password}</strong>
+                            </div>
+                            <p>📧 ${student.email || 'Email не указан'}</p>
+                            <p>📚 ${getCourseName(student.course)}</p>
+                            <p>📅 Зачислен: ${student.join_date}</p>
+                        </div>
+                        <div class="student-stats">
+                            <div class="average-grade">${avgGrade}</div>
+                            <div>${recentGrades.map(grade => 
+                                grade.type === 'test' 
+                                    ? `<span class="test-grade-display">${grade.grade}/25</span>`
+                                    : `<span class="grade grade-${grade.grade}">${grade.grade}</span>`
+                            ).join('')}</div>
+                            <button class="btn btn-danger" onclick="deleteStudent(${student.id})" style="width: auto; padding: 8px 12px;">🗑️</button>
+                        </div>
+                    </div>`;
+            }
+        }
+
+        // ПОИСК УЧЕНИКОВ
+        function searchStudents() {
+            const searchTerm = document.getElementById('searchStudent').value.toLowerCase();
+            const studentCards = document.querySelectorAll('.student-card');
+            
+            studentCards.forEach(card => {
+                const studentName = card.querySelector('h3').textContent.toLowerCase();
+                if (studentName.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        async function loadGradeStudentSelect() {
+            const { data: students, error } = await supabase
+                .from('students')
+                .select('id, name, username')
+                .order('name');
+
+            if (error) return;
+
+            const select = document.getElementById('gradeStudent');
+            select.innerHTML = '';
+            students.forEach(student => {
+                select.innerHTML += `<option value="${student.id}">${student.name} (${student.username})</option>`;
+            });
+        }
+
+        async function loadGradesHistory() {
+            const { data: grades, error } = await supabase
+                .from('grades')
+                .select(`
+                    *,
+                    students (name)
+                `)
+                .order('created_at', { ascending: false })
+                .limit(50);
+
+            if (error) {
+                console.error('Error loading grades:', error);
+                return;
+            }
+
+            const history = document.getElementById('gradesHistory');
+            
+            if (!grades || grades.length === 0) {
+                history.innerHTML = '<div class="empty-state"><div>📝</div><p>Нет оценок</p></div>';
+                return;
+            }
+
+            history.innerHTML = '';
+            grades.forEach(grade => {
+                const typeLabel = gradeTypes[grade.type]?.name || grade.type;
+                const gradeDisplay = grade.type === 'test' 
+                    ? `<span class="test-grade-display">${grade.grade}/25</span>` 
+                    : `<span class="grade grade-${grade.grade}">${grade.grade}</span>`;
+                
+                history.innerHTML += `
+                    <div style="padding: 12px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 10px;">
+                        ${gradeDisplay}
+                        <div style="flex: 1;">
+                            <strong>${grade.students.name}</strong><br>
+                            <small style="color: var(--gray);">${typeLabel} • ${grade.assignment} • ${grade.grade_date}</small>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        async function updateDashboard() {
+            const { data: students } = await supabase.from('students').select('id');
+            const { data: grades } = await supabase.from('grades').select('grade, type');
+
+            document.getElementById('totalStudents').textContent = students ? students.length : 0;
+            
+            const totalGrades = grades ? grades.length : 0;
+            const totalGradeSum = grades ? grades.reduce((sum, g) => sum + (g.type === 'test' ? g.grade/2.5 : g.grade), 0) : 0;
+            const average = totalGrades > 0 ? (totalGradeSum / totalGrades).toFixed(1) : '0.0';
+            
+            document.getElementById('averageGrade').textContent = average;
+            document.getElementById('totalGrades').textContent = totalGrades;
+            
+            await updateRecentGrades();
+            await updateGradeTypesStats();
+        }
+
+        async function updateRecentGrades() {
+            const { data: grades, error } = await supabase
+                .from('grades')
+                .select(`
+                    *,
+                    students (name)
+                `)
+                .order('created_at', { ascending: false })
+                .limit(5);
+
+            if (error) return;
+
+            const recent = document.getElementById('recentGrades');
+            
+            if (!grades || grades.length === 0) {
+                recent.innerHTML = '<p style="color: var(--gray); text-align: center; padding: 20px;">Нет недавних оценок</p>';
+                return;
+            }
+            
+            recent.innerHTML = '';
+            grades.forEach(grade => {
+                const gradeDisplay = grade.type === 'test' 
+                    ? `<span class="test-grade-display">${grade.grade}/25</span>` 
+                    : `<span class="grade grade-${grade.grade}">${grade.grade}</span>`;
+                
+                recent.innerHTML += `
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 10px; border-bottom: 1px solid #e2e8f0;">
+                        ${gradeDisplay}
+                        <div style="flex: 1;">
+                            <strong>${grade.students.name}</strong>
+                            <div style="color: var(--gray); font-size: 0.8em;">${grade.assignment}</div>
+                        </div>
+                        <small style="color: var(--gray); font-size: 0.8em;">${grade.grade_date}</small>
+                    </div>`;
+            });
+        }
+
+        async function updateGradeTypesStats() {
+            const { data: grades, error } = await supabase.from('grades').select('type');
+            
+            if (error || !grades) return;
+
+            const typeCounts = {};
+            grades.forEach(grade => {
+                typeCounts[grade.type] = (typeCounts[grade.type] || 0) + 1;
+            });
+
+            const stats = document.getElementById('gradeTypesStats');
+            stats.innerHTML = '';
+            
+            Object.entries(typeCounts).forEach(([type, count]) => {
+                const typeInfo = gradeTypes[type] || { name: type, color: '#6b7280' };
+                stats.innerHTML += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #e2e8f0;">
+                        <span>${typeInfo.name}</span>
+                        <span style="font-weight: bold; color: var(--primary);">${count}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // ФУНКЦИИ УДАЛЕНИЯ УЧЕНИКА
+        async function deleteStudent(studentId) {
+            if (!confirm('Удалить этого ученика? Все его оценки также будут удалены.')) return;
+
+            try {
+                // Сначала удаляем оценки ученика
+                const { error: gradesError } = await supabase
+                    .from('grades')
+                    .delete()
+                    .eq('student_id', studentId);
+
+                if (gradesError) {
+                    alert('❌ Ошибка при удалении оценок: ' + gradesError.message);
+                    return;
+                }
+
+                // Затем удаляем ученика
+                const { error: studentError } = await supabase
+                    .from('students')
+                    .delete()
+                    .eq('id', studentId);
+
+                if (studentError) {
+                    alert('❌ Ошибка при удалении ученика: ' + studentError.message);
+                    return;
+                }
+
+                // Обновляем интерфейс
+                loadStudents();
+                loadGradeStudentSelect();
+                updateDashboard();
+                alert('🗑️ Ученик удален');
+                
+            } catch (err) {
+                alert('❌ Ошибка при удалении: ' + err.message);
+            }
+        }
+
+        // ФУНКЦИИ УЧЕНИКА
+        async function showStudentGrades() {
+            const { data: grades, error } = await supabase
+                .from('grades')
+                .select('*')
+                .eq('student_id', currentUser.id)
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error loading student grades:', error);
+                return;
+            }
+
+            // Рассчитываем средний балл с учетом тестов (тесты делим на 2.5 для приведения к 10-балльной системе)
+            let avgGrade = '0.0';
+            if (grades && grades.length > 0) {
+                const total = grades.reduce((sum, g) => sum + (g.type === 'test' ? g.grade/2.5 : g.grade), 0);
+                avgGrade = (total / grades.length).toFixed(1);
+            }
+            
+            document.getElementById('studentAverageGrade').textContent = avgGrade;
+            document.getElementById('studentCourseDisplay').textContent = getCourseName(currentUser.course);
+            document.getElementById('studentJoinDate').textContent = currentUser.join_date;
+            
+            // Обновляем статистику по типам оценок для ученика
+            await updateStudentGradeStats(grades);
+            
+            const gradesList = document.getElementById('studentGradesList');
+            if (!grades || grades.length === 0) {
+                gradesList.innerHTML = '<div class="empty-state"><div>📝</div><p>У вас пока нет оценок</p></div>';
+                return;
+            }
+            
+            gradesList.innerHTML = '';
+            grades.forEach(grade => {
+                const typeLabel = gradeTypes[grade.type]?.name || grade.type;
+                const percentage = grade.type === 'test' ? Math.round((grade.grade / 25) * 100) : null;
+                
+                gradesList.innerHTML += `
+                    <div class="grade-item">
+                        <div style="flex: 1;">
+                            <strong>${grade.assignment}</strong>
+                            <div style="color: var(--gray); font-size: 0.9em;">${typeLabel} • ${grade.grade_date}</div>
+                            ${grade.type === 'test' ? `
+                                <div class="test-grade-progress">
+                                    <div class="test-grade-progress-bar" style="width: ${percentage}%"></div>
+                                </div>
+                                <div class="test-grade-info">${percentage}% выполнено (${grade.grade}/25 баллов)</div>
+                            ` : ''}
+                        </div>
+                        ${grade.type === 'test' 
+                            ? `<span class="test-grade-display">${grade.grade}/25</span>`
+                            : `<span class="grade grade-${grade.grade}">${grade.grade}</span>`
+                        }
+                    </div>
+                `;
+            });
+            
+            showSection('studentGrades');
+        }
+
+        async function updateStudentGradeStats(grades) {
+            if (!grades) return;
+            
+            const typeCounts = {};
+            const typeSums = {};
+            
+            grades.forEach(grade => {
+                typeCounts[grade.type] = (typeCounts[grade.type] || 0) + 1;
+                typeSums[grade.type] = (typeSums[grade.type] || 0) + grade.grade;
+            });
+
+            const stats = document.getElementById('studentGradeStats');
+            stats.innerHTML = '';
+            
+            Object.entries(typeCounts).forEach(([type, count]) => {
+                const typeInfo = gradeTypes[type] || { name: type, color: '#6b7280' };
+                const average = (typeSums[type] / count).toFixed(1);
+                
+                stats.innerHTML += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #e2e8f0;">
+                        <span>${typeInfo.name}</span>
+                        <div>
+                            <span style="font-weight: bold; color: var(--primary);">${average}</span>
+                            <small style="color: var(--gray); margin-left: 10px;">${count} оцен.</small>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
         // ФУНКЦИИ КАЛЕНДАРЯ
         function generateCalendar() {
@@ -437,15 +1338,6 @@
                 const dayOfWeek = new Date(year, month, day).getDay();
                 if (dayOfWeek === 0 || dayOfWeek === 6) {
                     dayElement.classList.add('weekend');
-                }
-                
-                // Проверка на события (заглушка - в реальности нужно проверять базу данных)
-                if (Math.random() > 0.7) {
-                    dayElement.classList.add('has-event');
-                    const event = document.createElement('div');
-                    event.className = 'calendar-event';
-                    event.textContent = 'Урок';
-                    dayElement.appendChild(event);
                 }
                 
                 calendarGrid.appendChild(dayElement);
@@ -521,7 +1413,9 @@
             if (!schedule || schedule.length === 0) {
                 scheduleList.innerHTML = '<div class="empty-state"><div>📅</div><p>Нет занятий в расписании</p></div>';
                 upcomingLessons.innerHTML = '<div class="empty-state"><div>📅</div><p>Нет предстоящих занятий</p></div>';
-                studentTodaySchedule.innerHTML = '<div class="empty-state"><div>📅</div><p>На сегодня занятий нет</p></div>';
+                if (studentTodaySchedule) {
+                    studentTodaySchedule.innerHTML = '<div class="empty-state"><div>📅</div><p>На сегодня занятий нет</p></div>';
+                }
                 return;
             }
 
@@ -557,7 +1451,7 @@
             });
 
             // Отображение расписания на сегодня для ученика
-            if (currentUser && currentUser.role === 'student') {
+            if (currentUser && currentUser.role === 'student' && studentTodaySchedule) {
                 studentTodaySchedule.innerHTML = '';
                 if (todayLessons.length === 0) {
                     studentTodaySchedule.innerHTML = '<div class="empty-state"><div>📅</div><p>На сегодня занятий нет</p></div>';
@@ -718,6 +1612,20 @@
         }
 
         // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        function getCourseName(course) {
+            return course === 'basic' ? 'Начальный английский' : 'Продвинутый английский';
+        }
+
+        async function getStudentById(studentId) {
+            const { data, error } = await supabase
+                .from('students')
+                .select('*')
+                .eq('id', studentId)
+                .single();
+
+            return data;
+        }
+
         function formatTime(timeString) {
             if (!timeString) return '';
             return timeString.substring(0, 5);
@@ -732,53 +1640,23 @@
             });
         }
 
-        // ОСНОВНЫЕ ФУНКЦИИ СИСТЕМЫ
-        async function loginTeacher() {
-            // ... существующий код входа ...
-        }
-
-        async function loginStudent() {
-            // ... существующий код входа ... 
-        }
-
-        function showMainApp(role) {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
-            
-            if (role === 'teacher') {
-                document.getElementById('teacherHeader').style.display = 'block';
-                document.getElementById('studentHeader').style.display = 'none';
-                document.getElementById('teacherNav').style.display = 'flex';
-                document.getElementById('userName').textContent = currentUser.name;
-                showSection('dashboard');
-                loadTeacherData();
-            } else {
-                document.getElementById('teacherHeader').style.display = 'none';
-                document.getElementById('studentHeader').style.display = 'block';
-                document.getElementById('teacherNav').style.display = 'none';
-                document.getElementById('studentNameDisplay').textContent = currentUser.name;
-                document.getElementById('welcomeStudentName').textContent = currentUser.name;
-                showStudentGrades();
-            }
-            
-            // Загрузка расписания и событий
-            loadSchedule();
-            loadCalendarEvents();
-            generateCalendar();
-        }
-
         // ИНИЦИАЛИЗАЦИЯ
         window.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 PrimeSpeak Academy загружается...');
             loadSavedLogins();
             generateCalendar();
+            updateTestGradeDisplay();
             
             // Установка сегодняшней даты в формах по умолчанию
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('scheduleDate').value = today;
-            document.getElementById('eventDate').value = today;
+            if (document.getElementById('scheduleDate')) {
+                document.getElementById('scheduleDate').value = today;
+            }
+            if (document.getElementById('eventDate')) {
+                document.getElementById('eventDate').value = today;
+            }
         });
 
     </script>
 </body>
-</html>
+    </html>
