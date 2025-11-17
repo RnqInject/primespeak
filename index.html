@@ -248,16 +248,34 @@
 
                     <div id="testGrades" class="grade-type-content" style="display: none;">
                         <div class="form-group">
-                            <label>🎓 Оценка за тест (25-балльная система)</label>
-                            <select class="select" id="testGradeValue">
-                                <option value="1">1 балл</option><option value="2">2 балла</option><option value="3">3 балла</option>
-                                <option value="4">4 балла</option><option value="5">5 баллов</option><option value="6">6 баллов</option>
-                                <option value="7">7 баллов</option><option value="8">8 баллов</option><option value="9">9 баллов</option>
-                                <option value="10">10 баллов</option><option value="11">11 баллов</option><option value="12">12 баллов</option>
-                                <option value="13">13 баллов</option><option value="14">14 баллов</option><option value="15">15 баллов</option>
-                                <option value="16">16 баллов</option><option value="17">17 баллов</option><option value="18">18 баллов</option>
-                                <option value="19">19 баллов</option><option value="20">20 баллов</option><option value="21">21 балл</option>
-                                <option value="22">22 балла</option><option value="23">23 балла</option><option value="24">24 балла</option>
+                            <label>🎓 Оценка за тест (25-балльная система) 
+                                <span id="testGradeDisplay" style="color: var(--primary); font-weight: bold; margin-left: 10px;">15/25</span>
+                            </label>
+                            <select class="select" id="testGradeValue" onchange="updateTestGradeDisplay()">
+                                <option value="1">1 балл</option>
+                                <option value="2">2 балла</option>
+                                <option value="3">3 балла</option>
+                                <option value="4">4 балла</option>
+                                <option value="5">5 баллов</option>
+                                <option value="6">6 баллов</option>
+                                <option value="7">7 баллов</option>
+                                <option value="8">8 баллов</option>
+                                <option value="9">9 баллов</option>
+                                <option value="10">10 баллов</option>
+                                <option value="11">11 баллов</option>
+                                <option value="12">12 баллов</option>
+                                <option value="13">13 баллов</option>
+                                <option value="14">14 баллов</option>
+                                <option value="15" selected>15 баллов</option>
+                                <option value="16">16 баллов</option>
+                                <option value="17">17 баллов</option>
+                                <option value="18">18 баллов</option>
+                                <option value="19">19 баллов</option>
+                                <option value="20">20 баллов</option>
+                                <option value="21">21 балл</option>
+                                <option value="22">22 балла</option>
+                                <option value="23">23 балла</option>
+                                <option value="24">24 балла</option>
                                 <option value="25">25 баллов</option>
                             </select>
                         </div>
@@ -374,6 +392,12 @@
         let currentGradeType = 'regular';
         let charts = {};
 
+        // ФУНКЦИЯ ДЛЯ ОТОБРАЖЕНИЯ "ОЦЕНКА/25"
+        function updateTestGradeDisplay() {
+            const gradeValue = document.getElementById('testGradeValue').value;
+            document.getElementById('testGradeDisplay').textContent = `${gradeValue}/25`;
+        }
+
         // ТЕМНАЯ ТЕМА
         function toggleTheme() {
             document.body.setAttribute('data-theme', 
@@ -381,92 +405,155 @@
             );
         }
 
-        // ВСЕ ОСТАЛЬНЫЕ ФУНКЦИИ ОСТАЮТСЯ ТАКИМИ ЖЕ КАК В ПРЕДЫДУЩЕЙ ВЕРСИИ
-        // (login, logout, addStudent, addGrade, etc.)
-
-        // НОВЫЕ ФУНКЦИИ ДЛЯ ВСЕХ ФИЧ
-        async function loadAnalytics() {
-            const { data: grades } = await supabase.from('grades').select('*');
-            const { data: students } = await supabase.from('students').select('*');
-            
-            // График распределения оценок
-            const gradeCounts = {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0};
-            grades.forEach(grade => gradeCounts[grade.grade]++);
-            
-            if (charts.gradesDistribution) charts.gradesDistribution.destroy();
-            charts.gradesDistribution = new Chart(document.getElementById('gradesDistributionChart'), {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(gradeCounts),
-                    datasets: [{
-                        label: 'Количество оценок',
-                        data: Object.values(gradeCounts),
-                        backgroundColor: '#4f46e5'
-                    }]
+        // ВСЕ ОСНОВНЫЕ ФУНКЦИИ
+        async function testConnection() {
+            try {
+                const { data, error } = await supabase.from('teacher').select('*').limit(1);
+                if (error) {
+                    alert('❌ Ошибка подключения: ' + error.message);
+                    return false;
                 }
-            });
-
-            // Другие графики...
-        }
-
-        async function loadSchedule() {
-            const today = new Date();
-            const calendar = document.getElementById('calendar');
-            calendar.innerHTML = '';
-            
-            // Простой календарь на текущий месяц
-            for (let i = 1; i <= 31; i++) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day';
-                day.textContent = i;
-                calendar.appendChild(day);
+                alert('✅ Подключение к базе данных успешно!');
+                return true;
+            } catch (err) {
+                alert('❌ Критическая ошибка: ' + err.message);
+                return false;
             }
         }
 
-        async function loadAchievements() {
-            const achievements = [
-                { icon: '⭐', title: 'Первая пятерка', description: 'Получил первую оценку 5' },
-                { icon: '📚', title: 'Активный ученик', description: '10+ оценок за месяц' },
-                { icon: '🚀', title: 'Быстрый старт', description: 'Средний балл выше 8.0' }
-            ];
+        function showLoginTab(tab) {
+            document.querySelectorAll('.login-tab').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('teacherLogin').style.display = tab === 'teacher' ? 'block' : 'none';
+            document.getElementById('studentLogin').style.display = tab === 'student' ? 'block' : 'none';
+        }
+
+        async function loginTeacher() {
+            const email = document.getElementById('teacherEmail').value;
+            const password = document.getElementById('teacherPassword').value;
             
-            const container = document.getElementById('studentAchievements');
-            container.innerHTML = achievements.map(ach => `
-                <div class="achievement">
-                    <div class="achievement-icon">${ach.icon}</div>
-                    <div>
-                        <strong>${ach.title}</strong>
-                        <div style="color: var(--gray); font-size: 0.9em;">${ach.description}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        async function sendMessage() {
-            const message = document.getElementById('chatMessage').value;
-            if (!message) return;
+            if (!email || !password) {
+                alert('⚠️ Введите email и пароль!');
+                return;
+            }
             
-            // В реальном приложении здесь бы сохранялось в базу
-            const chat = document.getElementById('chatMessages');
-            chat.innerHTML += `<div class="message student"><strong>Вы:</strong> ${message}</div>`;
-            document.getElementById('chatMessage').value = '';
-            chat.scrollTop = chat.scrollHeight;
+            try {
+                const { data, error } = await supabase
+                    .from('teacher')
+                    .select('id, email, password, name')
+                    .eq('email', email)
+                    .eq('password', password)
+                    .single();
+
+                if (error) {
+                    alert('❌ Учитель с такими данными не найден!');
+                    return;
+                }
+
+                if (!data) {
+                    alert('❌ Неправильный email или пароль!');
+                    return;
+                }
+
+                currentUser = data;
+                showMainApp('teacher');
+                
+            } catch (err) {
+                alert('❌ Произошла ошибка при входе: ' + err.message);
+            }
         }
 
-        // ИНИЦИАЛИЗАЦИЯ ВСЕХ ФИЧ ПРИ ЗАГРУЗКЕ
-        async function loadTeacherData() {
-            await loadStudents();
-            await loadGradeStudentSelect();
-            await loadGradesHistory();
-            await updateDashboard();
-            await loadAnalytics();
-            await loadSchedule();
-            await loadAchievements();
+        async function loginStudent() {
+            const username = document.getElementById('studentLoginInput').value;
+            const password = document.getElementById('studentPassword').value;
+            
+            if (!username || !password) {
+                alert('⚠️ Введите логин и пароль!');
+                return;
+            }
+            
+            try {
+                const { data, error } = await supabase
+                    .from('students')
+                    .select('*')
+                    .eq('username', username)
+                    .eq('password', password)
+                    .single();
+
+                if (error) {
+                    alert('❌ Ученик с такими данными не найден!');
+                    return;
+                }
+
+                if (!data) {
+                    alert('❌ Неправильный логин или пароль!');
+                    return;
+                }
+
+                currentUser = data;
+                showMainApp('student');
+                
+            } catch (err) {
+                alert('❌ Произошла ошибка при входе: ' + err.message);
+            }
         }
 
-        // ОСТАЛЬНОЙ КОД ОСТАЕТСЯ ПРЕЖНИМ...
-        // (все функции из предыдущей версии)
+        function showMainApp(role) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            
+            if (role === 'teacher') {
+                document.getElementById('teacherHeader').style.display = 'block';
+                document.getElementById('studentHeader').style.display = 'none';
+                document.getElementById('teacherNav').style.display = 'flex';
+                document.getElementById('userName').textContent = currentUser.name;
+                showSection('dashboard');
+                loadTeacherData();
+                alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
+            } else {
+                document.getElementById('teacherHeader').style.display = 'none';
+                document.getElementById('studentHeader').style.display = 'block';
+                document.getElementById('teacherNav').style.display = 'none';
+                document.getElementById('studentNameDisplay').textContent = currentUser.name;
+                document.getElementById('welcomeStudentName').textContent = currentUser.name;
+                showStudentGrades();
+                alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'block';
+            alert('👋 До свидания!');
+        }
+
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(sectionName).classList.add('active');
+            if (event) event.currentTarget.classList.add('active');
+        }
+
+        function showGradeType(type) {
+            currentGradeType = type;
+            document.querySelectorAll('.grade-type-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.grade-type-content').forEach(content => content.style.display = 'none');
+            event.target.classList.add('active');
+            document.getElementById(type + 'Grades').style.display = 'block';
+            if (type === 'test') {
+                updateTestGradeDisplay();
+            }
+        }
+
+        // ОСТАЛЬНЫЕ ФУНКЦИИ (addStudent, addGrade, loadStudents и т.д.)
+        // остаются такими же как в рабочей версии
+
+        // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
+        window.addEventListener('DOMContentLoaded', function() {
+            updateTestGradeDisplay();
+        });
 
     </script>
 </body>
-</html>
+                            </html>
