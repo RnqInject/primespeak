@@ -282,7 +282,7 @@
             document.getElementById('testGradeDisplay').textContent = `${gradeValue}/25`;
         }
 
-        // ПРОСТЫЕ ФУНКЦИИ СОХРАНЕНИЯ
+        // ФУНКЦИИ СОХРАНЕНИЯ
         function saveLoginData(type) {
             if (type === 'teacher') {
                 const email = document.getElementById('teacherEmail').value;
@@ -301,6 +301,31 @@
             }
         }
 
+        function saveStudentForm() {
+            const formData = {
+                name: document.getElementById('studentName').value,
+                username: document.getElementById('studentUsername').value,
+                password: document.getElementById('studentPasswordInput').value,
+                email: document.getElementById('studentEmail').value,
+                course: document.getElementById('studentCourse').value
+            };
+            localStorage.setItem('studentForm', JSON.stringify(formData));
+            alert('✅ Форма добавления ученика сохранена!');
+        }
+
+        function saveGradeForm() {
+            const formData = {
+                studentId: document.getElementById('gradeStudent').value,
+                assignment: document.getElementById('gradeAssignment').value,
+                gradeType: currentGradeType,
+                gradeValue: currentGradeType === 'regular' ? 
+                    document.getElementById('gradeValue').value : 
+                    document.getElementById('testGradeValue').value
+            };
+            localStorage.setItem('gradeForm', JSON.stringify(formData));
+            alert('✅ Форма оценки сохранена!');
+        }
+
         // ЗАГРУЗКА СОХРАНЕННЫХ ДАННЫХ
         function loadSavedLogins() {
             const teacherData = localStorage.getItem('teacherLogin');
@@ -315,9 +340,71 @@
                 document.getElementById('studentLoginInput').value = username;
                 document.getElementById('studentPassword').value = password;
             }
+            loadSavedForms();
         }
 
-        // ОСНОВНЫЕ ФУНКЦИИ ВХОДА (ИСПРАВЛЕННЫЕ)
+        function loadSavedForms() {
+            const studentForm = localStorage.getItem('studentForm');
+            if (studentForm) {
+                const data = JSON.parse(studentForm);
+                document.getElementById('studentName').value = data.name || '';
+                document.getElementById('studentUsername').value = data.username || '';
+                document.getElementById('studentPasswordInput').value = data.password || '';
+                document.getElementById('studentEmail').value = data.email || '';
+                if (data.course) document.getElementById('studentCourse').value = data.course;
+            }
+
+            const gradeForm = localStorage.getItem('gradeForm');
+            if (gradeForm) {
+                const data = JSON.parse(gradeForm);
+                if (data.studentId) document.getElementById('gradeStudent').value = data.studentId;
+                document.getElementById('gradeAssignment').value = data.assignment || '';
+                
+                if (data.gradeType) {
+                    showGradeType(data.gradeType);
+                    if (data.gradeType === 'regular') {
+                        document.getElementById('gradeValue').value = data.gradeValue || '5';
+                    } else {
+                        document.getElementById('testGradeValue').value = data.gradeValue || '15';
+                    }
+                }
+            }
+        }
+
+        // ФУНКЦИЯ ПРОВЕРКИ ПОДКЛЮЧЕНИЯ
+        async function testConnection() {
+            try {
+                console.log('🔍 Проверяю подключение к Supabase...');
+                const { data, error } = await supabase
+                    .from('teacher')
+                    .select('*')
+                    .limit(1);
+                    
+                if (error) {
+                    console.error('❌ Ошибка подключения:', error);
+                    alert('❌ Ошибка подключения к базе: ' + error.message);
+                    return false;
+                }
+                
+                console.log('✅ Подключение к Supabase успешно! Данные:', data);
+                alert('✅ Подключение к базе данных успешно! Теперь можно входить.');
+                return true;
+            } catch (err) {
+                console.error('❌ Критическая ошибка:', err);
+                alert('❌ Критическая ошибка: ' + err.message);
+                return false;
+            }
+        }
+
+        // ФУНКЦИИ ВХОДА
+        function showLoginTab(tab) {
+            document.querySelectorAll('.login-tab').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('teacherLogin').style.display = tab === 'teacher' ? 'block' : 'none';
+            document.getElementById('studentLogin').style.display = tab === 'student' ? 'block' : 'none';
+        }
+
         async function loginTeacher() {
             const email = document.getElementById('teacherEmail').value;
             const password = document.getElementById('teacherPassword').value;
@@ -327,6 +414,8 @@
                 return;
             }
             
+            console.log('🔐 Пытаюсь войти как учитель:', email);
+            
             try {
                 const { data, error } = await supabase
                     .from('teacher')
@@ -335,8 +424,14 @@
                     .eq('password', password)
                     .single();
 
-                if (error && error.code === 'PGRST116') {
-                    alert('❌ Учитель с такими данными не найден!');
+                console.log('📨 Ответ от Supabase:', { data, error });
+
+                if (error) {
+                    if (error.code === 'PGRST116') {
+                        alert('❌ Учитель с такими данными не найден!');
+                    } else {
+                        alert('❌ Ошибка базы данных: ' + error.message);
+                    }
                     return;
                 }
 
@@ -346,15 +441,12 @@
                 }
 
                 currentUser = data;
+                console.log('✅ Успешный вход:', currentUser);
                 showMainApp('teacher');
                 
             } catch (err) {
-                // Если есть данные пользователя, пропускаем ошибку
-                if (currentUser) {
-                    showMainApp('teacher');
-                } else {
-                    alert('❌ Ошибка при входе!');
-                }
+                console.error('💥 Ошибка при входе:', err);
+                alert('❌ Произошла ошибка при входе: ' + err.message);
             }
         }
 
@@ -367,6 +459,8 @@
                 return;
             }
             
+            console.log('🔐 Пытаюсь войти как ученик:', username);
+            
             try {
                 const { data, error } = await supabase
                     .from('students')
@@ -375,8 +469,14 @@
                     .eq('password', password)
                     .single();
 
-                if (error && error.code === 'PGRST116') {
-                    alert('❌ Ученик с такими данными не найден!');
+                console.log('📨 Ответ от Supabase:', { data, error });
+
+                if (error) {
+                    if (error.code === 'PGRST116') {
+                        alert('❌ Ученик с такими данными не найден!');
+                    } else {
+                        alert('❌ Ошибка базы данных: ' + error.message);
+                    }
                     return;
                 }
 
@@ -386,14 +486,12 @@
                 }
 
                 currentUser = data;
+                console.log('✅ Успешный вход:', currentUser);
                 showMainApp('student');
                 
             } catch (err) {
-                if (currentUser) {
-                    showMainApp('student');
-                } else {
-                    alert('❌ Ошибка при входе!');
-                }
+                console.error('💥 Ошибка при входе:', err);
+                alert('❌ Произошла ошибка при входе: ' + err.message);
             }
         }
 
@@ -408,6 +506,7 @@
                 document.getElementById('userName').textContent = currentUser.name;
                 showSection('dashboard');
                 loadTeacherData();
+                alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
             } else {
                 document.getElementById('teacherHeader').style.display = 'none';
                 document.getElementById('studentHeader').style.display = 'block';
@@ -415,6 +514,7 @@
                 document.getElementById('studentNameDisplay').textContent = currentUser.name;
                 document.getElementById('welcomeStudentName').textContent = currentUser.name;
                 showStudentGrades();
+                alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
             }
         }
 
@@ -422,19 +522,23 @@
             currentUser = null;
             document.getElementById('mainApp').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'block';
+            alert('👋 До свидания!');
         }
 
+        // УЧИТЕЛЬСКИЕ ФУНКЦИИ
         function showSection(sectionName) {
             document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
             document.getElementById(sectionName).classList.add('active');
-            event.currentTarget.classList.add('active');
+            if (event) event.currentTarget.classList.add('active');
         }
 
         function showGradeType(type) {
             currentGradeType = type;
             document.querySelectorAll('.grade-type-tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.grade-type-content').forEach(content => content.style.display = 'none');
+            
             event.target.classList.add('active');
             document.getElementById(type + 'Grades').style.display = 'block';
             if (type === 'test') updateTestGradeDisplay();
@@ -448,19 +552,28 @@
             const course = document.getElementById('studentCourse').value;
 
             if (!name || !username || !password) {
-                alert('⚠️ Заполните обязательные поля!');
+                alert('⚠️ Заполните все обязательные поля!');
                 return;
             }
 
-            const { data, error } = await supabase.from('students').insert([{
-                name, username, password, email, course, join_date: new Date().toISOString().split('T')[0]
-            }]).select();
+            const { data, error } = await supabase
+                .from('students')
+                .insert([{
+                    name: name,
+                    username: username,
+                    password: password,
+                    email: email,
+                    course: course,
+                    join_date: new Date().toISOString().split('T')[0]
+                }])
+                .select();
 
             if (error) {
                 alert('❌ Ошибка: ' + error.message);
                 return;
             }
 
+            // Очистка формы
             document.getElementById('studentName').value = '';
             document.getElementById('studentUsername').value = '';
             document.getElementById('studentPasswordInput').value = '';
@@ -470,29 +583,35 @@
             updateDashboard();
             loadGradeStudentSelect();
             
-            alert(`✅ Ученик ${name} добавлен!\nЛогин: ${username}\nПароль: ${password}`);
+            alert(`✅ Ученик ${name} добавлен!\n\n📋 Данные для входа:\n👤 Логин: ${username}\n🔑 Пароль: ${password}`);
         }
 
         async function addGrade() {
             const studentId = parseInt(document.getElementById('gradeStudent').value);
             const assignment = document.getElementById('gradeAssignment').value.trim();
             
-            let gradeValue = currentGradeType === 'regular' ? 
-                document.getElementById('gradeValue').value : 
-                document.getElementById('testGradeValue').value;
+            let gradeValue;
+            if (currentGradeType === 'regular') {
+                gradeValue = document.getElementById('gradeValue').value;
+            } else {
+                gradeValue = document.getElementById('testGradeValue').value;
+            }
 
             if (!studentId || !gradeValue || !assignment) {
                 alert('⚠️ Заполните все поля!');
                 return;
             }
 
-            const { data, error } = await supabase.from('grades').insert([{
-                student_id: studentId,
-                grade: parseInt(gradeValue),
-                assignment: assignment,
-                type: currentGradeType,
-                grade_date: new Date().toISOString().split('T')[0]
-            }]).select();
+            const { data, error } = await supabase
+                .from('grades')
+                .insert([{
+                    student_id: studentId,
+                    grade: parseInt(gradeValue),
+                    assignment: assignment,
+                    type: currentGradeType,
+                    grade_date: new Date().toISOString().split('T')[0]
+                }])
+                .select();
 
             if (error) {
                 alert('❌ Ошибка: ' + error.message);
@@ -503,7 +622,8 @@
             loadGradesHistory();
             updateDashboard();
             
-            alert(`✅ Оценка ${gradeValue} поставлена!`);
+            const student = await getStudentById(studentId);
+            alert(`✅ Оценка ${gradeValue}${currentGradeType === 'test' ? '/25' : ''} поставлена ученику ${student.name}!`);
         }
 
         async function loadTeacherData() {
@@ -514,10 +634,18 @@
         }
 
         async function loadStudents() {
-            const { data: students, error } = await supabase.from('students').select('*').order('name');
-            if (error) return;
+            const { data: students, error } = await supabase
+                .from('students')
+                .select('*')
+                .order('name');
+
+            if (error) {
+                console.error('Error loading students:', error);
+                return;
+            }
 
             const list = document.getElementById('studentsList');
+            
             if (!students || students.length === 0) {
                 list.innerHTML = '<div class="empty-state"><div>👨‍🎓</div><h3>Нет учеников</h3><p>Добавьте первого ученика</p></div>';
                 return;
@@ -525,8 +653,15 @@
 
             list.innerHTML = '';
             for (let student of students) {
-                const { data: grades } = await supabase.from('grades').select('grade').eq('student_id', student.id);
-                const avgGrade = grades && grades.length > 0 ? (grades.reduce((sum, g) => sum + g.grade, 0) / grades.length).toFixed(1) : '—';
+                const { data: grades } = await supabase
+                    .from('grades')
+                    .select('grade')
+                    .eq('student_id', student.id);
+
+                const avgGrade = grades && grades.length > 0 
+                    ? (grades.reduce((sum, g) => sum + g.grade, 0) / grades.length).toFixed(1)
+                    : '—';
+
                 const recentGrades = grades ? grades.slice(-3) : [];
 
                 list.innerHTML += `
@@ -539,7 +674,7 @@
                                 🔑 Пароль: <strong>${student.password}</strong>
                             </div>
                             <p>📧 ${student.email || 'Email не указан'}</p>
-                            <p>📚 ${student.course === 'basic' ? 'Начальный английский' : 'Продвинутый английский'}</p>
+                            <p>📚 ${getCourseName(student.course)}</p>
                             <p>📅 Зачислен: ${student.join_date}</p>
                         </div>
                         <div class="student-stats">
@@ -552,7 +687,11 @@
         }
 
         async function loadGradeStudentSelect() {
-            const { data: students, error } = await supabase.from('students').select('id, name, username').order('name');
+            const { data: students, error } = await supabase
+                .from('students')
+                .select('id, name, username')
+                .order('name');
+
             if (error) return;
 
             const select = document.getElementById('gradeStudent');
@@ -565,11 +704,20 @@
         async function loadGradesHistory() {
             const { data: grades, error } = await supabase
                 .from('grades')
-                .select('*, students (name)')
+                .select(`
+                    *,
+                    students (name)
+                `)
                 .order('created_at', { ascending: false })
                 .limit(50);
 
+            if (error) {
+                console.error('Error loading grades:', error);
+                return;
+            }
+
             const history = document.getElementById('gradesHistory');
+            
             if (!grades || grades.length === 0) {
                 history.innerHTML = '<div class="empty-state"><div>📝</div><p>Нет оценок</p></div>';
                 return;
@@ -594,8 +742,74 @@
             
             document.getElementById('averageGrade').textContent = average;
             document.getElementById('totalGrades').textContent = totalGrades;
+            
+            await updateRecentGrades();
         }
 
+        async function updateRecentGrades() {
+            const { data: grades, error } = await supabase
+                .from('grades')
+                .select(`
+                    *,
+                    students (name)
+                `)
+                .order('created_at', { ascending: false })
+                .limit(5);
+
+            if (error) return;
+
+            const recent = document.getElementById('recentGrades');
+            
+            if (!grades || grades.length === 0) {
+                recent.innerHTML = '<p style="color: var(--gray); text-align: center; padding: 20px;">Нет недавних оценок</p>';
+                return;
+            }
+            
+            recent.innerHTML = '';
+            grades.forEach(grade => {
+                recent.innerHTML += `<div style="display: flex; align-items: center; gap: 12px; padding: 10px; border-bottom: 1px solid #e2e8f0;"><span class="grade grade-${grade.grade}">${grade.grade}</span><div style="flex: 1;"><strong>${grade.students.name}</strong><div style="color: var(--gray); font-size: 0.8em;">${grade.assignment}</div></div><small style="color: var(--gray); font-size: 0.8em;">${grade.grade_date}</small></div>`;
+            });
+        }
+
+        // ФУНКЦИИ УДАЛЕНИЯ УЧЕНИКА
+        async function deleteStudent(studentId) {
+            if (!confirm('Удалить этого ученика? Все его оценки также будут удалены.')) return;
+
+            try {
+                // Сначала удаляем оценки ученика
+                const { error: gradesError } = await supabase
+                    .from('grades')
+                    .delete()
+                    .eq('student_id', studentId);
+
+                if (gradesError) {
+                    alert('❌ Ошибка при удалении оценок: ' + gradesError.message);
+                    return;
+                }
+
+                // Затем удаляем ученика
+                const { error: studentError } = await supabase
+                    .from('students')
+                    .delete()
+                    .eq('id', studentId);
+
+                if (studentError) {
+                    alert('❌ Ошибка при удалении ученика: ' + studentError.message);
+                    return;
+                }
+
+                // Обновляем интерфейс
+                loadStudents();
+                loadGradeStudentSelect();
+                updateDashboard();
+                alert('🗑️ Ученик удален');
+                
+            } catch (err) {
+                alert('❌ Ошибка при удалении: ' + err.message);
+            }
+        }
+
+        // ФУНКЦИИ УЧЕНИКА
         async function showStudentGrades() {
             const { data: grades, error } = await supabase
                 .from('grades')
@@ -603,10 +817,17 @@
                 .eq('student_id', currentUser.id)
                 .order('created_at', { ascending: false });
 
-            const avgGrade = grades && grades.length > 0 ? (grades.reduce((sum, g) => sum + g.grade, 0) / grades.length).toFixed(1) : '0.0';
+            if (error) {
+                console.error('Error loading student grades:', error);
+                return;
+            }
+
+            const avgGrade = grades && grades.length > 0 
+                ? (grades.reduce((sum, g) => sum + g.grade, 0) / grades.length).toFixed(1)
+                : '0.0';
             
             document.getElementById('studentAverageGrade').textContent = avgGrade;
-            document.getElementById('studentCourseDisplay').textContent = currentUser.course === 'basic' ? 'Начальный английский' : 'Продвинутый английский';
+            document.getElementById('studentCourseDisplay').textContent = getCourseName(currentUser.course);
             document.getElementById('studentJoinDate').textContent = currentUser.join_date;
             
             const gradesList = document.getElementById('studentGradesList');
@@ -632,12 +853,28 @@
             showSection('studentGrades');
         }
 
+        // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        function getCourseName(course) {
+            return course === 'basic' ? 'Начальный английский' : 'Продвинутый английский';
+        }
+
+        async function getStudentById(studentId) {
+            const { data, error } = await supabase
+                .from('students')
+                .select('*')
+                .eq('id', studentId)
+                .single();
+
+            return data;
+        }
+
         // ИНИЦИАЛИЗАЦИЯ
         window.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 PrimeSpeak Academy загружается...');
+            console.log('🔧 Supabase готов к работе:', !!supabase);
             loadSavedLogins();
             updateTestGradeDisplay();
         });
-
     </script>
 </body>
 </html>
