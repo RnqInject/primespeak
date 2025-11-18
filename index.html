@@ -736,7 +736,7 @@
                     </div>
                     <div class="form-group">
                         <label>👨‍🏫 Преподаватель</label>
-                        <input type="text" class="input" id="scheduleTeacher" placeholder="Jasur Sheraliev">
+                        <input type="text" class="input" id="scheduleTeacher" placeholder="Radmir Nurislamov">
                     </div>
                     <div class="form-group">
                         <label>👨‍🎓 Уровень/Группа</label>
@@ -847,6 +847,7 @@
                     <p><strong>Твой средний балл:</strong> <span id="studentAverageGrade" style="font-size: 1.5em; color: var(--primary);">0.0</span></p>
                     <p><strong>Уровень:</strong> <span id="studentCourseDisplay">-</span></p>
                     <p><strong>Зачислен:</strong> <span id="studentJoinDate">-</span></p>
+                    <p><strong>👨‍🏫 Твой учитель:</strong> <span id="studentTeacherDisplay">Radmir Nurislamov</span></p>
                 </div>
 
                 <div class="card">
@@ -926,6 +927,89 @@
             'advanced': { name: 'ADVANCED', level: 'B2', description: 'Fluent speech, business English', color: 'course-advanced' },
             'fluent': { name: 'FLUENT', level: 'C1-C2', description: 'Native-like proficiency', color: 'course-fluent' }
         };
+
+        // ФУНКЦИИ ДЛЯ СОХРАНЕНИЯ ДАННЫХ В LOCALSTORAGE
+        function saveFormData() {
+            // Сохраняем данные формы добавления ученика
+            const studentFormData = {
+                name: document.getElementById('studentName').value,
+                username: document.getElementById('studentUsername').value,
+                password: document.getElementById('studentPasswordInput').value,
+                email: document.getElementById('studentEmail').value,
+                course: document.getElementById('studentCourse').value
+            };
+            localStorage.setItem('studentFormData', JSON.stringify(studentFormData));
+
+            // Сохраняем данные формы расписания
+            const scheduleFormData = {
+                subject: document.getElementById('scheduleSubject').value,
+                teacher: document.getElementById('scheduleTeacher').value,
+                level: document.getElementById('scheduleLevel').value,
+                date: document.getElementById('scheduleDate').value,
+                startTime: document.getElementById('scheduleStartTime').value,
+                endTime: document.getElementById('scheduleEndTime').value,
+                type: document.getElementById('scheduleType').value,
+                description: document.getElementById('scheduleDescription').value
+            };
+            localStorage.setItem('scheduleFormData', JSON.stringify(scheduleFormData));
+
+            // Сохраняем данные формы календаря
+            const calendarFormData = {
+                title: document.getElementById('eventTitle').value,
+                date: document.getElementById('eventDate').value,
+                time: document.getElementById('eventTime').value,
+                description: document.getElementById('eventDescription').value,
+                type: document.getElementById('eventType').value
+            };
+            localStorage.setItem('calendarFormData', JSON.stringify(calendarFormData));
+        }
+
+        function loadFormData() {
+            // Загружаем данные формы добавления ученика
+            const studentFormData = JSON.parse(localStorage.getItem('studentFormData') || '{}');
+            if (studentFormData.name) document.getElementById('studentName').value = studentFormData.name;
+            if (studentFormData.username) document.getElementById('studentUsername').value = studentFormData.username;
+            if (studentFormData.password) document.getElementById('studentPasswordInput').value = studentFormData.password;
+            if (studentFormData.email) document.getElementById('studentEmail').value = studentFormData.email;
+            if (studentFormData.course) document.getElementById('studentCourse').value = studentFormData.course;
+
+            // Загружаем данные формы расписания
+            const scheduleFormData = JSON.parse(localStorage.getItem('scheduleFormData') || '{}');
+            if (scheduleFormData.subject) document.getElementById('scheduleSubject').value = scheduleFormData.subject;
+            if (scheduleFormData.teacher) document.getElementById('scheduleTeacher').value = scheduleFormData.teacher;
+            if (scheduleFormData.level) document.getElementById('scheduleLevel').value = scheduleFormData.level;
+            if (scheduleFormData.date) document.getElementById('scheduleDate').value = scheduleFormData.date;
+            if (scheduleFormData.startTime) document.getElementById('scheduleStartTime').value = scheduleFormData.startTime;
+            if (scheduleFormData.endTime) document.getElementById('scheduleEndTime').value = scheduleFormData.endTime;
+            if (scheduleFormData.type) document.getElementById('scheduleType').value = scheduleFormData.type;
+            if (scheduleFormData.description) document.getElementById('scheduleDescription').value = scheduleFormData.description;
+
+            // Загружаем данные формы календаря
+            const calendarFormData = JSON.parse(localStorage.getItem('calendarFormData') || '{}');
+            if (calendarFormData.title) document.getElementById('eventTitle').value = calendarFormData.title;
+            if (calendarFormData.date) document.getElementById('eventDate').value = calendarFormData.date;
+            if (calendarFormData.time) document.getElementById('eventTime').value = calendarFormData.time;
+            if (calendarFormData.description) document.getElementById('eventDescription').value = calendarFormData.description;
+            if (calendarFormData.type) document.getElementById('eventType').value = calendarFormData.type;
+        }
+
+        // Автосохранение при изменении полей
+        function setupAutoSave() {
+            const inputsToSave = [
+                'studentName', 'studentUsername', 'studentPasswordInput', 'studentEmail', 'studentCourse',
+                'scheduleSubject', 'scheduleTeacher', 'scheduleLevel', 'scheduleDate', 'scheduleStartTime', 
+                'scheduleEndTime', 'scheduleType', 'scheduleDescription',
+                'eventTitle', 'eventDate', 'eventTime', 'eventDescription', 'eventType'
+            ];
+
+            inputsToSave.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', saveFormData);
+                    element.addEventListener('change', saveFormData);
+                }
+            });
+        }
 
         // ФУНКЦИИ ДЛЯ РАБОТЫ С ОЦЕНКАМИ
         function getGradeColorClass(grade, type) {
@@ -1051,6 +1135,19 @@
             }
             
             try {
+                // Для демонстрации используем тестового учителя
+                if (email === 'nurislamovradmir9@gmail.com' && password === 'teacher123') {
+                    currentUser = { 
+                        id: 1, 
+                        name: 'Radmir Nurislamov', 
+                        email: email,
+                        role: 'teacher' 
+                    };
+                    showMainApp('teacher');
+                    alert('🎉 Добро пожаловать, Radmir Nurislamov!');
+                    return;
+                }
+
                 const { data, error } = await supabase
                     .from('teacher')
                     .select('*')
@@ -1107,7 +1204,19 @@
             }
             
             try {
-                // Для демонстрации используем ту же таблицу teacher
+                // Для демонстрации используем тестового завуча
+                if (email === 'nurislamovradmir9@gmail.com' && password === 'headteacher123') {
+                    currentUser = { 
+                        id: 1, 
+                        name: 'Radmir Nurislamov', 
+                        email: email,
+                        role: 'head_teacher' 
+                    };
+                    showMainApp('head_teacher');
+                    alert('🎉 Добро пожаловать, Radmir Nurislamov!');
+                    return;
+                }
+
                 const { data, error } = await supabase
                     .from('teacher')
                     .select('*')
@@ -1176,6 +1285,11 @@
             
             document.getElementById(sectionName).classList.add('active');
             if (event) event.currentTarget.classList.add('active');
+            
+            // Загружаем сохраненные данные при переходе на соответствующие разделы
+            if (sectionName === 'addStudent' || sectionName === 'schedule' || sectionName === 'calendar') {
+                loadFormData();
+            }
         }
 
         function showGradeType(type) {
@@ -1216,6 +1330,7 @@
                     password: password,
                     email: email,
                     course: course,
+                    teacher: 'Radmir Nurislamov', // Добавляем имя учителя
                     join_date: new Date().toISOString().split('T')[0]
                 }])
                 .select();
@@ -1231,11 +1346,14 @@
             document.getElementById('studentPasswordInput').value = '';
             document.getElementById('studentEmail').value = '';
             
+            // Очищаем сохраненные данные
+            localStorage.removeItem('studentFormData');
+            
             loadStudents();
             updateDashboard();
             loadGradeStudentSelect();
             
-            alert(`✅ Ученик ${name} добавлен!\n\n📋 Данные для входа:\n👤 Логин: ${username}\n🔑 Пароль: ${password}`);
+            alert(`✅ Ученик ${name} добавлен!\n\n📋 Данные для входа:\n👤 Логин: ${username}\n🔑 Пароль: ${password}\n👨‍🏫 Учитель: Radmir Nurislamov`);
         }
 
         async function addGrade() {
@@ -1331,6 +1449,7 @@
                             </div>
                             <p>📧 ${student.email || 'Email не указан'}</p>
                             <p>📚 Уровень: ${renderCourseLevel(student.course)}</p>
+                            <p>👨‍🏫 Учитель: ${student.teacher || 'Radmir Nurislamov'}</p>
                             <p>📅 Зачислен: ${student.join_date}</p>
                         </div>
                         <div class="student-stats">
@@ -1659,6 +1778,7 @@
             document.getElementById('studentAverageGrade').textContent = avgGrade;
             document.getElementById('studentCourseDisplay').textContent = getCourseName(currentUser.course);
             document.getElementById('studentJoinDate').textContent = currentUser.join_date;
+            document.getElementById('studentTeacherDisplay').textContent = currentUser.teacher || 'Radmir Nurislamov';
             
             await updateStudentGradeStats(grades);
             
@@ -1727,7 +1847,7 @@
         // УЛУЧШЕННОЕ РАСПИСАНИЕ
         async function addScheduleItem() {
             const subject = document.getElementById('scheduleSubject').value;
-            const teacher = document.getElementById('scheduleTeacher').value;
+            const teacher = document.getElementById('scheduleTeacher').value || 'Radmir Nurislamov'; // Устанавливаем учителя по умолчанию
             const level = document.getElementById('scheduleLevel').value;
             const date = document.getElementById('scheduleDate').value;
             const startTime = document.getElementById('scheduleStartTime').value;
@@ -1735,7 +1855,7 @@
             const type = document.getElementById('scheduleType').value;
             const description = document.getElementById('scheduleDescription').value;
 
-            if (!subject || !teacher || !date || !startTime || !endTime) {
+            if (!subject || !date || !startTime || !endTime) {
                 alert('⚠️ Заполните обязательные поля!');
                 return;
             }
@@ -1762,12 +1882,14 @@
 
             // Очистка формы
             document.getElementById('scheduleSubject').value = '';
-            document.getElementById('scheduleTeacher').value = '';
             document.getElementById('scheduleDate').value = '';
             document.getElementById('scheduleStartTime').value = '';
             document.getElementById('scheduleEndTime').value = '';
             document.getElementById('scheduleDescription').value = '';
 
+            // Очищаем сохраненные данные
+            localStorage.removeItem('scheduleFormData');
+            
             loadSchedule();
             alert('✅ Занятие добавлено в расписание!');
         }
@@ -2003,6 +2125,9 @@
             document.getElementById('eventTime').value = '';
             document.getElementById('eventDescription').value = '';
 
+            // Очищаем сохраненные данные
+            localStorage.removeItem('calendarFormData');
+            
             loadCalendarEvents();
             alert('✅ Событие добавлено в календарь!');
         }
@@ -2142,6 +2267,8 @@
             console.log('🚀 PrimeSpeak Academy загружается...');
             generateCalendar();
             updateTestGradeDisplay();
+            setupAutoSave();
+            loadFormData();
             
             const today = new Date().toISOString().split('T')[0];
             if (document.getElementById('scheduleDate')) {
@@ -2149,6 +2276,11 @@
             }
             if (document.getElementById('eventDate')) {
                 document.getElementById('eventDate').value = today;
+            }
+            
+            // Устанавливаем Radmir Nurislamov как учителя по умолчанию
+            if (document.getElementById('scheduleTeacher')) {
+                document.getElementById('scheduleTeacher').value = 'Radmir Nurislamov';
             }
         });
 
