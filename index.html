@@ -6,6 +6,7 @@
     <title>PrimeSpeak Academy</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+        /* Все стили остаются без изменений */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         :root { --primary: #4f46e5; --primary-dark: #3730a3; --secondary: #10b981; --danger: #ef4444; --warning: #f59e0b; --light: #f8fafc; --dark: #1e293b; --gray: #64748b; }
         body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 15px; color: var(--dark); }
@@ -929,19 +930,6 @@
             'fluent': { name: 'FLUENT', level: 'C1-C2', description: 'Native-like proficiency', color: 'course-fluent' }
         };
 
-        // ДАННЫЕ ДЛЯ АВТОРИЗАЦИИ
-        const teacherCredentials = {
-            email: 'nurislamovradmir9@gmail.com',
-            password: 'teacher123',
-            name: 'Radmir Nurislamov'
-        };
-
-        const headTeacherCredentials = {
-            email: 'nurislamovradmir9@gmail.com',
-            password: 'headteacher123',
-            name: 'Radmir Nurislamov'
-        };
-
         // ФУНКЦИИ ДЛЯ РАБОТЫ С ОЦЕНКАМИ
         function getGradeColorClass(grade, type) {
             grade = parseInt(grade);
@@ -1069,30 +1057,18 @@
             localStorage.setItem('teacherEmail', email);
             
             try {
-                // Для демонстрации проверяем учетные данные локально
-                if (email === teacherCredentials.email && password === teacherCredentials.password) {
-                    currentUser = { 
-                        name: teacherCredentials.name, 
-                        email: teacherCredentials.email,
-                        role: 'teacher' 
-                    };
-                    showMainApp('teacher');
-                    alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
-                } else {
-                    // Если не совпадают с демо-данными, проверяем в базе
-                    const { data, error } = await supabase
-                        .from('teacher')
-                        .select('*')
-                        .eq('email', email)
-                        .eq('password', password)
-                        .single();
+                const { data, error } = await supabase
+                    .from('teacher')
+                    .select('*')
+                    .eq('email', email)
+                    .eq('password', password)
+                    .single();
 
-                    if (error) throw error;
+                if (error) throw error;
 
-                    currentUser = { ...data, role: 'teacher' };
-                    showMainApp('teacher');
-                    alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
-                }
+                currentUser = { ...data, role: 'teacher' };
+                showMainApp('teacher');
+                alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
                 
             } catch (err) {
                 alert('❌ Ошибка входа: ' + err.message);
@@ -1143,30 +1119,18 @@
             localStorage.setItem('headTeacherEmail', email);
             
             try {
-                // Для демонстрации проверяем учетные данные локально
-                if (email === headTeacherCredentials.email && password === headTeacherCredentials.password) {
-                    currentUser = { 
-                        name: headTeacherCredentials.name, 
-                        email: headTeacherCredentials.email,
-                        role: 'head_teacher' 
-                    };
-                    showMainApp('head_teacher');
-                    alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
-                } else {
-                    // Если не совпадают с демо-данными, проверяем в базе
-                    const { data, error } = await supabase
-                        .from('teacher')
-                        .select('*')
-                        .eq('email', email)
-                        .eq('password', password)
-                        .single();
+                const { data, error } = await supabase
+                    .from('teacher')
+                    .select('*')
+                    .eq('email', email)
+                    .eq('password', password)
+                    .single();
 
-                    if (error) throw error;
+                if (error) throw error;
 
-                    currentUser = { ...data, role: 'head_teacher' };
-                    showMainApp('head_teacher');
-                    alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
-                }
+                currentUser = { ...data, role: 'head_teacher' };
+                showMainApp('head_teacher');
+                alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
                 
             } catch (err) {
                 alert('❌ Ошибка входа: ' + err.message);
