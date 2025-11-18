@@ -39,9 +39,6 @@
         .grade-1, .grade-2, .grade-3 { background: #ef4444; }
         .grade-4, .grade-5, .grade-6 { background: #f59e0b; }
         .grade-7, .grade-8, .grade-9, .grade-10 { background: #10b981; }
-        .grade-11, .grade-12, .grade-13, .grade-14, .grade-15 { background: #10b981; }
-        .grade-16, .grade-17, .grade-18, .grade-19, .grade-20 { background: #10b981; }
-        .grade-21, .grade-22, .grade-23, .grade-24, .grade-25 { background: #10b981; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--dark); font-size: 0.9em; }
         .input, .select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
@@ -99,9 +96,6 @@
             font-size: 0.9em; 
             padding: 0 10px; 
         }
-        .test-grade { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
-        .project-grade { background: linear-gradient(135deg, #ec4899, #be185d); }
-        .attendance-grade { background: linear-gradient(135deg, #6b7280, #4b5563); }
         
         /* Стили для календаря */
         .calendar { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; }
@@ -125,6 +119,45 @@
         .notification { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 10px; padding: 15px; margin-bottom: 10px; }
         .notification.upcoming { background: #f0f9ff; border-color: #0ea5e9; }
         .notification.important { background: #fee2e2; border-color: #ef4444; }
+        
+        /* ЦВЕТА ДЛЯ ВСЕХ ТИПОВ ОЦЕНОК */
+        /* Цвета для активности (1-5) */
+        .activity-grade-1, .activity-grade-2 { background: #ef4444; }
+        .activity-grade-3 { background: #f59e0b; }
+        .activity-grade-4, .activity-grade-5 { background: #10b981; }
+        
+        /* Цвета для устных ответов (1-5) */
+        .oral-grade-1, .oral-grade-2 { background: #ef4444; }
+        .oral-grade-3 { background: #f59e0b; }
+        .oral-grade-4, .oral-grade-5 { background: #10b981; }
+        
+        /* Цвета для домашних заданий (1-10) */
+        .homework-grade-1, .homework-grade-2, .homework-grade-3 { background: #ef4444; }
+        .homework-grade-4, .homework-grade-5, .homework-grade-6 { background: #f59e0b; }
+        .homework-grade-7, .homework-grade-8, .homework-grade-9, .homework-grade-10 { background: #10b981; }
+        
+        /* Цвета для тестов (1-25) */
+        .test-grade-1, .test-grade-2, .test-grade-3, .test-grade-4, .test-grade-5, 
+        .test-grade-6, .test-grade-7, .test-grade-8, .test-grade-9, .test-grade-10 { background: #ef4444; }
+        .test-grade-11, .test-grade-12, .test-grade-13, .test-grade-14, .test-grade-15 { background: #f59e0b; }
+        .test-grade-16, .test-grade-17, .test-grade-18, .test-grade-19, .test-grade-20,
+        .test-grade-21, .test-grade-22, .test-grade-23, .test-grade-24, .test-grade-25 { background: #10b981; }
+        
+        /* Цвета для проектов (1-20) */
+        .project-grade-1, .project-grade-2, .project-grade-3, .project-grade-4, .project-grade-5,
+        .project-grade-6, .project-grade-7, .project-grade-8, .project-grade-9, .project-grade-10 { background: #ef4444; }
+        .project-grade-11, .project-grade-12, .project-grade-13, .project-grade-14, .project-grade-15 { background: #f59e0b; }
+        .project-grade-16, .project-grade-17, .project-grade-18, .project-grade-19, .project-grade-20 { background: #10b981; }
+        
+        /* Цвета для посещаемости (0-2) */
+        .attendance-grade-0 { background: #ef4444; }
+        .attendance-grade-1 { background: #f59e0b; }
+        .attendance-grade-2 { background: #10b981; }
+        
+        /* Прогресс-бар для тестов */
+        .test-grade-progress { background: #e2e8f0; border-radius: 10px; height: 8px; margin: 5px 0; overflow: hidden; }
+        .test-grade-progress-bar { background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981); height: 100%; transition: width 0.3s; }
+        .test-grade-info { font-size: 0.8em; color: var(--gray); }
     </style>
 </head>
 <body>
@@ -575,6 +608,62 @@
             'attendance': { name: '📅 Посещаемость', max: 2, color: '#6b7280' }
         };
 
+        // ФУНКЦИЯ ДЛЯ ПОЛУЧЕНИЯ КЛАССА ЦВЕТА ДЛЯ ОЦЕНКИ
+        function getGradeColorClass(grade, type) {
+            grade = parseInt(grade);
+            
+            if (type === 'test') {
+                if (grade <= 10) return 'test-grade-1';        // 1-10 - красный
+                if (grade <= 15) return 'test-grade-11';       // 11-15 - желтый
+                return 'test-grade-16';                        // 16-25 - зеленый
+            } else if (type === 'activity') {
+                if (grade <= 2) return 'activity-grade-1';     // 1-2 - красный
+                if (grade === 3) return 'activity-grade-3';    // 3 - желтый
+                return 'activity-grade-4';                     // 4-5 - зеленый
+            } else if (type === 'homework') {
+                if (grade <= 3) return 'homework-grade-1';     // 1-3 - красный
+                if (grade <= 6) return 'homework-grade-4';     // 4-6 - желтый
+                return 'homework-grade-7';                     // 7-10 - зеленый
+            } else if (type === 'project') {
+                if (grade <= 10) return 'project-grade-1';     // 1-10 - красный
+                if (grade <= 15) return 'project-grade-11';    // 11-15 - желтый
+                return 'project-grade-16';                     // 16-20 - зеленый
+            } else if (type === 'oral') {
+                if (grade <= 2) return 'oral-grade-1';         // 1-2 - красный
+                if (grade === 3) return 'oral-grade-3';        // 3 - желтый
+                return 'oral-grade-4';                         // 4-5 - зеленый
+            } else if (type === 'attendance') {
+                return `attendance-grade-${grade}`;            // 0-2 с цветами
+            } else {
+                // Обычные оценки
+                if (grade <= 3) return `grade-${grade}`;       // 1-3 - красный
+                if (grade <= 6) return `grade-${grade}`;       // 4-6 - желтый
+                return `grade-${grade}`;                       // 7-10 - зеленый
+            }
+        }
+
+        // ФУНКЦИЯ ДЛЯ ОТОБРАЖЕНИЯ ОЦЕНКИ С ПРАВИЛЬНЫМ ЦВЕТОМ
+        function renderGrade(grade, type) {
+            const colorClass = getGradeColorClass(grade, type);
+            
+            if (type === 'test') {
+                return `<span class="grade ${colorClass}">${grade}/25</span>`;
+            } else if (type === 'activity') {
+                return `<span class="grade ${colorClass}">${grade}/5</span>`;
+            } else if (type === 'attendance') {
+                const labels = { '0': '❌', '1': '⏰', '2': '✅' };
+                return `<span class="grade ${colorClass}">${labels[grade] || grade}/2</span>`;
+            } else if (type === 'oral') {
+                return `<span class="grade ${colorClass}">${grade}/5</span>`;
+            } else if (type === 'project') {
+                return `<span class="grade ${colorClass}">${grade}/20</span>`;
+            } else if (type === 'homework') {
+                return `<span class="grade ${colorClass}">${grade}/10</span>`;
+            } else {
+                return `<span class="grade ${colorClass}">${grade}</span>`;
+            }
+        }
+
         // ФУНКЦИЯ ДЛЯ ОТОБРАЖЕНИЯ "ОЦЕНКА/25"
         function updateTestGradeDisplay() {
             const gradeValue = document.getElementById('testGradeValue').value;
@@ -995,9 +1084,7 @@
                         <div class="student-stats">
                             <div class="average-grade">${avgGrade}</div>
                             <div>${recentGrades.map(grade => 
-                                grade.type === 'test' 
-                                    ? `<span class="test-grade-display">${grade.grade}/25</span>`
-                                    : `<span class="grade grade-${grade.grade}">${grade.grade}</span>`
+                                renderGrade(grade.grade, grade.type)
                             ).join('')}</div>
                             <button class="btn btn-danger" onclick="deleteStudent(${student.id})" style="width: auto; padding: 8px 12px;">🗑️</button>
                         </div>
@@ -1060,13 +1147,10 @@
             history.innerHTML = '';
             grades.forEach(grade => {
                 const typeLabel = gradeTypes[grade.type]?.name || grade.type;
-                const gradeDisplay = grade.type === 'test' 
-                    ? `<span class="test-grade-display">${grade.grade}/25</span>` 
-                    : `<span class="grade grade-${grade.grade}">${grade.grade}</span>`;
                 
                 history.innerHTML += `
                     <div style="padding: 12px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 10px;">
-                        ${gradeDisplay}
+                        ${renderGrade(grade.grade, grade.type)}
                         <div style="flex: 1;">
                             <strong>${grade.students.name}</strong><br>
                             <small style="color: var(--gray);">${typeLabel} • ${grade.assignment} • ${grade.grade_date}</small>
@@ -1113,13 +1197,9 @@
             
             recent.innerHTML = '';
             grades.forEach(grade => {
-                const gradeDisplay = grade.type === 'test' 
-                    ? `<span class="test-grade-display">${grade.grade}/25</span>` 
-                    : `<span class="grade grade-${grade.grade}">${grade.grade}</span>`;
-                
                 recent.innerHTML += `
                     <div style="display: flex; align-items: center; gap: 12px; padding: 10px; border-bottom: 1px solid #e2e8f0;">
-                        ${gradeDisplay}
+                        ${renderGrade(grade.grade, grade.type)}
                         <div style="flex: 1;">
                             <strong>${grade.students.name}</strong>
                             <div style="color: var(--gray); font-size: 0.8em;">${grade.assignment}</div>
@@ -1241,15 +1321,118 @@
                                 <div class="test-grade-info">${percentage}% выполнено (${grade.grade}/25 баллов)</div>
                             ` : ''}
                         </div>
-                        ${grade.type === 'test' 
-                            ? `<span class="test-grade-display">${grade.grade}/25</span>`
-                            : `<span class="grade grade-${grade.grade}">${grade.grade}</span>`
-                        }
+                        ${renderGrade(grade.grade, grade.type)}
                     </div>
                 `;
             });
             
+            // ЗАГРУЖАЕМ РАСПИСАНИЕ ДЛЯ УЧЕНИКА
+            await loadStudentSchedule();
+            
             showSection('studentGrades');
+        }
+
+        // ОБНОВЛЕННАЯ ФУНКЦИЯ ЗАГРУЗКИ РАСПИСАНИЯ ДЛЯ УЧЕНИКА
+        async function loadStudentSchedule() {
+            const { data: schedule, error } = await supabase
+                .from('schedule')
+                .select('*')
+                .order('date', { ascending: true })
+                .order('start_time', { ascending: true });
+
+            if (error) {
+                console.error('Error loading schedule:', error);
+                return;
+            }
+
+            const studentTodaySchedule = document.getElementById('studentTodaySchedule');
+            const studentUpcomingEvents = document.getElementById('studentUpcomingEvents');
+            
+            if (!schedule || schedule.length === 0) {
+                if (studentTodaySchedule) {
+                    studentTodaySchedule.innerHTML = '<div class="empty-state"><div>📅</div><p>На сегодня занятий нет</p></div>';
+                }
+                return;
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+            const todayLessons = schedule.filter(item => item.date === today);
+
+            // Отображение расписания на сегодня для ученика
+            if (studentTodaySchedule) {
+                studentTodaySchedule.innerHTML = '';
+                if (todayLessons.length === 0) {
+                    studentTodaySchedule.innerHTML = '<div class="empty-state"><div>📅</div><p>На сегодня занятий нет</p></div>';
+                } else {
+                    todayLessons.forEach(item => {
+                        studentTodaySchedule.innerHTML += `
+                            <div class="schedule-item">
+                                <div class="schedule-time">${formatTime(item.start_time)} - ${formatTime(item.end_time)}</div>
+                                <div class="schedule-subject">${item.subject}</div>
+                                <div class="schedule-teacher">👨‍🏫 ${item.teacher}</div>
+                                ${item.description ? `<div style="color: var(--gray); font-size: 0.9em; margin-top: 5px;">${item.description}</div>` : ''}
+                            </div>
+                        `;
+                    });
+                }
+            }
+
+            // Загрузка событий для ученика
+            await loadStudentEvents();
+        }
+
+        // ФУНКЦИЯ ЗАГРУЗКИ СОБЫТИЙ ДЛЯ УЧЕНИКА
+        async function loadStudentEvents() {
+            const { data: events, error } = await supabase
+                .from('calendar_events')
+                .select('*')
+                .order('date', { ascending: true })
+                .order('time', { ascending: true });
+
+            if (error) {
+                console.error('Error loading events:', error);
+                return;
+            }
+
+            const studentUpcomingEvents = document.getElementById('studentUpcomingEvents');
+            
+            if (!events || events.length === 0) {
+                if (studentUpcomingEvents) {
+                    studentUpcomingEvents.innerHTML = '<div class="empty-state"><div>🗓️</div><p>Нет предстоящих событий</p></div>';
+                }
+                return;
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+            const upcoming = events.filter(event => event.date >= today).slice(0, 5);
+
+            // Отображение событий для ученика
+            if (studentUpcomingEvents) {
+                studentUpcomingEvents.innerHTML = '';
+                if (upcoming.length === 0) {
+                    studentUpcomingEvents.innerHTML = '<div class="empty-state"><div>🗓️</div><p>Нет предстоящих событий</p></div>';
+                } else {
+                    const eventTypes = {
+                        'lesson': '📚',
+                        'test': '🎓', 
+                        'meeting': '👥',
+                        'holiday': '🎉',
+                        'deadline': '⏰'
+                    };
+                    
+                    upcoming.forEach(event => {
+                        studentUpcomingEvents.innerHTML += `
+                            <div class="notification upcoming">
+                                <strong>${eventTypes[event.type]} ${event.title}</strong>
+                                <div style="color: var(--gray); font-size: 0.9em;">
+                                    📅 ${formatDate(event.date)}${event.time ? ` ⏰ ${event.time}` : ''}
+                                </div>
+                                ${event.description ? `<div style="margin-top: 5px;">${event.description}</div>` : ''}
+                            </div>
+                        `;
+                    });
+                }
+            }
         }
 
         async function updateStudentGradeStats(grades) {
