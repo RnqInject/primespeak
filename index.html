@@ -6,7 +6,6 @@
     <title>PrimeSpeak Academy</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* Все стили остаются без изменений */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         :root { --primary: #4f46e5; --primary-dark: #3730a3; --secondary: #10b981; --danger: #ef4444; --warning: #f59e0b; --light: #f8fafc; --dark: #1e293b; --gray: #64748b; }
         body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 15px; color: var(--dark); }
@@ -67,7 +66,6 @@
         .save-btn { background: var(--secondary); margin-top: 5px; }
         .save-btn:hover { background: #0da271; }
         
-        /* Стили для разных типов оценок */
         .grade-type-badge { 
             display: inline-block; 
             padding: 4px 8px; 
@@ -98,7 +96,6 @@
             padding: 0 10px; 
         }
         
-        /* Стили для календаря */
         .calendar { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; }
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
@@ -109,7 +106,6 @@
         .calendar-day.weekend { color: var(--danger); }
         .calendar-event { background: var(--secondary); color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.8em; margin-top: 4px; }
         
-        /* УЛУЧШЕННЫЕ СТИЛИ ДЛЯ РАСПИСАНИЯ */
         .schedule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 15px; }
         .schedule-item { 
             background: white; 
@@ -172,7 +168,6 @@
         .status-upcoming { background: var(--warning); color: white; }
         .status-completed { background: var(--gray); color: white; }
         
-        /* Фильтры расписания */
         .schedule-filters {
             display: flex;
             gap: 10px;
@@ -198,51 +193,41 @@
             color: white;
         }
         
-        /* Стили для уведомлений */
         .notification { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 10px; padding: 15px; margin-bottom: 10px; }
         .notification.upcoming { background: #f0fdf4; border-color: var(--secondary); }
         .notification.important { background: #fee2e2; border-color: var(--danger); }
         
-        /* ЦВЕТА ДЛЯ ВСЕХ ТИПОВ ОЦЕНОК */
-        /* Цвета для активности (1-5) */
         .activity-grade-1, .activity-grade-2 { background: #ef4444; }
         .activity-grade-3 { background: #f59e0b; }
         .activity-grade-4, .activity-grade-5 { background: #10b981; }
         
-        /* Цвета для устных ответов (1-5) */
         .oral-grade-1, .oral-grade-2 { background: #ef4444; }
         .oral-grade-3 { background: #f59e0b; }
         .oral-grade-4, .oral-grade-5 { background: #10b981; }
         
-        /* Цвета для домашних заданий (1-10) */
         .homework-grade-1, .homework-grade-2, .homework-grade-3 { background: #ef4444; }
         .homework-grade-4, .homework-grade-5, .homework-grade-6 { background: #f59e0b; }
         .homework-grade-7, .homework-grade-8, .homework-grade-9, .homework-grade-10 { background: #10b981; }
         
-        /* Цвета для тестов (1-25) */
         .test-grade-1, .test-grade-2, .test-grade-3, .test-grade-4, .test-grade-5, 
         .test-grade-6, .test-grade-7, .test-grade-8, .test-grade-9, .test-grade-10 { background: #ef4444; }
         .test-grade-11, .test-grade-12, .test-grade-13, .test-grade-14, .test-grade-15 { background: #f59e0b; }
         .test-grade-16, .test-grade-17, .test-grade-18, .test-grade-19, .test-grade-20,
         .test-grade-21, .test-grade-22, .test-grade-23, .test-grade-24, .test-grade-25 { background: #10b981; }
         
-        /* Цвета для проектов (1-20) */
         .project-grade-1, .project-grade-2, .project-grade-3, .project-grade-4, .project-grade-5,
         .project-grade-6, .project-grade-7, .project-grade-8, .project-grade-9, .project-grade-10 { background: #ef4444; }
         .project-grade-11, .project-grade-12, .project-grade-13, .project-grade-14, .project-grade-15 { background: #f59e0b; }
         .project-grade-16, .project-grade-17, .project-grade-18, .project-grade-19, .project-grade-20 { background: #10b981; }
         
-        /* Цвета для посещаемости (0-2) */
         .attendance-grade-0 { background: #ef4444; }
         .attendance-grade-1 { background: #ef4444; }
         .attendance-grade-2 { background: #10b981; }
         
-        /* Прогресс-бар для тестов */
         .test-grade-progress { background: #e2e8f0; border-radius: 10px; height: 8px; margin: 5px 0; overflow: hidden; }
         .test-grade-progress-bar { background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981); height: 100%; transition: width 0.3s; }
         .test-grade-info { font-size: 0.8em; color: var(--gray); }
         
-        /* Стили для уровней курсов */
         .course-badge { 
             display: inline-block; 
             padding: 4px 12px; 
@@ -257,7 +242,6 @@
         .course-advanced { background: #f3e8ff; color: #7e22ce; border: 2px solid #8b5cf6; }
         .course-fluent { background: #fce7f3; color: #be185d; border: 2px solid #ec4899; }
         
-        /* Стили для описаний курсов */
         .course-tooltip {
             position: relative;
             cursor: help;
@@ -277,7 +261,6 @@
             z-index: 1000;
         }
 
-        /* Стили для панели завуча */
         .academic-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
         .academic-card { 
             background: white; 
@@ -290,12 +273,28 @@
         .academic-number { font-size: 2em; font-weight: bold; color: var(--primary); margin: 10px 0; }
         .performance-chart { background: white; padding: 20px; border-radius: 12px; margin: 15px 0; }
 
-        /* Адаптивность */
         @media (max-width: 768px) {
             .nav-btn { min-width: 70px; font-size: 10px; padding: 12px 5px; }
             .stats-grid { grid-template-columns: 1fr; }
             .schedule-filters { justify-content: center; }
             .schedule-grid { grid-template-columns: 1fr; }
+        }
+
+        .save-data-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        .save-data-btn:hover {
+            background: #0da271;
         }
     </style>
 </head>
@@ -327,6 +326,11 @@
             <input type="password" class="login-input" id="headTeacherPassword" placeholder="Пароль завуча">
             <button class="login-btn" onclick="loginHeadTeacher()">Войти как завуч</button>
         </div>
+
+        <!-- Кнопка сохранения данных -->
+        <button class="save-data-btn" onclick="saveLoginData()">
+            💾 Сохранить данные для входа
+        </button>
 
         <button onclick="testConnection()" style="margin-top: 20px; padding: 10px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
             🧪 Проверить подключение
@@ -929,6 +933,38 @@
             'advanced': { name: 'ADVANCED', level: 'B2', description: 'Fluent speech, business English', color: 'course-advanced' },
             'fluent': { name: 'FLUENT', level: 'C1-C2', description: 'Native-like proficiency', color: 'course-fluent' }
         };
+
+        // ФУНКЦИЯ СОХРАНЕНИЯ ДАННЫХ ДЛЯ ВХОДА
+        function saveLoginData() {
+            const activeTab = document.querySelector('.login-tab.active').textContent;
+            let loginData = {
+                type: activeTab.includes('Учитель') ? 'teacher' : activeTab.includes('Ученик') ? 'student' : 'head_teacher',
+                timestamp: new Date().toISOString()
+            };
+
+            // Сохраняем данные в зависимости от активной вкладки
+            if (loginData.type === 'teacher') {
+                loginData.email = document.getElementById('teacherEmail').value;
+                loginData.password = document.getElementById('teacherPassword').value;
+            } else if (loginData.type === 'student') {
+                loginData.username = document.getElementById('studentLoginInput').value;
+                loginData.password = document.getElementById('studentPassword').value;
+            } else if (loginData.type === 'head_teacher') {
+                loginData.email = document.getElementById('headTeacherEmail').value;
+                loginData.password = document.getElementById('headTeacherPassword').value;
+            }
+
+            // Создаем и скачиваем файл
+            const dataStr = JSON.stringify(loginData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `primespeak_login_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            alert('✅ Данные для входа сохранены в файл!');
+        }
 
         // ФУНКЦИИ ДЛЯ РАБОТЫ С ОЦЕНКАМИ
         function getGradeColorClass(grade, type) {
@@ -2189,4 +2225,4 @@
 
     </script>
 </body>
-    </html>
+                </html>
