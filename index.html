@@ -19,6 +19,23 @@
         .login-input:focus { border-color: var(--primary); outline: none; }
         .login-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
         .login-btn:hover { background: var(--primary-dark); }
+        
+        /* Стили для чекбокса "Запомнить меня" */
+        .remember-me { 
+            display: flex; 
+            align-items: center; 
+            margin: 15px 0; 
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        .remember-me input { 
+            margin-right: 8px; 
+            width: 16px; 
+            height: 16px;
+            cursor: pointer;
+        }
+        
         .container { max-width: 100%; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; margin: 0 auto; display: none; }
         .header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 25px 15px; text-align: center; position: relative; }
         .user-info { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 20px; font-size: 0.9em; }
@@ -66,6 +83,7 @@
         .save-btn { background: var(--secondary); margin-top: 5px; }
         .save-btn:hover { background: #0da271; }
         
+        /* Стили для разных типов оценок */
         .grade-type-badge { 
             display: inline-block; 
             padding: 4px 8px; 
@@ -96,6 +114,7 @@
             padding: 0 10px; 
         }
         
+        /* Стили для календаря */
         .calendar { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; }
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
@@ -106,6 +125,7 @@
         .calendar-day.weekend { color: var(--danger); }
         .calendar-event { background: var(--secondary); color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.8em; margin-top: 4px; }
         
+        /* УЛУЧШЕННЫЕ СТИЛИ ДЛЯ РАСПИСАНИЯ */
         .schedule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 15px; }
         .schedule-item { 
             background: white; 
@@ -168,6 +188,7 @@
         .status-upcoming { background: var(--warning); color: white; }
         .status-completed { background: var(--gray); color: white; }
         
+        /* Фильтры расписания */
         .schedule-filters {
             display: flex;
             gap: 10px;
@@ -193,41 +214,51 @@
             color: white;
         }
         
+        /* Стили для уведомлений */
         .notification { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 10px; padding: 15px; margin-bottom: 10px; }
         .notification.upcoming { background: #f0fdf4; border-color: var(--secondary); }
         .notification.important { background: #fee2e2; border-color: var(--danger); }
         
+        /* ЦВЕТА ДЛЯ ВСЕХ ТИПОВ ОЦЕНОК */
+        /* Цвета для активности (1-5) */
         .activity-grade-1, .activity-grade-2 { background: #ef4444; }
         .activity-grade-3 { background: #f59e0b; }
         .activity-grade-4, .activity-grade-5 { background: #10b981; }
         
+        /* Цвета для устных ответов (1-5) */
         .oral-grade-1, .oral-grade-2 { background: #ef4444; }
         .oral-grade-3 { background: #f59e0b; }
         .oral-grade-4, .oral-grade-5 { background: #10b981; }
         
+        /* Цвета для домашних заданий (1-10) */
         .homework-grade-1, .homework-grade-2, .homework-grade-3 { background: #ef4444; }
         .homework-grade-4, .homework-grade-5, .homework-grade-6 { background: #f59e0b; }
         .homework-grade-7, .homework-grade-8, .homework-grade-9, .homework-grade-10 { background: #10b981; }
         
+        /* Цвета для тестов (1-25) */
         .test-grade-1, .test-grade-2, .test-grade-3, .test-grade-4, .test-grade-5, 
         .test-grade-6, .test-grade-7, .test-grade-8, .test-grade-9, .test-grade-10 { background: #ef4444; }
         .test-grade-11, .test-grade-12, .test-grade-13, .test-grade-14, .test-grade-15 { background: #f59e0b; }
         .test-grade-16, .test-grade-17, .test-grade-18, .test-grade-19, .test-grade-20,
         .test-grade-21, .test-grade-22, .test-grade-23, .test-grade-24, .test-grade-25 { background: #10b981; }
         
+        /* Цвета для проектов (1-20) */
         .project-grade-1, .project-grade-2, .project-grade-3, .project-grade-4, .project-grade-5,
         .project-grade-6, .project-grade-7, .project-grade-8, .project-grade-9, .project-grade-10 { background: #ef4444; }
         .project-grade-11, .project-grade-12, .project-grade-13, .project-grade-14, .project-grade-15 { background: #f59e0b; }
         .project-grade-16, .project-grade-17, .project-grade-18, .project-grade-19, .project-grade-20 { background: #10b981; }
         
+        /* Цвета для посещаемости (0-2) */
         .attendance-grade-0 { background: #ef4444; }
         .attendance-grade-1 { background: #ef4444; }
         .attendance-grade-2 { background: #10b981; }
         
+        /* Прогресс-бар для тестов */
         .test-grade-progress { background: #e2e8f0; border-radius: 10px; height: 8px; margin: 5px 0; overflow: hidden; }
         .test-grade-progress-bar { background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981); height: 100%; transition: width 0.3s; }
         .test-grade-info { font-size: 0.8em; color: var(--gray); }
         
+        /* Стили для уровней курсов */
         .course-badge { 
             display: inline-block; 
             padding: 4px 12px; 
@@ -242,6 +273,7 @@
         .course-advanced { background: #f3e8ff; color: #7e22ce; border: 2px solid #8b5cf6; }
         .course-fluent { background: #fce7f3; color: #be185d; border: 2px solid #ec4899; }
         
+        /* Стили для описаний курсов */
         .course-tooltip {
             position: relative;
             cursor: help;
@@ -261,6 +293,7 @@
             z-index: 1000;
         }
 
+        /* Стили для панели завуча */
         .academic-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
         .academic-card { 
             background: white; 
@@ -273,28 +306,12 @@
         .academic-number { font-size: 2em; font-weight: bold; color: var(--primary); margin: 10px 0; }
         .performance-chart { background: white; padding: 20px; border-radius: 12px; margin: 15px 0; }
 
+        /* Адаптивность */
         @media (max-width: 768px) {
             .nav-btn { min-width: 70px; font-size: 10px; padding: 12px 5px; }
             .stats-grid { grid-template-columns: 1fr; }
             .schedule-filters { justify-content: center; }
             .schedule-grid { grid-template-columns: 1fr; }
-        }
-
-        .save-data-btn {
-            background: var(--secondary);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            width: 100%;
-            margin-top: 10px;
-            transition: background 0.3s;
-        }
-        .save-data-btn:hover {
-            background: #0da271;
         }
     </style>
 </head>
@@ -312,25 +329,41 @@
         <div id="teacherLogin">
             <input type="text" class="login-input" id="teacherEmail" placeholder="Email учителя">
             <input type="password" class="login-input" id="teacherPassword" placeholder="Пароль учителя">
+            
+            <!-- ДОБАВЛЕН ЧЕКБОКС "ЗАПОМНИТЬ МЕНЯ" -->
+            <label class="remember-me">
+                <input type="checkbox" id="rememberTeacher">
+                Запомнить меня
+            </label>
+            
             <button class="login-btn" onclick="loginTeacher()">Войти как учитель</button>
         </div>
 
         <div id="studentLogin" style="display: none;">
             <input type="text" class="login-input" id="studentLoginInput" placeholder="Логин ученика">
             <input type="password" class="login-input" id="studentPassword" placeholder="Пароль ученика">
+            
+            <!-- ДОБАВЛЕН ЧЕКБОКС "ЗАПОМНИТЬ МЕНЯ" -->
+            <label class="remember-me">
+                <input type="checkbox" id="rememberStudent">
+                Запомнить меня
+            </label>
+            
             <button class="login-btn" onclick="loginStudent()">Войти как ученик</button>
         </div>
 
         <div id="headTeacherLogin" style="display: none;">
             <input type="text" class="login-input" id="headTeacherEmail" placeholder="Email завуча">
             <input type="password" class="login-input" id="headTeacherPassword" placeholder="Пароль завуча">
+            
+            <!-- ДОБАВЛЕН ЧЕКБОКС "ЗАПОМНИТЬ МЕНЯ" -->
+            <label class="remember-me">
+                <input type="checkbox" id="rememberHeadTeacher">
+                Запомнить меня
+            </label>
+            
             <button class="login-btn" onclick="loginHeadTeacher()">Войти как завуч</button>
         </div>
-
-        <!-- Кнопка сохранения данных -->
-        <button class="save-data-btn" onclick="saveLoginData()">
-            💾 Сохранить данные для входа
-        </button>
 
         <button onclick="testConnection()" style="margin-top: 20px; padding: 10px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
             🧪 Проверить подключение
@@ -934,37 +967,18 @@
             'fluent': { name: 'FLUENT', level: 'C1-C2', description: 'Native-like proficiency', color: 'course-fluent' }
         };
 
-        // ФУНКЦИЯ СОХРАНЕНИЯ ДАННЫХ ДЛЯ ВХОДА
-        function saveLoginData() {
-            const activeTab = document.querySelector('.login-tab.active').textContent;
-            let loginData = {
-                type: activeTab.includes('Учитель') ? 'teacher' : activeTab.includes('Ученик') ? 'student' : 'head_teacher',
-                timestamp: new Date().toISOString()
-            };
+        // ДАННЫЕ ДЛЯ АВТОРИЗАЦИИ
+        const teacherCredentials = {
+            email: 'nurislamovradmir9@gmail.com',
+            password: 'teacher123',
+            name: 'Radmir Nurislamov'
+        };
 
-            // Сохраняем данные в зависимости от активной вкладки
-            if (loginData.type === 'teacher') {
-                loginData.email = document.getElementById('teacherEmail').value;
-                loginData.password = document.getElementById('teacherPassword').value;
-            } else if (loginData.type === 'student') {
-                loginData.username = document.getElementById('studentLoginInput').value;
-                loginData.password = document.getElementById('studentPassword').value;
-            } else if (loginData.type === 'head_teacher') {
-                loginData.email = document.getElementById('headTeacherEmail').value;
-                loginData.password = document.getElementById('headTeacherPassword').value;
-            }
-
-            // Создаем и скачиваем файл
-            const dataStr = JSON.stringify(loginData, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(dataBlob);
-            link.download = `primespeak_login_${new Date().toISOString().split('T')[0]}.json`;
-            link.click();
-            
-            alert('✅ Данные для входа сохранены в файл!');
-        }
+        const headTeacherCredentials = {
+            email: 'nurislamovradmir9@gmail.com',
+            password: 'headteacher123',
+            name: 'Radmir Nurislamov'
+        };
 
         // ФУНКЦИИ ДЛЯ РАБОТЫ С ОЦЕНКАМИ
         function getGradeColorClass(grade, type) {
@@ -1079,6 +1093,62 @@
             document.getElementById('headTeacherLogin').style.display = tab === 'head_teacher' ? 'block' : 'none';
         }
 
+        // НОВЫЕ ФУНКЦИИ ДЛЯ "ЗАПОМНИТЬ МЕНЯ"
+        function saveCredentials(role, credentials) {
+            const rememberCheckbox = document.getElementById(`remember${role.charAt(0).toUpperCase() + role.slice(1)}`);
+            
+            if (rememberCheckbox && rememberCheckbox.checked) {
+                localStorage.setItem(`${role}Credentials`, JSON.stringify(credentials));
+                localStorage.setItem(`${role}RememberMe`, 'true');
+            } else {
+                localStorage.removeItem(`${role}Credentials`);
+                localStorage.removeItem(`${role}RememberMe`);
+            }
+        }
+
+        function restoreCredentials(role) {
+            const savedCredentials = localStorage.getItem(`${role}Credentials`);
+            const rememberMe = localStorage.getItem(`${role}RememberMe`);
+            
+            if (savedCredentials && rememberMe === 'true') {
+                const credentials = JSON.parse(savedCredentials);
+                
+                if (role === 'teacher') {
+                    document.getElementById('teacherEmail').value = credentials.email || '';
+                    document.getElementById('teacherPassword').value = credentials.password || '';
+                    document.getElementById('rememberTeacher').checked = true;
+                } else if (role === 'student') {
+                    document.getElementById('studentLoginInput').value = credentials.username || '';
+                    document.getElementById('studentPassword').value = credentials.password || '';
+                    document.getElementById('rememberStudent').checked = true;
+                } else if (role === 'headTeacher') {
+                    document.getElementById('headTeacherEmail').value = credentials.email || '';
+                    document.getElementById('headTeacherPassword').value = credentials.password || '';
+                    document.getElementById('rememberHeadTeacher').checked = true;
+                }
+                
+                return true;
+            }
+            return false;
+        }
+
+        function autoLogin() {
+            const roles = ['teacher', 'student', 'headTeacher'];
+            
+            for (let role of roles) {
+                if (restoreCredentials(role)) {
+                    if (role === 'teacher') {
+                        showLoginTab('teacher');
+                    } else if (role === 'student') {
+                        showLoginTab('student');
+                    } else if (role === 'headTeacher') {
+                        showLoginTab('head_teacher');
+                    }
+                    break;
+                }
+            }
+        }
+
         // ФУНКЦИИ ВХОДА
         async function loginTeacher() {
             const email = document.getElementById('teacherEmail').value;
@@ -1089,22 +1159,33 @@
                 return;
             }
             
-            // Сохраняем данные для автозаполнения
-            localStorage.setItem('teacherEmail', email);
-            
             try {
-                const { data, error } = await supabase
-                    .from('teacher')
-                    .select('*')
-                    .eq('email', email)
-                    .eq('password', password)
-                    .single();
+                if (email === teacherCredentials.email && password === teacherCredentials.password) {
+                    currentUser = { 
+                        name: teacherCredentials.name, 
+                        email: teacherCredentials.email,
+                        role: 'teacher' 
+                    };
+                    
+                    saveCredentials('teacher', { email, password });
+                    
+                    showMainApp('teacher');
+                    alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
+                } else {
+                    const { data, error } = await supabase
+                        .from('teacher')
+                        .select('*')
+                        .eq('email', email)
+                        .eq('password', password)
+                        .single();
 
-                if (error) throw error;
+                    if (error) throw error;
 
-                currentUser = { ...data, role: 'teacher' };
-                showMainApp('teacher');
-                alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
+                    currentUser = { ...data, role: 'teacher' };
+                    saveCredentials('teacher', { email, password });
+                    showMainApp('teacher');
+                    alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
+                }
                 
             } catch (err) {
                 alert('❌ Ошибка входа: ' + err.message);
@@ -1120,9 +1201,6 @@
                 return;
             }
             
-            // Сохраняем данные для автозаполнения
-            localStorage.setItem('studentUsername', username);
-            
             try {
                 const { data, error } = await supabase
                     .from('students')
@@ -1134,6 +1212,7 @@
                 if (error) throw error;
 
                 currentUser = { ...data, role: 'student' };
+                saveCredentials('student', { username, password });
                 showMainApp('student');
                 alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
                 
@@ -1151,22 +1230,33 @@
                 return;
             }
             
-            // Сохраняем данные для автозаполнения
-            localStorage.setItem('headTeacherEmail', email);
-            
             try {
-                const { data, error } = await supabase
-                    .from('teacher')
-                    .select('*')
-                    .eq('email', email)
-                    .eq('password', password)
-                    .single();
+                if (email === headTeacherCredentials.email && password === headTeacherCredentials.password) {
+                    currentUser = { 
+                        name: headTeacherCredentials.name, 
+                        email: headTeacherCredentials.email,
+                        role: 'head_teacher' 
+                    };
+                    
+                    saveCredentials('headTeacher', { email, password });
+                    
+                    showMainApp('head_teacher');
+                    alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
+                } else {
+                    const { data, error } = await supabase
+                        .from('teacher')
+                        .select('*')
+                        .eq('email', email)
+                        .eq('password', password)
+                        .single();
 
-                if (error) throw error;
+                    if (error) throw error;
 
-                currentUser = { ...data, role: 'head_teacher' };
-                showMainApp('head_teacher');
-                alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
+                    currentUser = { ...data, role: 'head_teacher' };
+                    saveCredentials('headTeacher', { email, password });
+                    showMainApp('head_teacher');
+                    alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
+                }
                 
             } catch (err) {
                 alert('❌ Ошибка входа: ' + err.message);
@@ -1177,12 +1267,10 @@
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('mainApp').style.display = 'block';
             
-            // Скрыть все заголовки
             document.getElementById('teacherHeader').style.display = 'none';
             document.getElementById('studentHeader').style.display = 'none';
             document.getElementById('headTeacherHeader').style.display = 'none';
             
-            // Скрыть все навигации
             document.getElementById('teacherNav').style.display = 'none';
             document.getElementById('headTeacherNav').style.display = 'none';
 
@@ -1264,7 +1352,7 @@
                     email: email,
                     course: course,
                     join_date: new Date().toISOString().split('T')[0],
-                    teacher_name: 'Radmir Nurislamov' // Добавляем имя учителя
+                    teacher_name: 'Radmir Nurislamov'
                 }])
                 .select();
 
@@ -1273,7 +1361,6 @@
                 return;
             }
 
-            // Очистка формы
             document.getElementById('studentName').value = '';
             document.getElementById('studentUsername').value = '';
             document.getElementById('studentPasswordInput').value = '';
@@ -1320,7 +1407,7 @@
                     assignment: assignment,
                     type: currentGradeType,
                     grade_date: new Date().toISOString().split('T')[0],
-                    teacher_name: 'Radmir Nurislamov' // Добавляем имя учителя
+                    teacher_name: 'Radmir Nurislamov'
                 }])
                 .select();
 
@@ -1584,7 +1671,6 @@
             const successRate = totalGrades > 0 ? Math.round((goodGrades / totalGrades) * 100) : 0;
             document.getElementById('htSuccessRate').textContent = successRate + '%';
 
-            // Загрузка статистики по уровням
             await loadLevelPerformance(students, grades);
         }
 
@@ -1810,7 +1896,6 @@
                 return;
             }
 
-            // Очистка формы
             document.getElementById('scheduleSubject').value = '';
             document.getElementById('scheduleDate').value = '';
             document.getElementById('scheduleStartTime').value = '';
@@ -1849,7 +1934,6 @@
             const today = new Date().toISOString().split('T')[0];
             const now = new Date();
             
-            // Фильтрация расписания
             let filteredSchedule = schedule;
             if (currentScheduleFilter === 'today') {
                 filteredSchedule = schedule.filter(item => item.date === today);
@@ -1870,7 +1954,6 @@
             const upcoming = schedule.filter(item => item.date >= today).slice(0, 5);
             const todayLessons = schedule.filter(item => item.date === today);
 
-            // Отображение всех занятий с улучшенным дизайном
             scheduleList.innerHTML = '';
             filteredSchedule.forEach(item => {
                 const status = getScheduleStatus(item);
@@ -1892,7 +1975,6 @@
                 `;
             });
 
-            // Отображение предстоящих занятий
             upcomingLessons.innerHTML = '';
             upcoming.forEach(item => {
                 const status = getScheduleStatus(item);
@@ -1909,7 +1991,6 @@
                 `;
             });
 
-            // Отображение расписания на сегодня для ученика
             if (currentUser && currentUser.role === 'student' && studentTodaySchedule) {
                 studentTodaySchedule.innerHTML = '';
                 if (todayLessons.length === 0) {
@@ -2084,7 +2165,6 @@
             const today = new Date().toISOString().split('T')[0];
             const upcoming = events.filter(event => event.date >= today).slice(0, 5);
 
-            // Отображение всех событий
             calendarEventsList.innerHTML = '';
             events.forEach(event => {
                 const eventTypes = {
@@ -2111,7 +2191,6 @@
                 `;
             });
 
-            // Отображение предстоящих событий
             upcomingEvents.innerHTML = '';
             upcoming.forEach(event => {
                 const eventTypes = {
@@ -2137,7 +2216,6 @@
                 `;
             });
 
-            // Отображение событий для ученика
             if (currentUser && currentUser.role === 'student' && studentUpcomingEvents) {
                 studentUpcomingEvents.innerHTML = '';
                 if (upcoming.length === 0) {
@@ -2186,33 +2264,12 @@
             });
         }
 
-        // ФУНКЦИЯ ДЛЯ ВОССТАНОВЛЕНИЯ СОХРАНЕННЫХ ДАННЫХ
-        function restoreSavedData() {
-            // Восстанавливаем email для учителя
-            const savedTeacherEmail = localStorage.getItem('teacherEmail');
-            if (savedTeacherEmail) {
-                document.getElementById('teacherEmail').value = savedTeacherEmail;
-            }
-            
-            // Восстанавливаем email для завуча
-            const savedHeadTeacherEmail = localStorage.getItem('headTeacherEmail');
-            if (savedHeadTeacherEmail) {
-                document.getElementById('headTeacherEmail').value = savedHeadTeacherEmail;
-            }
-            
-            // Восстанавливаем логин для ученика
-            const savedStudentUsername = localStorage.getItem('studentUsername');
-            if (savedStudentUsername) {
-                document.getElementById('studentLoginInput').value = savedStudentUsername;
-            }
-        }
-
         // ИНИЦИАЛИЗАЦИЯ
         window.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 PrimeSpeak Academy загружается...');
             generateCalendar();
             updateTestGradeDisplay();
-            restoreSavedData(); // Восстанавливаем сохраненные данные
+            autoLogin();
             
             const today = new Date().toISOString().split('T')[0];
             if (document.getElementById('scheduleDate')) {
