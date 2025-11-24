@@ -475,7 +475,136 @@
             margin: 5px 0;
         }
         
-        /* Адаптивность */
+        /* СТИЛИ ДЛЯ ЧАТА ПОДДЕРЖКИ */
+        #supportChat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none;
+        }
+
+        #chatWindow {
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            border: 2px solid var(--primary);
+        }
+
+        #chatButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 999;
+            border: 3px solid white;
+        }
+
+        #chatNotification {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.7em;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin: 5px 0;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .support-message {
+            align-self: flex-start;
+            background: white;
+            color: var(--dark);
+            border: 1px solid #e2e8f0;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-content {
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .message-time {
+            font-size: 0.7em;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .support-message .message-time {
+            text-align: left;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* СТИЛИ ДЛЯ ПРОЦЕНТОВ УЧЕНИКОВ */
+        .today-progress {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .progress-percentage {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            height: 8px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: white;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* АДАПТИВНОСТЬ */
         @media (max-width: 768px) {
             .nav-btn { min-width: 70px; font-size: 10px; padding: 12px 5px; }
             .stats-grid { grid-template-columns: 1fr; }
@@ -486,6 +615,15 @@
             .teacher-info { flex-direction: column; align-items: flex-start; }
             .teacher-actions { margin-top: 15px; width: 100%; }
             .teacher-actions .btn { width: 100%; }
+            #chatWindow {
+                width: 90vw;
+                height: 70vh;
+                right: 5vw;
+                bottom: 80px;
+            }
+            .message {
+                max-width: 90%;
+            }
         }
     </style>
 </head>
@@ -505,7 +643,6 @@
             <input type="text" class="login-input" id="teacherEmail" placeholder="Email учителя">
             <input type="password" class="login-input" id="teacherPassword" placeholder="Пароль учителя">
             
-            <!-- ДОБАВЛЕН ЧЕКБОКС "ЗАПОМНИТЬ МЕНЯ" -->
             <label class="remember-me">
                 <input type="checkbox" id="rememberTeacher">
                 Запомнить меня
@@ -518,7 +655,6 @@
             <input type="text" class="login-input" id="studentLoginInput" placeholder="Логин ученика">
             <input type="password" class="login-input" id="studentPassword" placeholder="Пароль ученика">
             
-            <!-- ДОБАВЛЕН ЧЕКБОКС "ЗАПОМНИТЬ МЕНЯ" -->
             <label class="remember-me">
                 <input type="checkbox" id="rememberStudent">
                 Запомнить меня
@@ -531,7 +667,6 @@
             <input type="text" class="login-input" id="headTeacherEmail" placeholder="Email завуча">
             <input type="password" class="login-input" id="headTeacherPassword" placeholder="Пароль завуча">
             
-            <!-- ДОБАВЛЕН ЧЕКБОКС "ЗАПОМНИТЬ МЕНЯ" -->
             <label class="remember-me">
                 <input type="checkbox" id="rememberHeadTeacher">
                 Запомнить меня
@@ -544,7 +679,6 @@
             <input type="text" class="login-input" id="adminEmail" placeholder="Email администратора">
             <input type="password" class="login-input" id="adminPassword" placeholder="Пароль администратора">
             
-            <!-- ДОБАВЛЕН ЧЕКБОКС "ЗАПОМНИТЬ МЕНЯ" -->
             <label class="remember-me">
                 <input type="checkbox" id="rememberAdmin">
                 Запомнить меня
@@ -1386,6 +1520,16 @@
                     <p><strong>Уровень:</strong> <span id="studentCourseDisplay">-</span></p>
                     <p><strong>Зачислен:</strong> <span id="studentJoinDate">-</span></p>
                     <p><strong>👨‍🏫 Ваш учитель:</strong> <span style="color: var(--primary); font-weight: bold;">Radmir Nurislamov</span></p>
+                    
+                    <!-- ПРОГРЕСС ЗА СЕГОДНЯ -->
+                    <div id="todayProgress" class="today-progress" style="display: none;">
+                        <h4>📊 Прогресс за сегодня</h4>
+                        <div class="progress-percentage" id="todayProgressPercentage">0%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="todayProgressBar" style="width: 0%"></div>
+                        </div>
+                        <div id="todayProgressText">Сегодня еще нет оценок</div>
+                    </div>
                 </div>
 
                 <div class="card">
@@ -1408,6 +1552,49 @@
                     <div class="student-grades-list" id="studentGradesList"></div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- ЧАТ ПОДДЕРЖКИ -->
+    <div id="supportChat" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: none;">
+        <div id="chatWindow" style="width: 350px; height: 500px; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; border: 2px solid var(--primary);">
+            <!-- Заголовок чата -->
+            <div style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 15px; border-radius: 13px 13px 0 0; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong>💬 Чат поддержки</strong>
+                    <div style="font-size: 0.8em; opacity: 0.9;">Онлайн</div>
+                </div>
+                <button onclick="toggleChat()" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2em;">✕</button>
+            </div>
+            
+            <!-- Сообщения -->
+            <div id="chatMessages" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f8fafc;">
+                <div class="message support-message">
+                    <div class="message-content">
+                        <strong>Поддержка:</strong> Здравствуйте! Чем могу помочь?
+                    </div>
+                    <div class="message-time">только что</div>
+                </div>
+            </div>
+            
+            <!-- Поле ввода -->
+            <div style="padding: 15px; border-top: 1px solid #e2e8f0; background: white; border-radius: 0 0 13px 13px;">
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="chatInput" placeholder="Введите ваше сообщение..." style="flex: 1; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
+                    <button onclick="sendMessage()" style="background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">➤</button>
+                </div>
+                <div style="font-size: 0.8em; color: var(--gray); margin-top: 8px; text-align: center;">
+                    Ответим в течение 5 минут
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- КНОПКА ОТКРЫТИЯ ЧАТА -->
+    <div id="chatButton" style="position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 999; border: 3px solid white;">
+        💬
+        <div id="chatNotification" style="position: absolute; top: -5px; right: -5px; background: var(--danger); color: white; width: 20px; height: 20px; border-radius: 50%; font-size: 0.7em; display: none; justify-content: center; align-items: center; font-weight: bold;">
+            1
         </div>
     </div>
 
@@ -1840,6 +2027,8 @@
                 document.getElementById('studentNameDisplay').textContent = currentUser.name;
                 document.getElementById('welcomeStudentName').textContent = currentUser.name;
                 showStudentGrades();
+                // Показываем кнопку чата для учеников
+                document.getElementById('chatButton').style.display = 'flex';
             } else if (role === 'head_teacher') {
                 document.getElementById('headTeacherHeader').style.display = 'block';
                 document.getElementById('headTeacherNav').style.display = 'flex';
@@ -1864,6 +2053,8 @@
             currentUser = null;
             document.getElementById('mainApp').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('chatButton').style.display = 'none';
+            document.getElementById('supportChat').style.display = 'none';
             alert('👋 До свидания!');
         }
 
@@ -2040,15 +2231,20 @@
                     `<p>🏷️ Группа: <strong>${student.student_groups.name}</strong> (${student.student_groups.teacher?.name || 'Без учителя'})</p>` : 
                     '<p>🏷️ Группа: <em>Не назначена</em></p>';
 
+                // ОТОБРАЖЕНИЕ ЛОГИНА И ПАРОЛЯ ДЛЯ УЧИТЕЛЯ, ЗАВУЧА И АДМИНА
+                const loginInfo = `
+                    <div class="login-info">
+                        <strong>🔐 Данные для входа ученика:</strong><br>
+                        👤 Логин: <strong style="color: var(--primary);">${student.username}</strong><br>
+                        🔑 Пароль: <strong style="color: var(--secondary);">${student.password}</strong>
+                    </div>
+                `;
+
                 list.innerHTML += `
                     <div class="card student-card">
                         <div class="student-info">
                             <h3>${student.name}</h3>
-                            <div class="login-info">
-                                <strong>Данные для входа:</strong><br>
-                                👤 Логин: <strong>${student.username}</strong><br>
-                                🔑 Пароль: <strong>${student.password}</strong>
-                            </div>
+                            ${loginInfo}
                             <p>📧 ${student.email || 'Email не указан'}</p>
                             ${groupInfo}
                             <p>📚 Уровень: ${renderCourseLevel(student.course)}</p>
@@ -2412,7 +2608,8 @@
                             <div class="teacher-info">
                                 <div class="teacher-details">
                                     <h3>${student.name}</h3>
-                                    <p>👤 Логин: ${student.username}</p>
+                                    <p>👤 Логин: <strong style="color: var(--primary);">${student.username}</strong></p>
+                                    <p>🔑 Пароль: <strong style="color: var(--secondary);">${student.password}</strong></p>
                                     <p>🎭 Ученик</p>
                                     <p>📅 Зачислен: ${student.join_date}</p>
                                 </div>
@@ -3257,6 +3454,8 @@
             document.getElementById('studentCourseDisplay').textContent = getCourseName(currentUser.course);
             document.getElementById('studentJoinDate').textContent = currentUser.join_date;
             
+            // РАСЧЕТ ПРОГРЕССА ЗА СЕГОДНЯ
+            await updateTodayProgress(grades);
             await updateStudentGradeStats(grades);
             
             const gradesList = document.getElementById('studentGradesList');
@@ -3289,6 +3488,44 @@
             
             await loadStudentSchedule();
             showSection('studentGrades');
+        }
+
+        // ФУНКЦИЯ ДЛЯ РАСЧЕТА ПРОГРЕССА ЗА СЕГОДНЯ
+        async function updateTodayProgress(grades) {
+            const today = new Date().toISOString().split('T')[0];
+            const todayGrades = grades ? grades.filter(grade => grade.grade_date === today) : [];
+            
+            const progressContainer = document.getElementById('todayProgress');
+            const progressPercentage = document.getElementById('todayProgressPercentage');
+            const progressBar = document.getElementById('todayProgressBar');
+            const progressText = document.getElementById('todayProgressText');
+            
+            if (todayGrades.length === 0) {
+                progressContainer.style.display = 'block';
+                progressPercentage.textContent = '0%';
+                progressBar.style.width = '0%';
+                progressText.textContent = 'Сегодня еще нет оценок';
+                return;
+            }
+            
+            // Рассчитываем общий прогресс за сегодня
+            let totalPossible = 0;
+            let totalEarned = 0;
+            
+            todayGrades.forEach(grade => {
+                const typeInfo = gradeTypes[grade.type];
+                if (typeInfo) {
+                    totalPossible += typeInfo.max;
+                    totalEarned += grade.grade;
+                }
+            });
+            
+            const percentage = totalPossible > 0 ? Math.round((totalEarned / totalPossible) * 100) : 0;
+            
+            progressContainer.style.display = 'block';
+            progressPercentage.textContent = `${percentage}%`;
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `Сегодня получено ${todayGrades.length} оценок: ${totalEarned}/${totalPossible} баллов`;
         }
 
         async function updateStudentGradeStats(grades) {
@@ -3812,6 +4049,81 @@
             }
         }
 
+        // ФУНКЦИИ ЧАТА ПОДДЕРЖКИ
+        function toggleChat() {
+            const chatWindow = document.getElementById('supportChat');
+            if (chatWindow.style.display === 'none') {
+                chatWindow.style.display = 'block';
+                document.getElementById('chatNotification').style.display = 'none';
+            } else {
+                chatWindow.style.display = 'none';
+            }
+        }
+
+        function sendMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const message = chatInput.value.trim();
+            
+            if (!message) return;
+            
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Добавляем сообщение пользователя
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.innerHTML = `
+                <div class="message-content">
+                    <strong>Вы:</strong> ${message}
+                </div>
+                <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+            `;
+            chatMessages.appendChild(userMessage);
+            
+            // Очищаем поле ввода
+            chatInput.value = '';
+            
+            // Прокручиваем вниз
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Имитируем ответ поддержки (в реальной системе здесь был бы WebSocket)
+            setTimeout(() => {
+                const responses = [
+                    "Спасибо за ваш вопрос! Мы уже работаем над ним.",
+                    "Понимаю вашу проблему. Давайте разберемся вместе!",
+                    "Это хороший вопрос! Наш специалист скоро свяжется с вами.",
+                    "Благодарим за обращение! Мы уже ищем решение для вас.",
+                    "Отличный вопрос! Давайте я помогу вам с этим."
+                ];
+                
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                
+                const supportMessage = document.createElement('div');
+                supportMessage.className = 'message support-message';
+                supportMessage.innerHTML = `
+                    <div class="message-content">
+                        <strong>Поддержка:</strong> ${randomResponse}
+                    </div>
+                    <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                `;
+                chatMessages.appendChild(supportMessage);
+                
+                // Прокручиваем вниз
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000 + Math.random() * 2000);
+        }
+
+        // Обработка нажатия Enter в чате
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatInput = document.getElementById('chatInput');
+            if (chatInput) {
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                });
+            }
+        });
+
         // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
         function getCourseName(course) {
             const courseInfo = courseLevels[course] || { name: course, level: '' };
@@ -3859,4 +4171,4 @@
 
     </script>
 </body>
-</html
+                                </html>
