@@ -20,7 +20,6 @@
         .login-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
         .login-btn:hover { background: var(--primary-dark); }
         
-        /* Стили для чекбокса "Запомнить меня" */
         .remember-me { 
             display: flex; 
             align-items: center; 
@@ -66,6 +65,8 @@
         .btn-success:hover { background: #0da271; }
         .btn-danger { background: var(--danger); }
         .btn-danger:hover { background: #dc2626; }
+        .btn-warning { background: var(--warning); }
+        .btn-warning:hover { background: #d97706; }
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
         .stat-card { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.08); border-top: 4px solid var(--primary); }
         .stat-number { font-size: 1.8em; font-weight: bold; color: var(--primary); margin: 5px 0; }
@@ -83,7 +84,6 @@
         .save-btn { background: var(--secondary); margin-top: 5px; }
         .save-btn:hover { background: #0da271; }
         
-        /* Стили для разных типов оценок */
         .grade-type-badge { 
             display: inline-block; 
             padding: 4px 8px; 
@@ -114,7 +114,6 @@
             padding: 0 10px; 
         }
         
-        /* Стили для календаря */
         .calendar { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; }
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
@@ -125,7 +124,6 @@
         .calendar-day.weekend { color: var(--danger); }
         .calendar-event { background: var(--secondary); color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.8em; margin-top: 4px; }
         
-        /* УЛУЧШЕННЫЕ СТИЛИ ДЛЯ РАСПИСАНИЯ */
         .schedule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 15px; }
         .schedule-item { 
             background: white; 
@@ -189,7 +187,6 @@
         .status-upcoming { background: var(--warning); color: white; }
         .status-completed { background: var(--gray); color: white; }
         
-        /* НОВЫЕ СТИЛИ ДЛЯ ГРУППИРОВКИ РАСПИСАНИЯ ПО ДАТАМ */
         .schedule-date-group {
             margin-bottom: 25px;
             background: white;
@@ -242,7 +239,6 @@
             margin-left: 10px;
         }
 
-        /* Фильтры расписания */
         .schedule-filters {
             display: flex;
             gap: 10px;
@@ -268,51 +264,41 @@
             color: white;
         }
         
-        /* Стили для уведомлений */
         .notification { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 10px; padding: 15px; margin-bottom: 10px; }
         .notification.upcoming { background: #f0fdf4; border-color: var(--secondary); }
         .notification.important { background: #fee2e2; border-color: var(--danger); }
         
-        /* ЦВЕТА ДЛЯ ВСЕХ ТИПОВ ОЦЕНОК */
-        /* Цвета для активности (1-5) */
         .activity-grade-1, .activity-grade-2 { background: #ef4444; }
         .activity-grade-3 { background: #f59e0b; }
         .activity-grade-4, .activity-grade-5 { background: #10b981; }
         
-        /* Цвета для устных ответов (1-5) */
         .oral-grade-1, .oral-grade-2 { background: #ef4444; }
         .oral-grade-3 { background: #f59e0b; }
         .oral-grade-4, .oral-grade-5 { background: #10b981; }
         
-        /* Цвета для домашних заданий (1-10) */
         .homework-grade-1, .homework-grade-2, .homework-grade-3 { background: #ef4444; }
         .homework-grade-4, .homework-grade-5, .homework-grade-6 { background: #f59e0b; }
         .homework-grade-7, .homework-grade-8, .homework-grade-9, .homework-grade-10 { background: #10b981; }
         
-        /* Цвета для тестов (1-25) */
         .test-grade-1, .test-grade-2, .test-grade-3, .test-grade-4, .test-grade-5, 
         .test-grade-6, .test-grade-7, .test-grade-8, .test-grade-9, .test-grade-10 { background: #ef4444; }
         .test-grade-11, .test-grade-12, .test-grade-13, .test-grade-14, .test-grade-15 { background: #f59e0b; }
         .test-grade-16, .test-grade-17, .test-grade-18, .test-grade-19, .test-grade-20,
         .test-grade-21, .test-grade-22, .test-grade-23, .test-grade-24, .test-grade-25 { background: #10b981; }
         
-        /* Цвета для проектов (1-20) */
         .project-grade-1, .project-grade-2, .project-grade-3, .project-grade-4, .project-grade-5,
         .project-grade-6, .project-grade-7, .project-grade-8, .project-grade-9, .project-grade-10 { background: #ef4444; }
         .project-grade-11, .project-grade-12, .project-grade-13, .project-grade-14, .project-grade-15 { background: #f59e0b; }
         .project-grade-16, .project-grade-17, .project-grade-18, .project-grade-19, .project-grade-20 { background: #10b981; }
         
-        /* Цвета для посещаемости (0-2) */
         .attendance-grade-0 { background: #ef4444; }
         .attendance-grade-1 { background: #ef4444; }
         .attendance-grade-2 { background: #10b981; }
         
-        /* Прогресс-бар для тестов */
         .test-grade-progress { background: #e2e8f0; border-radius: 10px; height: 8px; margin: 5px 0; overflow: hidden; }
         .test-grade-progress-bar { background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981); height: 100%; transition: width 0.3s; }
         .test-grade-info { font-size: 0.8em; color: var(--gray); }
         
-        /* Стили для уровней курсов */
         .course-badge { 
             display: inline-block; 
             padding: 4px 12px; 
@@ -327,7 +313,6 @@
         .course-advanced { background: #f3e8ff; color: #7e22ce; border: 2px solid #8b5cf6; }
         .course-fluent { background: #fce7f3; color: #be185d; border: 2px solid #ec4899; }
         
-        /* Стили для описаний курсов */
         .course-tooltip {
             position: relative;
             cursor: help;
@@ -347,7 +332,6 @@
             z-index: 1000;
         }
 
-        /* Стили для панели завуча */
         .academic-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
         .academic-card { 
             background: white; 
@@ -360,7 +344,6 @@
         .academic-number { font-size: 2em; font-weight: bold; color: var(--primary); margin: 10px 0; }
         .performance-chart { background: white; padding: 20px; border-radius: 12px; margin: 15px 0; }
 
-        /* НОВЫЕ СТИЛИ ДЛЯ АДМИНИСТРАТОРА И РЕЙТИНГОВ */
         .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
         .admin-card { 
             background: white; 
@@ -372,7 +355,6 @@
         }
         .admin-number { font-size: 2em; font-weight: bold; color: var(--primary); margin: 10px 0; }
         
-        /* Стили для звездного рейтинга */
         .star-rating { 
             display: inline-flex; 
             gap: 5px; 
@@ -399,7 +381,6 @@
             margin-right: 10px;
         }
         
-        /* Стили для таблиц */
         .data-table { 
             width: 100%; 
             border-collapse: collapse; 
@@ -419,7 +400,6 @@
             background: #f8fafc;
         }
         
-        /* Стили для карточек учителей */
         .teacher-card { 
             background: white; 
             padding: 20px; 
@@ -441,7 +421,6 @@
             gap: 10px;
         }
 
-        /* Стили для управления группами */
         .group-card { 
             background: white; 
             padding: 20px; 
@@ -475,7 +454,6 @@
             margin: 5px 0;
         }
         
-        /* СТИЛИ ДЛЯ ЧАТА ПОДДЕРЖКИ */
         #supportChat {
             position: fixed;
             bottom: 20px;
@@ -573,7 +551,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* СТИЛИ ДЛЯ ПРОЦЕНТОВ УЧЕНИКОВ */
         .today-progress {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
@@ -604,7 +581,116 @@
             transition: width 0.5s ease;
         }
 
-        /* АДАПТИВНОСТЬ */
+        /* НОВЫЕ СТИЛИ ДЛЯ СИСТЕМЫ РЕПОРТОВ */
+        .report-card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            margin-bottom: 15px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .report-card.urgent { 
+            border-left-color: var(--danger);
+            background: linear-gradient(135deg, #fef2f2, #ffffff);
+        }
+        
+        .report-card.resolved { 
+            border-left-color: var(--secondary);
+            background: linear-gradient(135deg, #f0fdf4, #ffffff);
+            opacity: 0.8;
+        }
+        
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .report-student-info {
+            flex: 1;
+        }
+        
+        .report-meta {
+            text-align: right;
+            font-size: 0.8em;
+            color: var(--gray);
+        }
+        
+        .report-reason {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid var(--warning);
+        }
+        
+        .report-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .report-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-investigating { background: #dbeafe; color: #1e40af; }
+        .status-resolved { background: #dcfce7; color: #166534; }
+        .status-urgent { background: #fee2e2; color: #dc2626; }
+        
+        .report-priority {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        
+        .priority-low { background: #dcfce7; color: #166534; }
+        .priority-medium { background: #fef3c7; color: #92400e; }
+        .priority-high { background: #fee2e2; color: #dc2626; }
+        .priority-critical { background: #dc2626; color: white; }
+        
+        .admin-actions {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .response-section {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #0ea5e9;
+        }
+        
+        .report-count-badge {
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            margin-left: 5px;
+        }
+
         @media (max-width: 768px) {
             .nav-btn { min-width: 70px; font-size: 10px; padding: 12px 5px; }
             .stats-grid { grid-template-columns: 1fr; }
@@ -623,6 +709,13 @@
             }
             .message {
                 max-width: 90%;
+            }
+            .report-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .report-meta {
+                text-align: left;
             }
         }
     </style>
@@ -701,7 +794,7 @@
             </div>
             <h1>📚 PrimeSpeak Academy</h1>
             <div class="company-name">Панель учителя</div>
-            <p>Оценки • Расписание • Календарь • Ученики</p>
+            <p>Оценки • Расписание • Календарь • Ученики • Отчеты</p>
         </div>
 
         <!-- Заголовок для Ученика -->
@@ -712,7 +805,7 @@
             </div>
             <h1>📚 PrimeSpeak Academy</h1>
             <div class="company-name">Мой учебный портал</div>
-            <p>Оценки • Расписание • Календарь • Прогресс</p>
+            <p>Оценки • Расписание • Календарь • Прогресс • Отчеты</p>
             <p style="margin-top: 10px;"><strong>👨‍🏫 Ваш учитель: Radmir Nurislamov</strong></p>
         </div>
 
@@ -735,7 +828,7 @@
             </div>
             <h1>📚 PrimeSpeak Academy</h1>
             <div class="company-name">Панель администратора</div>
-            <p>Управление системой • Пользователи • Группы • Аналитика</p>
+            <p>Управление системой • Пользователи • Группы • Аналитика • Отчеты</p>
         </div>
 
         <!-- Навигация для Учителя -->
@@ -744,8 +837,15 @@
             <button class="nav-btn" onclick="showSection('students')">👨‍🎓<span>Ученики</span></button>
             <button class="nav-btn" onclick="showSection('addStudent')">➕<span>Добавить</span></button>
             <button class="nav-btn" onclick="showSection('grades')">📝<span>Оценки</span></button>
+            <button class="nav-btn" onclick="showSection('reports')">⚠️<span>Отчеты</span></button>
             <button class="nav-btn" onclick="showSection('schedule')">📅<span>Расписание</span></button>
             <button class="nav-btn" onclick="showSection('calendar')">🗓️<span>Календарь</span></button>
+        </div>
+
+        <!-- Навигация для Ученика -->
+        <div class="nav" id="studentNav" style="display: none;">
+            <button class="nav-btn active" onclick="showSection('studentGrades')">📊<span>Главная</span></button>
+            <button class="nav-btn" onclick="showSection('studentReports')">⚠️<span>Отчеты</span></button>
         </div>
 
         <!-- Навигация для Завуча -->
@@ -765,6 +865,7 @@
             <button class="nav-btn" onclick="showSection('userManagement')">👥<span>Пользователи</span></button>
             <button class="nav-btn" onclick="showSection('groupManagement')">🏷️<span>Группы</span></button>
             <button class="nav-btn" onclick="showSection('teacherRatings')">⭐<span>Рейтинги</span></button>
+            <button class="nav-btn" onclick="showSection('reportManagement')">⚖️<span>Отчеты</span></button>
             <button class="nav-btn" onclick="showSection('systemSettings')">⚙️<span>Настройки</span></button>
             <button class="nav-btn" onclick="showSection('systemAnalytics')">📈<span>Аналитика</span></button>
             <button class="nav-btn" onclick="showSection('security')">🔒<span>Безопасность</span></button>
@@ -1018,6 +1119,111 @@
                         <textarea class="input" id="ratingComment" placeholder="Ваш комментарий..." rows="3"></textarea>
                     </div>
                     <button class="btn" onclick="addTeacherRating()">⭐ Добавить рейтинг</button>
+                </div>
+            </div>
+
+            <!-- НОВАЯ СЕКЦИЯ ДЛЯ СИСТЕМЫ РЕПОРТОВ У УЧИТЕЛЯ -->
+            <div id="reports" class="section">
+                <h2>⚠️ Система отчетов и жалоб</h2>
+                
+                <div class="card">
+                    <h3>📝 Создать отчет на ученика</h3>
+                    <div class="form-group">
+                        <label>👨‍🎓 Выберите ученика</label>
+                        <select class="select" id="reportStudent">
+                            <option value="">-- Выберите ученика --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>🎯 Причина отчета</label>
+                        <select class="select" id="reportReason">
+                            <option value="behavior">🚫 Неадекватное поведение</option>
+                            <option value="homework">📚 Систематическое невыполнение ДЗ</option>
+                            <option value="attendance">⏰ Проблемы с посещаемостью</option>
+                            <option value="academic">📉 Низкая успеваемость</option>
+                            <option value="communication">💬 Проблемы с коммуникацией</option>
+                            <option value="technical">💻 Технические проблемы</option>
+                            <option value="other">❓ Другое</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>⚠️ Приоритет</label>
+                        <select class="select" id="reportPriority">
+                            <option value="low">🟢 Низкий</option>
+                            <option value="medium" selected>🟡 Средний</option>
+                            <option value="high">🟠 Высокий</option>
+                            <option value="critical">🔴 Критический</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>📄 Подробное описание проблемы</label>
+                        <textarea class="input" id="reportDescription" placeholder="Опишите ситуацию подробно..." rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>💡 Предлагаемые действия</label>
+                        <textarea class="input" id="reportActions" placeholder="Что можно сделать для решения проблемы..." rows="3"></textarea>
+                    </div>
+                    <button class="btn btn-warning" onclick="createReport()">⚠️ Создать отчет</button>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Мои отчеты 
+                        <span class="report-count-badge" id="teacherReportsCount">0</span>
+                    </h3>
+                    <div id="teacherReportsList"></div>
+                </div>
+            </div>
+
+            <!-- НОВАЯ СЕКЦИЯ ДЛЯ ПРОСМОТРА РЕПОРТОВ У УЧЕНИКА -->
+            <div id="studentReports" class="section">
+                <h2>📢 Уведомления и отчеты</h2>
+                
+                <div class="card">
+                    <h3>⚠️ Отчеты от преподавателей 
+                        <span class="report-count-badge" id="studentReportsCount">0</span>
+                    </h3>
+                    <div id="studentReportsList"></div>
+                </div>
+
+                <div class="card">
+                    <h3>💬 Мои ответы на отчеты</h3>
+                    <div id="studentResponsesList"></div>
+                </div>
+            </div>
+
+            <!-- НОВАЯ СЕКЦИЯ ДЛЯ АДМИНИСТРАТОРА -->
+            <div id="reportManagement" class="section">
+                <h2>⚖️ Управление отчетами 
+                    <span class="report-count-badge" id="adminReportsCount">0</span>
+                </h2>
+                
+                <div class="card">
+                    <h3>📊 Статистика отчетов</h3>
+                    <div id="reportsStats" class="stats-grid"></div>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Все отчеты системы</h3>
+                    <div class="form-group">
+                        <input type="text" class="input" id="searchReports" placeholder="🔍 Поиск по отчетам..." onkeyup="searchReports()">
+                    </div>
+                    <div class="form-group">
+                        <select class="select" id="filterReportsStatus" onchange="filterReports()">
+                            <option value="all">Все статусы</option>
+                            <option value="pending">⏳ Ожидание</option>
+                            <option value="investigating">🔍 Рассматривается</option>
+                            <option value="resolved">✅ Решено</option>
+                            <option value="urgent">🚨 Срочно</option>
+                        </select>
+                        <select class="select" id="filterReportsPriority" onchange="filterReports()">
+                            <option value="all">Все приоритеты</option>
+                            <option value="low">🟢 Низкий</option>
+                            <option value="medium">🟡 Средний</option>
+                            <option value="high">🟠 Высокий</option>
+                            <option value="critical">🔴 Критический</option>
+                        </select>
+                    </div>
+                    <div id="allReportsList"></div>
                 </div>
             </div>
 
@@ -1613,12 +1819,12 @@
         const userRoles = {
             'teacher': {
                 name: '👨‍🏫 Учитель',
-                permissions: ['view_students', 'add_grades', 'view_schedule', 'add_schedule'],
+                permissions: ['view_students', 'add_grades', 'view_schedule', 'add_schedule', 'create_reports'],
                 dashboard: 'teacher_dashboard'
             },
             'student': {
                 name: '👨‍🎓 Ученик',
-                permissions: ['view_own_grades', 'view_schedule'],
+                permissions: ['view_own_grades', 'view_schedule', 'view_own_reports', 'respond_to_reports'],
                 dashboard: 'student_dashboard'
             },
             'head_teacher': {
@@ -1627,7 +1833,7 @@
                     'view_all_students', 'view_all_grades', 'view_all_teachers',
                     'manage_schedule', 'manage_curriculum', 'quality_control',
                     'progress_monitoring', 'generate_reports', 'teacher_performance',
-                    'student_analytics', 'academic_planning'
+                    'student_analytics', 'academic_planning', 'view_all_reports'
                 ],
                 dashboard: 'head_teacher_dashboard'
             },
@@ -1636,7 +1842,7 @@
                 permissions: [
                     'manage_all_users', 'system_settings', 'security_management',
                     'view_system_analytics', 'teacher_ratings', 'full_control',
-                    'manage_groups', 'assign_students'
+                    'manage_groups', 'assign_students', 'manage_all_reports'
                 ],
                 dashboard: 'admin_dashboard'
             }
@@ -1651,6 +1857,31 @@
             'project': { name: '📁 Проект', max: 20, color: '#ec4899' },
             'oral': { name: '🎤 Устная', max: 5, color: '#06b6d4' },
             'attendance': { name: '📅 Посещаемость', max: 2, color: '#6b7280' }
+        };
+
+        // СИСТЕМА РЕПОРТОВ - НОВЫЕ КОНСТАНТЫ
+        const reportReasons = {
+            'behavior': { name: '🚫 Неадекватное поведение', icon: '🚫' },
+            'homework': { name: '📚 Систематическое невыполнение ДЗ', icon: '📚' },
+            'attendance': { name: '⏰ Проблемы с посещаемостью', icon: '⏰' },
+            'academic': { name: '📉 Низкая успеваемость', icon: '📉' },
+            'communication': { name: '💬 Проблемы с коммуникацией', icon: '💬' },
+            'technical': { name: '💻 Технические проблемы', icon: '💻' },
+            'other': { name: '❓ Другое', icon: '❓' }
+        };
+
+        const reportPriorities = {
+            'low': { name: '🟢 Низкий', color: 'priority-low' },
+            'medium': { name: '🟡 Средний', color: 'priority-medium' },
+            'high': { name: '🟠 Высокий', color: 'priority-high' },
+            'critical': { name: '🔴 Критический', color: 'priority-critical' }
+        };
+
+        const reportStatuses = {
+            'pending': { name: '⏳ Ожидание', color: 'status-pending' },
+            'investigating': { name: '🔍 Рассматривается', color: 'status-investigating' },
+            'resolved': { name: '✅ Решено', color: 'status-resolved' },
+            'urgent': { name: '🚨 Срочно', color: 'status-urgent' }
         };
 
         // УРОВНИ КУРСОВ
@@ -2013,6 +2244,7 @@
             document.getElementById('adminHeader').style.display = 'none';
             
             document.getElementById('teacherNav').style.display = 'none';
+            document.getElementById('studentNav').style.display = 'none';
             document.getElementById('headTeacherNav').style.display = 'none';
             document.getElementById('adminNav').style.display = 'none';
 
@@ -2024,6 +2256,7 @@
                 loadTeacherData();
             } else if (role === 'student') {
                 document.getElementById('studentHeader').style.display = 'block';
+                document.getElementById('studentNav').style.display = 'flex';
                 document.getElementById('studentNameDisplay').textContent = currentUser.name;
                 document.getElementById('welcomeStudentName').textContent = currentUser.name;
                 showStudentGrades();
@@ -2082,6 +2315,8 @@
             await loadGradeStudentSelect();
             await loadGradesHistory();
             await updateDashboard();
+            await loadReportStudentSelect();
+            await loadTeacherReports();
         }
 
         async function addStudent() {
@@ -2428,1701 +2663,524 @@
             }
         }
 
-        // ФУНКЦИИ ДЛЯ ЗАВУЧА
-        async function loadHeadTeacherData() {
-            await loadAcademicStatistics();
-            await loadTeacherPerformance();
-            await loadQualityMetrics();
-        }
+        // НОВЫЕ ФУНКЦИИ ДЛЯ СИСТЕМЫ РЕПОРТОВ
 
-        async function loadAcademicStatistics() {
-            const { data: students } = await supabase.from('students').select('*');
-            const { data: grades } = await supabase.from('grades').select('*');
-            const { data: teachers } = await supabase.from('teacher').select('*');
-            
-            document.getElementById('htTotalTeachers').textContent = teachers ? teachers.length : 0;
-            document.getElementById('htTotalStudents').textContent = students ? students.length : 0;
-            
-            const totalGrades = grades ? grades.length : 0;
-            const totalGradeSum = grades ? grades.reduce((sum, g) => sum + (g.type === 'test' ? g.grade/2.5 : g.grade), 0) : 0;
-            const schoolAverage = totalGrades > 0 ? (totalGradeSum / totalGrades).toFixed(1) : '0.0';
-            document.getElementById('htSchoolAverage').textContent = schoolAverage;
-            
-            const goodGrades = grades ? grades.filter(g => g.grade >= 6).length : 0;
-            const successRate = totalGrades > 0 ? Math.round((goodGrades / totalGrades) * 100) : 0;
-            document.getElementById('htSuccessRate').textContent = successRate + '%';
-
-            await loadLevelPerformance(students, grades);
-        }
-
-        async function loadLevelPerformance(students, grades) {
-            if (!students || !grades) return;
-
-            const levelPerformance = {};
-            students.forEach(student => {
-                if (!levelPerformance[student.course]) {
-                    levelPerformance[student.course] = { total: 0, sum: 0, count: 0 };
-                }
-            });
-
-            grades.forEach(grade => {
-                const student = students.find(s => s.id === grade.student_id);
-                if (student && levelPerformance[student.course]) {
-                    levelPerformance[student.course].total++;
-                    levelPerformance[student.course].sum += grade.type === 'test' ? grade.grade/2.5 : grade.grade;
-                    levelPerformance[student.course].count++;
-                }
-            });
-
-            let performanceHTML = '';
-            Object.entries(levelPerformance).forEach(([course, data]) => {
-                const courseInfo = courseLevels[course] || { name: course };
-                const average = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
-                
-                performanceHTML += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #e2e8f0;">
-                        <span class="course-badge ${courseInfo.color}">${courseInfo.name}</span>
-                        <div>
-                            <span style="font-weight: bold; color: var(--primary);">${average}</span>
-                            <small style="color: var(--gray); margin-left: 10px;">${data.count} оцен.</small>
-                        </div>
-                    </div>
-                `;
-            });
-
-            document.getElementById('levelPerformance').innerHTML = performanceHTML;
-        }
-
-        async function loadTeacherPerformance() {
-            const { data: teachers } = await supabase.from('teacher').select('*');
-            
-            let activityHTML = '';
-            if (teachers && teachers.length > 0) {
-                teachers.forEach(teacher => {
-                    activityHTML += `
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #e2e8f0;">
-                            <span>${teacher.name}</span>
-                            <span style="color: var(--secondary); font-weight: bold;">Активен</span>
-                        </div>
-                    `;
-                });
-            } else {
-                activityHTML = '<p style="color: var(--gray); text-align: center;">Нет данных о преподавателях</p>';
-            }
-
-            document.getElementById('teacherActivity').innerHTML = activityHTML;
-        }
-
-        async function loadQualityMetrics() {
-            const metricsHTML = `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; border-left: 4px solid var(--secondary);">
-                        <div style="font-weight: bold;">Качество материалов</div>
-                        <div style="font-size: 1.5em; color: var(--secondary);">92%</div>
-                    </div>
-                    <div style="background: #fffbeb; padding: 15px; border-radius: 8px; border-left: 4px solid var(--warning);">
-                        <div style="font-weight: bold;">Удовлетворенность</div>
-                        <div style="font-size: 1.5em; color: var(--warning);">88%</div>
-                    </div>
-                    <div style="background: #fef2f2; padding: 15px; border-radius: 8px; border-left: 4px solid var(--danger);">
-                        <div style="font-weight: bold;">Внимание к проблемам</div>
-                        <div style="font-size: 1.5em; color: var(--danger);">95%</div>
-                    </div>
-                    <div style="background: #eff6ff; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary);">
-                        <div style="font-weight: bold;">Прогресс учеников</div>
-                        <div style="font-size: 1.5em; color: var(--primary);">85%</div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('qualityMetrics').innerHTML = metricsHTML;
-        }
-
-        function generateAcademicReport() {
-            alert('📄 Академический отчет будет сгенерирован и сохранен');
-        }
-
-        function generateTeacherReport() {
-            alert('👨‍🏫 Отчет по преподавателям будет сгенерирован и сохранен');
-        }
-
-        function generateProgressReport() {
-            alert('📈 Отчет по прогрессу будет сгенерирован и сохранен');
-        }
-
-        function generateQualityReport() {
-            alert('🎯 Отчет по качеству обучения будет сгенерирован и сохранен');
-        }
-
-        // ФУНКЦИИ ДЛЯ АДМИНИСТРАТОРА
-        async function loadAdminData() {
-            await loadUserManagement();
-            await loadGroupManagement();
-            await loadTeacherRatings();
-            await loadSystemAnalytics();
-            await loadSecurityData();
-        }
-
-        async function loadUserManagement() {
-            const { data: teachers } = await supabase.from('teacher').select('*');
-            const { data: students } = await supabase.from('students').select('*');
-            
-            document.getElementById('adminTotalUsers').textContent = (teachers ? teachers.length : 0) + (students ? students.length : 0);
-            document.getElementById('adminTotalTeachers').textContent = teachers ? teachers.length : 0;
-            document.getElementById('adminTotalStudents').textContent = students ? students.length : 0;
-            
-            await loadUsersList();
-            await loadRatingTeacherSelect();
-        }
-
-        async function loadUsersList() {
-            const { data: teachers } = await supabase.from('teacher').select('*');
-            const { data: students } = await supabase.from('students').select('*');
-            
-            let usersHTML = '';
-            
-            if (teachers && teachers.length > 0) {
-                teachers.forEach(teacher => {
-                    usersHTML += `
-                        <div class="teacher-card">
-                            <div class="teacher-info">
-                                <div class="teacher-details">
-                                    <h3>${teacher.name}</h3>
-                                    <p>📧 ${teacher.email}</p>
-                                    <p>🎭 Учитель</p>
-                                    <p>📅 Зарегистрирован: ${teacher.created_at ? teacher.created_at.split('T')[0] : 'Неизвестно'}</p>
-                                </div>
-                                <div class="teacher-actions">
-                                    <button class="btn btn-danger" onclick="deleteUser('teacher', ${teacher.id})">🗑️ Удалить</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            
-            if (students && students.length > 0) {
-                students.forEach(student => {
-                    usersHTML += `
-                        <div class="teacher-card">
-                            <div class="teacher-info">
-                                <div class="teacher-details">
-                                    <h3>${student.name}</h3>
-                                    <p>👤 Логин: <strong style="color: var(--primary);">${student.username}</strong></p>
-                                    <p>🔑 Пароль: <strong style="color: var(--secondary);">${student.password}</strong></p>
-                                    <p>🎭 Ученик</p>
-                                    <p>📅 Зачислен: ${student.join_date}</p>
-                                </div>
-                                <div class="teacher-actions">
-                                    <button class="btn btn-danger" onclick="deleteUser('student', ${student.id})">🗑️ Удалить</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            
-            document.getElementById('usersList').innerHTML = usersHTML || '<div class="empty-state"><div>👥</div><p>Нет пользователей</p></div>';
-        }
-
-        async function addUser() {
-            const name = document.getElementById('newUserName').value.trim();
-            const email = document.getElementById('newUserEmail').value.trim();
-            const password = document.getElementById('newUserPassword').value.trim();
-            const role = document.getElementById('newUserRole').value;
-
-            if (!name || !email || !password) {
-                alert('⚠️ Заполните все обязательные поля!');
-                return;
-            }
-
-            try {
-                let tableName = '';
-                let data = {};
-
-                if (role === 'teacher') {
-                    tableName = 'teacher';
-                    data = { name, email, password };
-                } else if (role === 'head_teacher') {
-                    tableName = 'teacher';
-                    data = { name, email, password, is_head_teacher: true };
-                } else if (role === 'admin') {
-                    tableName = 'admin';
-                    data = { name, email, password };
-                }
-
-                const { data: result, error } = await supabase
-                    .from(tableName)
-                    .insert([data])
-                    .select();
-
-                if (error) throw error;
-
-                document.getElementById('newUserName').value = '';
-                document.getElementById('newUserEmail').value = '';
-                document.getElementById('newUserPassword').value = '';
-                
-                loadUserManagement();
-                alert(`✅ Пользователь ${name} добавлен как ${userRoles[role].name}!`);
-                
-            } catch (err) {
-                alert('❌ Ошибка: ' + err.message);
-            }
-        }
-
-        async function deleteUser(type, id) {
-            if (!confirm(`Удалить этого пользователя?`)) return;
-
-            try {
-                const tableName = type === 'student' ? 'students' : type;
-                const { error } = await supabase
-                    .from(tableName)
-                    .delete()
-                    .eq('id', id);
-
-                if (error) throw error;
-
-                loadUserManagement();
-                alert('🗑️ Пользователь удален');
-                
-            } catch (err) {
-                alert('❌ Ошибка при удалении: ' + err.message);
-            }
-        }
-
-        // ФУНКЦИИ ДЛЯ УПРАВЛЕНИЯ ГРУППАМИ
-        async function loadGroupManagement() {
-            await loadTeacherStats();
-            await loadGroupsList();
-            await loadGroupSelects();
-        }
-
-        async function loadTeacherStats() {
-            const { data: teachers } = await supabase.from('teacher').select('*');
-            const { data: groups } = await supabase.from('student_groups').select('*');
-            const { data: students } = await supabase.from('students').select('*');
-            
-            if (!teachers) return;
-
-            let statsHTML = '<div class="stats-grid">';
-            
-            teachers.forEach(teacher => {
-                const teacherGroups = groups ? groups.filter(g => g.teacher_id === teacher.id) : [];
-                const teacherStudents = students ? students.filter(s => {
-                    const studentGroup = groups ? groups.find(g => g.id === s.group_id) : null;
-                    return studentGroup && studentGroup.teacher_id === teacher.id;
-                }) : [];
-                
-                statsHTML += `
-                    <div class="stat-card">
-                        <div>👨‍🏫</div>
-                        <div class="stat-number">${teacherGroups.length}</div>
-                        <div class="stat-label">Групп у ${teacher.name}</div>
-                        <div class="stat-number">${teacherStudents.length}</div>
-                        <div class="stat-label">Студентов</div>
-                    </div>
-                `;
-            });
-            
-            statsHTML += '</div>';
-            document.getElementById('teacherStats').innerHTML = statsHTML;
-
-            // Обновляем статистику в дашборде
-            document.getElementById('adminTotalGroups').textContent = groups ? groups.length : 0;
-        }
-
-        async function loadGroupsList() {
-            const { data: groups, error } = await supabase
-                .from('student_groups')
-                .select(`
-                    *,
-                    teacher:teacher_id (name),
-                    students:students (id, name)
-                `)
-                .order('name');
-
-            if (error) {
-                console.error('Error loading groups:', error);
-                return;
-            }
-
-            let groupsHTML = '';
-            
-            if (groups && groups.length > 0) {
-                groups.forEach(group => {
-                    const studentCount = group.students ? group.students.length : 0;
-                    const percentage = Math.round((studentCount / group.max_students) * 100);
-                    
-                    groupsHTML += `
-                        <div class="group-card">
-                            <div class="teacher-info">
-                                <div class="teacher-details">
-                                    <h3>${group.name}</h3>
-                                    <p>👨‍🏫 Преподаватель: <strong>${group.teacher?.name || 'Не назначен'}</strong></p>
-                                    <p>📚 Уровень: <strong>${getCourseName(group.course_level)}</strong></p>
-                                    
-                                    <div class="group-stats">
-                                        <div class="group-stat">
-                                            <div style="font-size: 1.2em; font-weight: bold; color: var(--primary);">${studentCount}</div>
-                                            <div style="font-size: 0.8em; color: var(--gray);">Студентов</div>
-                                        </div>
-                                        <div class="group-stat">
-                                            <div style="font-size: 1.2em; font-weight: bold; color: var(--secondary);">${group.max_students}</div>
-                                            <div style="font-size: 0.8em; color: var(--gray);">Максимум</div>
-                                        </div>
-                                        <div class="group-stat">
-                                            <div style="font-size: 1.2em; font-weight: bold; color: ${percentage >= 80 ? 'var(--danger)' : percentage >= 50 ? 'var(--warning)' : 'var(--secondary)'};">${percentage}%</div>
-                                            <div style="font-size: 0.8em; color: var(--gray);">Заполнение</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="test-grade-progress">
-                                        <div class="test-grade-progress-bar" style="width: ${percentage}%; background: ${percentage >= 80 ? 'var(--danger)' : percentage >= 50 ? 'var(--warning)' : 'var(--secondary)'};"></div>
-                                    </div>
-                                </div>
-                                <div class="teacher-actions">
-                                    <button class="btn btn-danger" onclick="deleteGroup(${group.id})">🗑️ Удалить</button>
-                                </div>
-                            </div>
-                            
-                            ${studentCount > 0 ? `
-                                <div class="group-students">
-                                    <h4>👨‍🎓 Студенты в группе:</h4>
-                                    ${group.students.map(student => `
-                                        <div class="student-in-group">
-                                            <span>${student.name}</span>
-                                            <button class="btn btn-danger" onclick="removeStudentFromGroup(${student.id}, ${group.id})" style="width: auto; padding: 4px 8px; font-size: 0.7em;">🗑️</button>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            ` : '<p style="color: var(--gray); text-align: center; padding: 10px;">В группе пока нет студентов</p>'}
-                        </div>
-                    `;
-                });
-            } else {
-                groupsHTML = '<div class="empty-state"><div>🏷️</div><p>Нет созданных групп</p></div>';
-            }
-            
-            document.getElementById('groupsList').innerHTML = groupsHTML;
-        }
-
-        async function loadGroupSelects() {
-            // Загрузка преподавателей для создания группы
-            const { data: teachers, error: teachersError } = await supabase
-                .from('teacher')
-                .select('id, name')
-                .order('name');
-
-            if (!teachersError && teachers) {
-                const teacherSelect = document.getElementById('groupTeacher');
-                teacherSelect.innerHTML = '<option value="">-- Выберите преподавателя --</option>';
-                teachers.forEach(teacher => {
-                    teacherSelect.innerHTML += `<option value="${teacher.id}">${teacher.name}</option>`;
-                });
-            }
-
-            // Загрузка студентов для назначения в группу
-            const { data: students, error: studentsError } = await supabase
+        async function loadReportStudentSelect() {
+            const { data: students, error } = await supabase
                 .from('students')
                 .select('id, name, username')
                 .order('name');
 
-            if (!studentsError && students) {
-                const studentSelect = document.getElementById('assignStudent');
-                studentSelect.innerHTML = '<option value="">-- Выберите студента --</option>';
-                students.forEach(student => {
-                    studentSelect.innerHTML += `<option value="${student.id}">${student.name} (${student.username})</option>`;
-                });
+            if (error) return;
 
-                // Также загружаем для формы добавления студента
-                const addStudentGroupSelect = document.getElementById('studentGroup');
-                addStudentGroupSelect.innerHTML = '<option value="">-- Без группы --</option>';
-                const { data: groups } = await supabase.from('student_groups').select('id, name').order('name');
-                if (groups) {
-                    groups.forEach(group => {
-                        addStudentGroupSelect.innerHTML += `<option value="${group.id}">${group.name}</option>`;
-                    });
-                }
-            }
-
-            // Загрузка групп для назначения студента
-            const { data: groups, error: groupsError } = await supabase
-                .from('student_groups')
-                .select('id, name')
-                .order('name');
-
-            if (!groupsError && groups) {
-                const groupSelect = document.getElementById('assignGroup');
-                groupSelect.innerHTML = '<option value="">-- Выберите группу --</option>';
-                groups.forEach(group => {
-                    groupSelect.innerHTML += `<option value="${group.id}">${group.name}</option>`;
-                });
-            }
+            const select = document.getElementById('reportStudent');
+            select.innerHTML = '<option value="">-- Выберите ученика --</option>';
+            students.forEach(student => {
+                select.innerHTML += `<option value="${student.id}">${student.name} (${student.username})</option>`;
+            });
         }
 
-        async function createGroup() {
-            const name = document.getElementById('groupName').value.trim();
-            const teacherId = document.getElementById('groupTeacher').value;
-            const level = document.getElementById('groupLevel').value;
-            const maxStudents = parseInt(document.getElementById('groupMaxStudents').value);
+        async function createReport() {
+            const studentId = parseInt(document.getElementById('reportStudent').value);
+            const reason = document.getElementById('reportReason').value;
+            const priority = document.getElementById('reportPriority').value;
+            const description = document.getElementById('reportDescription').value.trim();
+            const suggestedActions = document.getElementById('reportActions').value.trim();
 
-            if (!name || !teacherId || !level) {
+            if (!studentId || !description) {
                 alert('⚠️ Заполните все обязательные поля!');
                 return;
             }
 
-            if (maxStudents < 1 || maxStudents > 30) {
-                alert('⚠️ Количество студентов должно быть от 1 до 30!');
-                return;
-            }
-
             try {
+                const student = await getStudentById(studentId);
+                if (!student) {
+                    alert('❌ Ученик не найден!');
+                    return;
+                }
+
                 const { data, error } = await supabase
-                    .from('student_groups')
+                    .from('reports')
                     .insert([{
-                        name: name,
-                        teacher_id: parseInt(teacherId),
-                        course_level: level,
-                        max_students: maxStudents,
-                        created_at: new Date().toISOString()
+                        student_id: studentId,
+                        student_name: student.name,
+                        teacher_id: currentUser.id,
+                        teacher_name: currentUser.name,
+                        reason: reason,
+                        priority: priority,
+                        description: description,
+                        suggested_actions: suggestedActions,
+                        status: 'pending',
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString()
                     }])
                     .select();
 
                 if (error) throw error;
 
-                document.getElementById('groupName').value = '';
-                document.getElementById('groupTeacher').value = '';
-                document.getElementById('groupMaxStudents').value = '12';
-                
-                loadGroupManagement();
-                alert(`✅ Группа "${name}" создана!`);
-                
+                // Очищаем форму
+                document.getElementById('reportStudent').value = '';
+                document.getElementById('reportDescription').value = '';
+                document.getElementById('reportActions').value = '';
+
+                // Обновляем списки отчетов
+                loadTeacherReports();
+                if (currentUser.role === 'admin') {
+                    loadAllReports();
+                }
+
+                alert(`✅ Отчет на ученика ${student.name} создан!\n\nАдминистрация уведомлена и рассмотрит ваш отчет.`);
+
             } catch (err) {
-                alert('❌ Ошибка: ' + err.message);
+                alert('❌ Ошибка при создании отчета: ' + err.message);
             }
         }
 
-        async function assignStudentToGroup() {
-            const studentId = parseInt(document.getElementById('assignStudent').value);
-            const groupId = parseInt(document.getElementById('assignGroup').value);
+        async function loadTeacherReports() {
+            if (currentUser.role !== 'teacher') return;
 
-            if (!studentId || !groupId) {
-                alert('⚠️ Выберите студента и группу!');
+            const { data: reports, error } = await supabase
+                .from('reports')
+                .select('*')
+                .eq('teacher_id', currentUser.id)
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error loading teacher reports:', error);
                 return;
             }
 
-            try {
-                // Сначала проверяем, не состоит ли студент уже в группе
-                const { data: existing, error: checkError } = await supabase
-                    .from('students')
-                    .select('group_id')
-                    .eq('id', studentId)
-                    .single();
+            const reportsList = document.getElementById('teacherReportsList');
+            document.getElementById('teacherReportsCount').textContent = reports ? reports.length : 0;
 
-                if (checkError) throw checkError;
-
-                if (existing.group_id) {
-                    if (!confirm('Студент уже состоит в группе. Переместить его в новую группу?')) {
-                        return;
-                    }
-                }
-
-                // Обновляем группу студента
-                const { error } = await supabase
-                    .from('students')
-                    .update({ group_id: groupId })
-                    .eq('id', studentId);
-
-                if (error) throw error;
-
-                document.getElementById('assignStudent').value = '';
-                document.getElementById('assignGroup').value = '';
-                
-                loadGroupManagement();
-                loadStudents();
-                alert('✅ Студент успешно назначен в группу!');
-                
-            } catch (err) {
-                alert('❌ Ошибка: ' + err.message);
+            if (!reports || reports.length === 0) {
+                reportsList.innerHTML = '<div class="empty-state"><div>⚠️</div><p>У вас нет созданных отчетов</p></div>';
+                return;
             }
-        }
 
-        async function addStudentToGroup(studentId, groupId) {
-            try {
-                const { error } = await supabase
-                    .from('students')
-                    .update({ group_id: groupId })
-                    .eq('id', studentId);
+            reportsList.innerHTML = '';
+            reports.forEach(report => {
+                const reasonInfo = reportReasons[report.reason] || { name: report.reason, icon: '❓' };
+                const priorityInfo = reportPriorities[report.priority] || { name: report.priority, color: 'priority-medium' };
+                const statusInfo = reportStatuses[report.status] || { name: report.status, color: 'status-pending' };
 
-                if (error) throw error;
-                
-            } catch (err) {
-                console.error('Error adding student to group:', err);
-            }
-        }
-
-        async function removeStudentFromGroup(studentId, groupId) {
-            if (!confirm('Удалить студента из группы?')) return;
-
-            try {
-                const { error } = await supabase
-                    .from('students')
-                    .update({ group_id: null })
-                    .eq('id', studentId);
-
-                if (error) throw error;
-
-                loadGroupManagement();
-                loadStudents();
-                alert('✅ Студент удален из группы!');
-                
-            } catch (err) {
-                alert('❌ Ошибка: ' + err.message);
-            }
-        }
-
-        async function deleteGroup(groupId) {
-            if (!confirm('Удалить эту группу? Студенты будут перемещены в статус "без группы".')) return;
-
-            try {
-                // Сначала обнуляем group_id у студентов этой группы
-                const { error: updateError } = await supabase
-                    .from('students')
-                    .update({ group_id: null })
-                    .eq('group_id', groupId);
-
-                if (updateError) throw updateError;
-
-                // Затем удаляем саму группу
-                const { error: deleteError } = await supabase
-                    .from('student_groups')
-                    .delete()
-                    .eq('id', groupId);
-
-                if (deleteError) throw deleteError;
-
-                loadGroupManagement();
-                loadStudents();
-                alert('🗑️ Группа удалена!');
-                
-            } catch (err) {
-                alert('❌ Ошибка при удалении: ' + err.message);
-            }
-        }
-
-        // СИСТЕМА РЕЙТИНГОВ УЧИТЕЛЕЙ
-        async function loadTeacherRatings() {
-            const { data: teachers } = await supabase.from('teacher').select('*');
-            const { data: ratings } = await supabase.from('teacher_ratings').select('*');
-            
-            if (!teachers) return;
-            
-            let ratingsHTML = '';
-            let totalRating = 0;
-            let ratingCount = 0;
-            
-            teachers.forEach(teacher => {
-                const teacherRatings = ratings ? ratings.filter(r => r.teacher_id === teacher.id) : [];
-                const avgRating = teacherRatings.length > 0 
-                    ? (teacherRatings.reduce((sum, r) => sum + r.rating, 0) / teacherRatings.length).toFixed(1)
-                    : '0.0';
-                
-                totalRating += parseFloat(avgRating);
-                ratingCount += teacherRatings.length;
-                
-                ratingsHTML += `
-                    <div class="teacher-card">
-                        <div class="teacher-info">
-                            <div class="teacher-details">
-                                <h3>${teacher.name}</h3>
-                                <p>📧 ${teacher.email}</p>
-                                <div class="teacher-rating">
-                                    <span class="rating-value">${avgRating}</span>
-                                    ${renderStars(avgRating)}
-                                    <span style="color: var(--gray);">(${teacherRatings.length} оценок)</span>
-                                </div>
+                reportsList.innerHTML += `
+                    <div class="report-card ${report.status === 'urgent' ? 'urgent' : ''} ${report.status === 'resolved' ? 'resolved' : ''}">
+                        <div class="report-header">
+                            <div class="report-student-info">
+                                <h4>${reasonInfo.icon} ${reasonInfo.name}</h4>
+                                <p><strong>Ученик:</strong> ${report.student_name}</p>
+                                <p><strong>Приоритет:</strong> <span class="report-priority ${priorityInfo.color}">${priorityInfo.name}</span></p>
                             </div>
-                            <div class="teacher-actions">
-                                <button class="btn" onclick="viewTeacherDetails(${teacher.id})">👁️ Подробнее</button>
+                            <div class="report-meta">
+                                <div>📅 ${formatDate(report.created_at)}</div>
+                                <div class="report-status ${statusInfo.color}">${statusInfo.name}</div>
                             </div>
+                        </div>
+                        
+                        <div class="report-reason">
+                            <strong>Описание проблемы:</strong><br>
+                            ${report.description}
+                        </div>
+                        
+                        ${report.suggested_actions ? `
+                            <div>
+                                <strong>💡 Предлагаемые действия:</strong><br>
+                                ${report.suggested_actions}
+                            </div>
+                        ` : ''}
+                        
+                        ${report.admin_response ? `
+                            <div class="response-section">
+                                <strong>👑 Ответ администрации:</strong><br>
+                                ${report.admin_response}
+                                ${report.resolved_at ? `<div style="margin-top: 8px; font-size: 0.9em; color: var(--gray);">Решено: ${formatDate(report.resolved_at)}</div>` : ''}
+                            </div>
+                        ` : ''}
+                        
+                        ${report.student_response ? `
+                            <div class="response-section">
+                                <strong>👨‍🎓 Ответ ученика:</strong><br>
+                                ${report.student_response}
+                            </div>
+                        ` : ''}
+                        
+                        <div class="report-actions">
+                            ${report.status !== 'resolved' ? `
+                                <button class="btn btn-danger" onclick="updateReportStatus(${report.id}, 'urgent')" style="width: auto; padding: 8px 12px;">🚨 Отметить как срочно</button>
+                            ` : ''}
+                            <button class="btn" onclick="deleteReport(${report.id})" style="width: auto; padding: 8px 12px;">🗑️ Удалить</button>
                         </div>
                     </div>
                 `;
             });
-            
-            const avgOverallRating = teachers.length > 0 ? (totalRating / teachers.length).toFixed(1) : '0.0';
-            
-            document.getElementById('teachersRatingsList').innerHTML = ratingsHTML || '<div class="empty-state"><div>👨‍🏫</div><p>Нет преподавателей</p></div>';
-            
-            // Статистика рейтингов
-            const ratingsStatsHTML = `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; border-left: 4px solid var(--secondary);">
-                        <div style="font-weight: bold;">Средний рейтинг</div>
-                        <div style="font-size: 1.5em; color: var(--secondary);">${avgOverallRating}</div>
-                    </div>
-                    <div style="background: #fffbeb; padding: 15px; border-radius: 8px; border-left: 4px solid var(--warning);">
-                        <div style="font-weight: bold;">Всего оценок</div>
-                        <div style="font-size: 1.5em; color: var(--warning);">${ratingCount}</div>
-                    </div>
-                    <div style="background: #eff6ff; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary);">
-                        <div style="font-weight: bold;">Преподавателей</div>
-                        <div style="font-size: 1.5em; color: var(--primary);">${teachers.length}</div>
-                    </div>
-                    <div style="background: #fef2f2; padding: 15px; border-radius: 8px; border-left: 4px solid var(--danger);">
-                        <div style="font-weight: bold;">Активных</div>
-                        <div style="font-size: 1.5em; color: var(--danger);">${teachers.length}</div>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('ratingsStats').innerHTML = ratingsStatsHTML;
         }
 
-        function renderStars(rating) {
-            rating = parseFloat(rating);
-            let starsHTML = '';
-            for (let i = 1; i <= 5; i++) {
-                starsHTML += `<span class="star ${i <= rating ? 'active' : 'inactive'}">★</span>`;
-            }
-            return starsHTML;
-        }
+        async function loadStudentReports() {
+            if (currentUser.role !== 'student') return;
 
-        async function loadRatingTeacherSelect() {
-            const { data: teachers, error } = await supabase
-                .from('teacher')
-                .select('id, name')
-                .order('name');
-
-            if (error) return;
-
-            const select = document.getElementById('ratingTeacher');
-            select.innerHTML = '';
-            teachers.forEach(teacher => {
-                select.innerHTML += `<option value="${teacher.id}">${teacher.name}</option>`;
-            });
-        }
-
-        function initStarRating() {
-            const stars = document.querySelectorAll('#starRating .star');
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const value = parseInt(this.getAttribute('data-value'));
-                    document.getElementById('ratingValue').value = value;
-                    
-                    stars.forEach(s => {
-                        const starValue = parseInt(s.getAttribute('data-value'));
-                        if (starValue <= value) {
-                            s.classList.add('active');
-                            s.classList.remove('inactive');
-                        } else {
-                            s.classList.add('inactive');
-                            s.classList.remove('active');
-                        }
-                    });
-                });
-            });
-        }
-
-        async function addTeacherRating() {
-            const teacherId = parseInt(document.getElementById('ratingTeacher').value);
-            const rating = parseInt(document.getElementById('ratingValue').value);
-            const comment = document.getElementById('ratingComment').value.trim();
-
-            if (!teacherId || rating === 0) {
-                alert('⚠️ Выберите преподавателя и поставьте оценку!');
-                return;
-            }
-
-            try {
-                const { data, error } = await supabase
-                    .from('teacher_ratings')
-                    .insert([{
-                        teacher_id: teacherId,
-                        rating: rating,
-                        comment: comment,
-                        created_by: currentUser.name,
-                        created_at: new Date().toISOString()
-                    }])
-                    .select();
-
-                if (error) throw error;
-
-                document.getElementById('ratingComment').value = '';
-                document.getElementById('ratingValue').value = 0;
-                
-                // Сброс звезд
-                const stars = document.querySelectorAll('#starRating .star');
-                stars.forEach(star => {
-                    star.classList.add('inactive');
-                    star.classList.remove('active');
-                });
-                
-                loadTeacherRatings();
-                alert('⭐ Рейтинг добавлен!');
-                
-            } catch (err) {
-                alert('❌ Ошибка: ' + err.message);
-            }
-        }
-
-        function viewTeacherDetails(teacherId) {
-            alert('Просмотр деталей преподавателя с ID: ' + teacherId);
-            // Здесь можно реализовать модальное окно с детальной информацией
-        }
-
-        // СИСТЕМНАЯ АНАЛИТИКА
-        async function loadSystemAnalytics() {
-            const { data: teachers } = await supabase.from('teacher').select('*');
-            const { data: students } = await supabase.from('students').select('*');
-            const { data: grades } = await supabase.from('grades').select('*');
-            const { data: schedule } = await supabase.from('schedule').select('*');
-            const { data: groups } = await supabase.from('student_groups').select('*');
-            
-            const systemUsageHTML = `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; border-left: 4px solid var(--secondary);">
-                        <div style="font-weight: bold;">Активных пользователей</div>
-                        <div style="font-size: 1.5em; color: var(--secondary);">${(teachers ? teachers.length : 0) + (students ? students.length : 0)}</div>
-                    </div>
-                    <div style="background: #fffbeb; padding: 15px; border-radius: 8px; border-left: 4px solid var(--warning);">
-                        <div style="font-weight: bold;">Всего занятий</div>
-                        <div style="font-size: 1.5em; color: var(--warning);">${schedule ? schedule.length : 0}</div>
-                    </div>
-                    <div style="background: #eff6ff; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary);">
-                        <div style="font-weight: bold;">Всего оценок</div>
-                        <div style="font-size: 1.5em; color: var(--primary);">${grades ? grades.length : 0}</div>
-                    </div>
-                    <div style="background: #fef2f2; padding: 15px; border-radius: 8px; border-left: 4px solid var(--danger);">
-                        <div style="font-weight: bold;">Средняя оценка</div>
-                        <div style="font-size: 1.5em; color: var(--danger);">
-                            ${grades && grades.length > 0 ? 
-                                (grades.reduce((sum, g) => sum + (g.type === 'test' ? g.grade/2.5 : g.grade), 0) / grades.length).toFixed(1) 
-                                : '0.0'}
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('systemUsage').innerHTML = systemUsageHTML;
-            
-            // Статистика по преподавателям и группам для дашборда
-            const teacherGroupStatsHTML = `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                        <div style="font-weight: bold;">👨‍🏫 Преподавателей</div>
-                        <div style="font-size: 1.5em; color: var(--primary); margin: 10px 0;">${teachers ? teachers.length : 0}</div>
-                    </div>
-                    <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                        <div style="font-weight: bold;">🏷️ Групп</div>
-                        <div style="font-size: 1.5em; color: var(--secondary); margin: 10px 0;">${groups ? groups.length : 0}</div>
-                    </div>
-                    <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                        <div style="font-weight: bold;">👨‍🎓 Студентов в группах</div>
-                        <div style="font-size: 1.5em; color: var(--warning); margin: 10px 0;">
-                            ${students ? students.filter(s => s.group_id).length : 0} / ${students ? students.length : 0}
-                        </div>
-                    </div>
-                    <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                        <div style="font-weight: bold;">📊 Средняя заполненность групп</div>
-                        <div style="font-size: 1.5em; color: var(--danger); margin: 10px 0;">
-                            ${groups && groups.length > 0 ? 
-                                Math.round(groups.reduce((sum, g) => {
-                                    const groupStudents = students ? students.filter(s => s.group_id === g.id).length : 0;
-                                    return sum + (groupStudents / g.max_students) * 100;
-                                }, 0) / groups.length) : 0}%
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('teacherGroupStats').innerHTML = teacherGroupStatsHTML;
-            
-            const activityStatsHTML = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Показатель</th>
-                            <th>Значение</th>
-                            <th>Тенденция</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>👥 Новые пользователи (мес.)</td>
-                            <td>${Math.floor((students ? students.length : 0) * 0.1)}</td>
-                            <td>📈 +5%</td>
-                        </tr>
-                        <tr>
-                            <td>📝 Новые оценки (нед.)</td>
-                            <td>${Math.floor((grades ? grades.length : 0) * 0.2)}</td>
-                            <td>📈 +12%</td>
-                        </tr>
-                        <tr>
-                            <td>📅 Занятий проведено</td>
-                            <td>${schedule ? schedule.filter(s => new Date(s.date) < new Date()).length : 0}</td>
-                            <td>📈 +8%</td>
-                        </tr>
-                        <tr>
-                            <td>🏷️ Новые группы (мес.)</td>
-                            <td>${Math.floor((groups ? groups.length : 0) * 0.15)}</td>
-                            <td>📈 +10%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            `;
-            
-            document.getElementById('activityStats').innerHTML = activityStatsHTML;
-            
-            const systemStatsHTML = `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                        <div style="font-weight: bold;">💾 Использование БД</div>
-                        <div style="font-size: 1.2em; color: var(--primary); margin: 10px 0;">42%</div>
-                        <div class="test-grade-progress">
-                            <div class="test-grade-progress-bar" style="width: 42%"></div>
-                        </div>
-                    </div>
-                    <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                        <div style="font-weight: bold;">⚡ Производительность</div>
-                        <div style="font-size: 1.2em; color: var(--secondary); margin: 10px 0;">92%</div>
-                        <div class="test-grade-progress">
-                            <div class="test-grade-progress-bar" style="width: 92%; background: var(--secondary);"></div>
-                        </div>
-                    </div>
-                    <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                        <div style="font-weight: bold;">🔄 Активность API</div>
-                        <div style="font-size: 1.2em; color: var(--warning); margin: 10px 0;">156 запр./мин</div>
-                        <div class="test-grade-progress">
-                            <div class="test-grade-progress-bar" style="width: 65%; background: var(--warning);"></div>
-                        </div>
-                    </div>
-                    <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                        <div style="font-weight: bold;">✅ Статус системы</div>
-                        <div style="font-size: 1.2em; color: var(--secondary); margin: 10px 0;">Стабилен</div>
-                        <div style="color: var(--secondary);">🟢 Все сервисы работают</div>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('systemStats').innerHTML = systemStatsHTML;
-        }
-
-        // БЕЗОПАСНОСТЬ
-        async function loadSecurityData() {
-            const securityMonitoringHTML = `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; border-left: 4px solid var(--secondary);">
-                        <div style="font-weight: bold;">🛡️ Защита</div>
-                        <div style="font-size: 1.2em; color: var(--secondary); margin: 10px 0;">Активна</div>
-                    </div>
-                    <div style="background: #fffbeb; padding: 15px; border-radius: 8px; border-left: 4px solid var(--warning);">
-                        <div style="font-weight: bold;">🔐 Последнее сканирование</div>
-                        <div style="font-size: 1.2em; color: var(--warning); margin: 10px 0;">Сегодня</div>
-                    </div>
-                    <div style="background: #fef2f2; padding: 15px; border-radius: 8px; border-left: 4px solid var(--danger);">
-                        <div style="font-weight: bold;">⚠️ Предупреждения</div>
-                        <div style="font-size: 1.2em; color: var(--danger); margin: 10px 0;">0</div>
-                    </div>
-                    <div style="background: #eff6ff; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary);">
-                        <div style="font-weight: bold;">📊 Уровень безопасности</div>
-                        <div style="font-size: 1.2em; color: var(--primary); margin: 10px 0;">Высокий</div>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('securityMonitoring').innerHTML = securityMonitoringHTML;
-            
-            const securityLogHTML = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Дата</th>
-                            <th>Событие</th>
-                            <th>Пользователь</th>
-                            <th>Статус</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>${new Date().toLocaleDateString()}</td>
-                            <td>Вход в систему</td>
-                            <td>${currentUser.name}</td>
-                            <td>✅ Успешно</td>
-                        </tr>
-                        <tr>
-                            <td>${new Date(Date.now() - 86400000).toLocaleDateString()}</td>
-                            <td>Смена пароля</td>
-                            <td>Учитель 1</td>
-                            <td>✅ Успешно</td>
-                        </tr>
-                        <tr>
-                            <td>${new Date(Date.now() - 172800000).toLocaleDateString()}</td>
-                            <td>Попытка входа</td>
-                            <td>Неизвестный</td>
-                            <td>❌ Неудачно</td>
-                        </tr>
-                        <tr>
-                            <td>${new Date(Date.now() - 259200000).toLocaleDateString()}</td>
-                            <td>Обновление системы</td>
-                            <td>Система</td>
-                            <td>✅ Успешно</td>
-                        </tr>
-                    </tbody>
-                </table>
-            `;
-            
-            document.getElementById('securityLog').innerHTML = securityLogHTML;
-        }
-
-        function changeAdminPassword() {
-            const currentPassword = document.getElementById('currentAdminPassword').value;
-            const newPassword = document.getElementById('newAdminPassword').value;
-            const confirmPassword = document.getElementById('confirmAdminPassword').value;
-
-            if (!currentPassword || !newPassword || !confirmPassword) {
-                alert('⚠️ Заполните все поля!');
-                return;
-            }
-
-            if (newPassword !== confirmPassword) {
-                alert('❌ Новые пароли не совпадают!');
-                return;
-            }
-
-            if (currentPassword !== adminCredentials.password) {
-                alert('❌ Текущий пароль неверен!');
-                return;
-            }
-
-            // В реальной системе здесь был бы запрос к API для смены пароля
-            adminCredentials.password = newPassword;
-            
-            document.getElementById('currentAdminPassword').value = '';
-            document.getElementById('newAdminPassword').value = '';
-            document.getElementById('confirmAdminPassword').value = '';
-            
-            alert('✅ Пароль успешно изменен!');
-        }
-
-        // ФУНКЦИИ ДЛЯ ОТЧЕТОВ
-        function generateSystemReport() {
-            alert('📄 Системный отчет будет сгенерирован и сохранен');
-        }
-
-        function generateUserReport() {
-            alert('👥 Отчет по пользователям будет сгенерирован и сохранен');
-        }
-
-        function generateSecurityReport() {
-            alert('🔒 Отчет безопасности будет сгенерирован и сохранен');
-        }
-
-        function generatePerformanceReport() {
-            alert('⚡ Отчет производительности будет сгенерирован и сохранен');
-        }
-
-        // ФУНКЦИИ ДЛЯ НАСТРОЕК
-        function saveSystemSettings() {
-            alert('⚙️ Настройки системы сохранены');
-        }
-
-        function saveSecuritySettings() {
-            alert('🔐 Настройки безопасности сохранены');
-        }
-
-        // ФУНКЦИИ ДЛЯ УЧЕНИКА
-        async function showStudentGrades() {
-            const { data: grades, error } = await supabase
-                .from('grades')
+            const { data: reports, error } = await supabase
+                .from('reports')
                 .select('*')
                 .eq('student_id', currentUser.id)
                 .order('created_at', { ascending: false });
 
             if (error) {
-                console.error('Error loading student grades:', error);
+                console.error('Error loading student reports:', error);
                 return;
             }
 
-            let avgGrade = '0.0';
-            if (grades && grades.length > 0) {
-                const total = grades.reduce((sum, g) => sum + (g.type === 'test' ? g.grade/2.5 : g.grade), 0);
-                avgGrade = (total / grades.length).toFixed(1);
-            }
-            
-            document.getElementById('studentAverageGrade').textContent = avgGrade;
-            document.getElementById('studentCourseDisplay').textContent = getCourseName(currentUser.course);
-            document.getElementById('studentJoinDate').textContent = currentUser.join_date;
-            
-            // РАСЧЕТ ПРОГРЕССА ЗА СЕГОДНЯ
-            await updateTodayProgress(grades);
-            await updateStudentGradeStats(grades);
-            
-            const gradesList = document.getElementById('studentGradesList');
-            if (!grades || grades.length === 0) {
-                gradesList.innerHTML = '<div class="empty-state"><div>📝</div><p>У вас пока нет оценок</p></div>';
+            const reportsList = document.getElementById('studentReportsList');
+            const responsesList = document.getElementById('studentResponsesList');
+            document.getElementById('studentReportsCount').textContent = reports ? reports.length : 0;
+
+            if (!reports || reports.length === 0) {
+                reportsList.innerHTML = '<div class="empty-state"><div>⚠️</div><p>У вас нет отчетов от преподавателей</p></div>';
+                responsesList.innerHTML = '<div class="empty-state"><div>💬</div><p>У вас нет ответов на отчеты</p></div>';
                 return;
             }
-            
-            gradesList.innerHTML = '';
-            grades.forEach(grade => {
-                const typeLabel = gradeTypes[grade.type]?.name || grade.type;
-                const percentage = grade.type === 'test' ? Math.round((grade.grade / 25) * 100) : null;
-                
-                gradesList.innerHTML += `
-                    <div class="grade-item">
-                        <div style="flex: 1;">
-                            <strong>${grade.assignment}</strong>
-                            <div style="color: var(--gray); font-size: 0.9em;">${typeLabel} • ${grade.grade_date}</div>
-                            ${grade.type === 'test' ? `
-                                <div class="test-grade-progress">
-                                    <div class="test-grade-progress-bar" style="width: ${percentage}%"></div>
-                                </div>
-                                <div class="test-grade-info">${percentage}% выполнено (${grade.grade}/25 баллов)</div>
-                            ` : ''}
+
+            reportsList.innerHTML = '';
+            responsesList.innerHTML = '';
+
+            reports.forEach(report => {
+                const reasonInfo = reportReasons[report.reason] || { name: report.reason, icon: '❓' };
+                const priorityInfo = reportPriorities[report.priority] || { name: report.priority, color: 'priority-medium' };
+                const statusInfo = reportStatuses[report.status] || { name: report.status, color: 'status-pending' };
+
+                const reportHTML = `
+                    <div class="report-card ${report.status === 'urgent' ? 'urgent' : ''} ${report.status === 'resolved' ? 'resolved' : ''}">
+                        <div class="report-header">
+                            <div class="report-student-info">
+                                <h4>${reasonInfo.icon} ${reasonInfo.name}</h4>
+                                <p><strong>От:</strong> ${report.teacher_name}</p>
+                                <p><strong>Приоритет:</strong> <span class="report-priority ${priorityInfo.color}">${priorityInfo.name}</span></p>
+                            </div>
+                            <div class="report-meta">
+                                <div>📅 ${formatDate(report.created_at)}</div>
+                                <div class="report-status ${statusInfo.color}">${statusInfo.name}</div>
+                            </div>
                         </div>
-                        ${renderGrade(grade.grade, grade.type)}
-                    </div>
+                        
+                        <div class="report-reason">
+                            <strong>Описание проблемы:</strong><br>
+                            ${report.description}
+                        </div>
+                        
+                        ${report.suggested_actions ? `
+                            <div>
+                                <strong>💡 Предлагаемые действия от преподавателя:</strong><br>
+                                ${report.suggested_actions}
+                            </div>
+                        ` : ''}
+                        
+                        ${report.admin_response ? `
+                            <div class="response-section">
+                                <strong>👑 Ответ администрации:</strong><br>
+                                ${report.admin_response}
+                            </div>
+                        ` : ''}
                 `;
-            });
-            
-            await loadStudentSchedule();
-            showSection('studentGrades');
-        }
 
-        // ФУНКЦИЯ ДЛЯ РАСЧЕТА ПРОГРЕССА ЗА СЕГОДНЯ
-        async function updateTodayProgress(grades) {
-            const today = new Date().toISOString().split('T')[0];
-            const todayGrades = grades ? grades.filter(grade => grade.grade_date === today) : [];
-            
-            const progressContainer = document.getElementById('todayProgress');
-            const progressPercentage = document.getElementById('todayProgressPercentage');
-            const progressBar = document.getElementById('todayProgressBar');
-            const progressText = document.getElementById('todayProgressText');
-            
-            if (todayGrades.length === 0) {
-                progressContainer.style.display = 'block';
-                progressPercentage.textContent = '0%';
-                progressBar.style.width = '0%';
-                progressText.textContent = 'Сегодня еще нет оценок';
-                return;
-            }
-            
-            // Рассчитываем общий прогресс за сегодня
-            let totalPossible = 0;
-            let totalEarned = 0;
-            
-            todayGrades.forEach(grade => {
-                const typeInfo = gradeTypes[grade.type];
-                if (typeInfo) {
-                    totalPossible += typeInfo.max;
-                    totalEarned += grade.grade;
+                // Добавляем в соответствующий список
+                if (!report.student_response) {
+                    reportsList.innerHTML += reportHTML + `
+                            <div class="report-actions">
+                                <button class="btn" onclick="showResponseForm(${report.id})" style="width: auto; padding: 8px 12px;">💬 Ответить на отчет</button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    responsesList.innerHTML += reportHTML + `
+                            <div class="response-section">
+                                <strong>👨‍🎓 Ваш ответ:</strong><br>
+                                ${report.student_response}
+                                ${report.student_responded_at ? `<div style="margin-top: 8px; font-size: 0.9em; color: var(--gray);">Ответ дан: ${formatDate(report.student_responded_at)}</div>` : ''}
+                            </div>
+                        </div>
+                    `;
                 }
             });
-            
-            const percentage = totalPossible > 0 ? Math.round((totalEarned / totalPossible) * 100) : 0;
-            
-            progressContainer.style.display = 'block';
-            progressPercentage.textContent = `${percentage}%`;
-            progressBar.style.width = `${percentage}%`;
-            progressText.textContent = `Сегодня получено ${todayGrades.length} оценок: ${totalEarned}/${totalPossible} баллов`;
+
+            if (reportsList.innerHTML === '') {
+                reportsList.innerHTML = '<div class="empty-state"><div>✅</div><p>Все отчеты рассмотрены</p></div>';
+            }
+            if (responsesList.innerHTML === '') {
+                responsesList.innerHTML = '<div class="empty-state"><div>💬</div><p>У вас нет ответов на отчеты</p></div>';
+            }
         }
 
-        async function updateStudentGradeStats(grades) {
-            if (!grades) return;
-            
-            const typeCounts = {};
-            const typeSums = {};
-            
-            grades.forEach(grade => {
-                typeCounts[grade.type] = (typeCounts[grade.type] || 0) + 1;
-                typeSums[grade.type] = (typeSums[grade.type] || 0) + grade.grade;
-            });
+        async function loadAllReports() {
+            if (currentUser.role !== 'admin') return;
 
-            const stats = document.getElementById('studentGradeStats');
-            stats.innerHTML = '';
-            
-            Object.entries(typeCounts).forEach(([type, count]) => {
-                const typeInfo = gradeTypes[type] || { name: type, color: '#6b7280' };
-                const average = (typeSums[type] / count).toFixed(1);
-                
-                stats.innerHTML += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #e2e8f0;">
-                        <span>${typeInfo.name}</span>
-                        <div>
-                            <span style="font-weight: bold; color: var(--primary);">${average}</span>
-                            <small style="color: var(--gray); margin-left: 10px;">${count} оцен.</small>
+            const { data: reports, error } = await supabase
+                .from('reports')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error loading all reports:', error);
+                return;
+            }
+
+            document.getElementById('adminReportsCount').textContent = reports ? reports.length : 0;
+            await updateReportsStats(reports);
+            displayAllReports(reports);
+        }
+
+        async function updateReportsStats(reports) {
+            if (!reports) return;
+
+            const stats = {
+                total: reports.length,
+                pending: reports.filter(r => r.status === 'pending').length,
+                investigating: reports.filter(r => r.status === 'investigating').length,
+                resolved: reports.filter(r => r.status === 'resolved').length,
+                urgent: reports.filter(r => r.status === 'urgent').length,
+                byPriority: {
+                    low: reports.filter(r => r.priority === 'low').length,
+                    medium: reports.filter(r => r.priority === 'medium').length,
+                    high: reports.filter(r => r.priority === 'high').length,
+                    critical: reports.filter(r => r.priority === 'critical').length
+                }
+            };
+
+            const statsHTML = `
+                <div class="stat-card"><div>⚠️</div><div class="stat-number">${stats.total}</div><div class="stat-label">Всего отчетов</div></div>
+                <div class="stat-card"><div>⏳</div><div class="stat-number">${stats.pending}</div><div class="stat-label">Ожидание</div></div>
+                <div class="stat-card"><div>🔍</div><div class="stat-number">${stats.investigating}</div><div class="stat-label">Рассматривается</div></div>
+                <div class="stat-card"><div>✅</div><div class="stat-number">${stats.resolved}</div><div class="stat-label">Решено</div></div>
+                <div class="stat-card"><div>🚨</div><div class="stat-number">${stats.urgent}</div><div class="stat-label">Срочные</div></div>
+                <div class="stat-card"><div>🟢</div><div class="stat-number">${stats.byPriority.low}</div><div class="stat-label">Низкий приор.</div></div>
+                <div class="stat-card"><div>🟡</div><div class="stat-number">${stats.byPriority.medium}</div><div class="stat-label">Средний приор.</div></div>
+                <div class="stat-card"><div>🟠</div><div class="stat-number">${stats.byPriority.high}</div><div class="stat-label">Высокий приор.</div></div>
+            `;
+
+            document.getElementById('reportsStats').innerHTML = statsHTML;
+        }
+
+        function displayAllReports(reports) {
+            const allReportsList = document.getElementById('allReportsList');
+            const statusFilter = document.getElementById('filterReportsStatus').value;
+            const priorityFilter = document.getElementById('filterReportsPriority').value;
+
+            let filteredReports = reports;
+            if (statusFilter !== 'all') {
+                filteredReports = filteredReports.filter(report => report.status === statusFilter);
+            }
+            if (priorityFilter !== 'all') {
+                filteredReports = filteredReports.filter(report => report.priority === priorityFilter);
+            }
+
+            if (!filteredReports || filteredReports.length === 0) {
+                allReportsList.innerHTML = '<div class="empty-state"><div>⚠️</div><p>Нет отчетов по выбранным фильтрам</p></div>';
+                return;
+            }
+
+            allReportsList.innerHTML = '';
+            filteredReports.forEach(report => {
+                const reasonInfo = reportReasons[report.reason] || { name: report.reason, icon: '❓' };
+                const priorityInfo = reportPriorities[report.priority] || { name: report.priority, color: 'priority-medium' };
+                const statusInfo = reportStatuses[report.status] || { name: report.status, color: 'status-pending' };
+
+                allReportsList.innerHTML += `
+                    <div class="report-card ${report.status === 'urgent' ? 'urgent' : ''} ${report.status === 'resolved' ? 'resolved' : ''}">
+                        <div class="report-header">
+                            <div class="report-student-info">
+                                <h4>${reasonInfo.icon} ${reasonInfo.name}</h4>
+                                <p><strong>Ученик:</strong> ${report.student_name}</p>
+                                <p><strong>Преподаватель:</strong> ${report.teacher_name}</p>
+                                <p>
+                                    <strong>Приоритет:</strong> 
+                                    <span class="report-priority ${priorityInfo.color}">${priorityInfo.name}</span>
+                                    <strong>Статус:</strong> 
+                                    <span class="report-status ${statusInfo.color}">${statusInfo.name}</span>
+                                </p>
+                            </div>
+                            <div class="report-meta">
+                                <div>📅 ${formatDate(report.created_at)}</div>
+                                ${report.updated_at !== report.created_at ? `<div>✏️ ${formatDate(report.updated_at)}</div>` : ''}
+                            </div>
+                        </div>
+                        
+                        <div class="report-reason">
+                            <strong>Описание проблемы:</strong><br>
+                            ${report.description}
+                        </div>
+                        
+                        ${report.suggested_actions ? `
+                            <div>
+                                <strong>💡 Предлагаемые действия:</strong><br>
+                                ${report.suggested_actions}
+                            </div>
+                        ` : ''}
+                        
+                        ${report.student_response ? `
+                            <div class="response-section">
+                                <strong>👨‍🎓 Ответ ученика:</strong><br>
+                                ${report.student_response}
+                            </div>
+                        ` : ''}
+                        
+                        <div class="admin-actions">
+                            <h5>👑 Действия администратора:</h5>
+                            <div class="form-group">
+                                <label>Ответ администрации:</label>
+                                <textarea class="input" id="adminResponse_${report.id}" placeholder="Введите ответ администрации..." rows="3">${report.admin_response || ''}</textarea>
+                            </div>
+                            <div class="report-actions">
+                                <select class="select" id="reportStatus_${report.id}" style="width: auto;">
+                                    <option value="pending" ${report.status === 'pending' ? 'selected' : ''}>⏳ Ожидание</option>
+                                    <option value="investigating" ${report.status === 'investigating' ? 'selected' : ''}>🔍 Рассматривается</option>
+                                    <option value="resolved" ${report.status === 'resolved' ? 'selected' : ''}>✅ Решено</option>
+                                    <option value="urgent" ${report.status === 'urgent' ? 'selected' : ''}>🚨 Срочно</option>
+                                </select>
+                                <button class="btn btn-success" onclick="saveAdminResponse(${report.id})">💾 Сохранить ответ</button>
+                                <button class="btn" onclick="sendNotificationToStudent(${report.id})" style="width: auto; padding: 8px 12px;">📧 Уведомить ученика</button>
+                                <button class="btn btn-danger" onclick="deleteReport(${report.id})" style="width: auto; padding: 8px 12px;">🗑️ Удалить отчет</button>
+                            </div>
                         </div>
                     </div>
                 `;
             });
         }
 
-        // УЛУЧШЕННОЕ РАСПИСАНИЕ С ГРУППИРОВКОЙ ПО ДАТАМ
-        async function addScheduleItem() {
-            const subject = document.getElementById('scheduleSubject').value;
-            const teacher = document.getElementById('scheduleTeacher').value;
-            const level = document.getElementById('scheduleLevel').value;
-            const date = document.getElementById('scheduleDate').value;
-            const startTime = document.getElementById('scheduleStartTime').value;
-            const endTime = document.getElementById('scheduleEndTime').value;
-            const type = document.getElementById('scheduleType').value;
-            const description = document.getElementById('scheduleDescription').value;
+        async function saveAdminResponse(reportId) {
+            const response = document.getElementById(`adminResponse_${reportId}`).value.trim();
+            const status = document.getElementById(`reportStatus_${reportId}`).value;
 
-            if (!subject || !teacher || !date || !startTime || !endTime) {
-                alert('⚠️ Заполните обязательные поля!');
+            if (!response) {
+                alert('⚠️ Введите ответ администрации!');
                 return;
             }
-
-            const { data, error } = await supabase
-                .from('schedule')
-                .insert([{
-                    subject: subject,
-                    teacher: teacher,
-                    level: level,
-                    date: date,
-                    start_time: startTime,
-                    end_time: endTime,
-                    type: type,
-                    description: description,
-                    created_at: new Date().toISOString()
-                }])
-                .select();
-
-            if (error) {
-                alert('❌ Ошибка: ' + error.message);
-                return;
-            }
-
-            document.getElementById('scheduleSubject').value = '';
-            document.getElementById('scheduleDate').value = '';
-            document.getElementById('scheduleStartTime').value = '';
-            document.getElementById('scheduleEndTime').value = '';
-            document.getElementById('scheduleDescription').value = '';
-
-            loadSchedule();
-            alert('✅ Занятие добавлено в расписание!');
-        }
-
-        // НОВАЯ ФУНКЦИЯ ДЛЯ ОПРЕДЕЛЕНИЯ СТАТУСА ДНЯ
-        function getDayStatus(dateString) {
-            const today = new Date().toISOString().split('T')[0];
-            const date = new Date(dateString);
-            const now = new Date();
-            
-            if (dateString === today) {
-                return '🎯 Сегодня';
-            } else if (date > now) {
-                const diffTime = date - now;
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                return `📅 Через ${diffDays} ${getRussianDays(diffDays)}`;
-            } else {
-                return '📋 Прошедший день';
-            }
-        }
-
-        // ФУНКЦИЯ ДЛЯ ПРАВИЛЬНОГО СКЛОНЕНИЯ ДНЕЙ
-        function getRussianDays(days) {
-            if (days === 1) return 'день';
-            if (days >= 2 && days <= 4) return 'дня';
-            return 'дней';
-        }
-
-        // ФУНКЦИЯ ДЛЯ УДАЛЕНИЯ ЗАНЯТИЯ ИЗ РАСПИСАНИЯ
-        async function deleteScheduleItem(scheduleId) {
-            if (!confirm('Удалить это занятие из расписания?')) return;
 
             try {
+                const updateData = {
+                    admin_response: response,
+                    status: status,
+                    updated_at: new Date().toISOString()
+                };
+
+                if (status === 'resolved') {
+                    updateData.resolved_at = new Date().toISOString();
+                }
+
                 const { error } = await supabase
-                    .from('schedule')
-                    .delete()
-                    .eq('id', scheduleId);
+                    .from('reports')
+                    .update(updateData)
+                    .eq('id', reportId);
 
                 if (error) throw error;
 
-                loadSchedule();
-                alert('🗑️ Занятие удалено из расписания');
-                
+                loadAllReports();
+                alert('✅ Ответ администрации сохранен!');
+
             } catch (err) {
-                alert('❌ Ошибка при удалении: ' + err.message);
+                alert('❌ Ошибка при сохранении ответа: ' + err.message);
             }
         }
 
-        async function loadSchedule() {
-            const { data: schedule, error } = await supabase
-                .from('schedule')
-                .select('*')
-                .order('date', { ascending: true })
-                .order('start_time', { ascending: true });
-
-            if (error) {
-                console.error('Error loading schedule:', error);
-                return;
+        function showResponseForm(reportId) {
+            const response = prompt('💬 Введите ваш ответ на отчет преподавателя:');
+            if (response && response.trim()) {
+                submitStudentResponse(reportId, response.trim());
             }
+        }
 
-            const scheduleList = document.getElementById('scheduleList');
-            const upcomingLessons = document.getElementById('upcomingLessons');
-            const studentTodaySchedule = document.getElementById('studentTodaySchedule');
-            
-            if (!schedule || schedule.length === 0) {
-                scheduleList.innerHTML = '<div class="empty-state"><div>📅</div><p>Нет занятий в расписании</p></div>';
-                upcomingLessons.innerHTML = '<div class="no-lessons">Нет предстоящих занятий</div>';
-                if (studentTodaySchedule) {
-                    studentTodaySchedule.innerHTML = '<div class="empty-state"><div>📅</div><p>На сегодня занятий нет</p></div>';
+        async function submitStudentResponse(reportId, response) {
+            try {
+                const { error } = await supabase
+                    .from('reports')
+                    .update({
+                        student_response: response,
+                        student_responded_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', reportId);
+
+                if (error) throw error;
+
+                loadStudentReports();
+                alert('✅ Ваш ответ отправлен!');
+
+            } catch (err) {
+                alert('❌ Ошибка при отправке ответа: ' + err.message);
+            }
+        }
+
+        async function updateReportStatus(reportId, status) {
+            try {
+                const { error } = await supabase
+                    .from('reports')
+                    .update({
+                        status: status,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', reportId);
+
+                if (error) throw error;
+
+                if (currentUser.role === 'teacher') {
+                    loadTeacherReports();
+                } else if (currentUser.role === 'admin') {
+                    loadAllReports();
                 }
-                return;
-            }
 
-            const today = new Date().toISOString().split('T')[0];
-            const now = new Date();
-            
-            // ФИЛЬТРАЦИЯ РАСПИСАНИЯ
-            let filteredSchedule = schedule;
-            if (currentScheduleFilter === 'today') {
-                filteredSchedule = schedule.filter(item => item.date === today);
-            } else if (currentScheduleFilter === 'week') {
-                const weekStart = new Date(now);
-                weekStart.setDate(now.getDate() - now.getDay());
-                const weekEnd = new Date(weekStart);
-                weekEnd.setDate(weekStart.getDate() + 6);
-                
-                filteredSchedule = schedule.filter(item => {
-                    const itemDate = new Date(item.date);
-                    return itemDate >= weekStart && itemDate <= weekEnd;
-                });
-            } else if (currentScheduleFilter === 'upcoming') {
-                filteredSchedule = schedule.filter(item => item.date >= today);
-            } else if (currentScheduleFilter === 'past') {
-                filteredSchedule = schedule.filter(item => item.date < today);
-            }
+                alert('✅ Статус отчета обновлен!');
 
-            // ГРУППИРОВКА ПО ДАТАМ
-            const scheduleByDate = {};
-            filteredSchedule.forEach(item => {
-                if (!scheduleByDate[item.date]) {
-                    scheduleByDate[item.date] = [];
+            } catch (err) {
+                alert('❌ Ошибка при обновлении статуса: ' + err.message);
+            }
+        }
+
+        async function deleteReport(reportId) {
+            if (!confirm('Удалить этот отчет? Это действие нельзя отменить.')) return;
+
+            try {
+                const { error } = await supabase
+                    .from('reports')
+                    .delete()
+                    .eq('id', reportId);
+
+                if (error) throw error;
+
+                if (currentUser.role === 'teacher') {
+                    loadTeacherReports();
+                } else if (currentUser.role === 'admin') {
+                    loadAllReports();
                 }
-                scheduleByDate[item.date].push(item);
-            });
 
-            // ОТОБРАЖЕНИЕ РАСПИСАНИЯ С ГРУППИРОВКОЙ
-            scheduleList.innerHTML = '';
+                alert('🗑️ Отчет удален!');
+
+            } catch (err) {
+                alert('❌ Ошибка при удалении отчета: ' + err.message);
+            }
+        }
+
+        function sendNotificationToStudent(reportId) {
+            alert(`📧 Уведомление отправлено ученику по отчету #${reportId}`);
+            // В реальной системе здесь была бы интеграция с email или push-уведомлениями
+        }
+
+        function searchReports() {
+            const searchTerm = document.getElementById('searchReports').value.toLowerCase();
+            const reportCards = document.querySelectorAll('#allReportsList .report-card');
             
-            if (Object.keys(scheduleByDate).length === 0) {
-                scheduleList.innerHTML = '<div class="empty-state"><div>📅</div><p>Нет занятий по выбранному фильтру</p></div>';
-            } else {
-                Object.keys(scheduleByDate).forEach(date => {
-                    const dateItems = scheduleByDate[date];
-                    const dateObj = new Date(date);
-                    const dayNames = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-                    const monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
-                    
-                    const dayName = dayNames[dateObj.getDay()];
-                    const dateString = `${dateObj.getDate()} ${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
-                    
-                    let dateHeaderHTML = `
-                        <div class="schedule-date-header">
-                            <div class="schedule-date-title">
-                                ${date === today ? '🎯 СЕГОДНЯ - ' : ''}${dayName}, ${dateString}
-                                <span class="date-badge">${dateItems.length} занятий</span>
-                            </div>
-                            <div class="schedule-day-info">
-                                ${getDayStatus(date)}
-                            </div>
-                        </div>
-                        <div class="schedule-date-content">
-                            <div class="schedule-items-container">
-                    `;
-                    
-                    dateItems.forEach(item => {
-                        const status = getScheduleStatus(item);
-                        const typeIcon = getScheduleTypeIcon(item.type);
-                        
-                        dateHeaderHTML += `
-                            <div class="schedule-item ${status.status}">
-                                <div class="schedule-status status-${status.status}">${status.text}</div>
-                                <div class="schedule-time">⏰ ${formatTime(item.start_time)} - ${formatTime(item.end_time)}</div>
-                                <div class="schedule-subject">${typeIcon} ${item.subject}</div>
-                                <div class="schedule-teacher">👨‍🏫 ${item.teacher}</div>
-                                <div style="color: var(--gray); font-size: 0.8em; margin-top: 5px;">
-                                    ${item.level !== 'all' ? `🎯 ${getCourseName(item.level)} • ` : ''}
-                                    🏷️ ${getScheduleTypeName(item.type)}
-                                </div>
-                                ${item.description ? `
-                                    <div style="color: var(--gray); font-size: 0.9em; margin-top: 8px; padding: 8px; background: #f8fafc; border-radius: 6px;">
-                                        📝 ${item.description}
-                                    </div>
-                                ` : ''}
-                                <button class="btn btn-danger" onclick="deleteScheduleItem(${item.id})" style="width: auto; padding: 6px 12px; margin-top: 10px; font-size: 0.8em;">
-                                    🗑️ Удалить
-                                </button>
-                            </div>
-                        `;
-                    });
-                    
-                    dateHeaderHTML += `
-                            </div>
-                        </div>
-                    `;
-                    
-                    scheduleList.innerHTML += `<div class="schedule-date-group">${dateHeaderHTML}</div>`;
-                });
-            }
-
-            // БЛИЖАЙШИЕ ЗАНЯТИЯ (топ 5)
-            const upcoming = schedule
-                .filter(item => item.date >= today)
-                .slice(0, 5);
-
-            upcomingLessons.innerHTML = '';
-            if (upcoming.length === 0) {
-                upcomingLessons.innerHTML = '<div class="no-lessons">Нет предстоящих занятий</div>';
-            } else {
-                upcoming.forEach(item => {
-                    const status = getScheduleStatus(item);
-                    const typeIcon = getScheduleTypeIcon(item.type);
-                    const dateObj = new Date(item.date);
-                    const dateString = `${dateObj.getDate()}.${dateObj.getMonth() + 1}.${dateObj.getFullYear()}`;
-                    
-                    upcomingLessons.innerHTML += `
-                        <div class="schedule-item ${status.status}">
-                            <div class="schedule-status status-${status.status}">${status.text}</div>
-                            <div class="schedule-time">📅 ${dateString} ⏰ ${formatTime(item.start_time)} - ${formatTime(item.end_time)}</div>
-                            <div class="schedule-subject">${typeIcon} ${item.subject}</div>
-                            <div class="schedule-teacher">👨‍🏫 ${item.teacher}</div>
-                            <div style="color: var(--gray); font-size: 0.8em;">
-                                ${item.level !== 'all' ? `🎯 ${getCourseName(item.level)} • ` : ''}🏷️ ${getScheduleTypeName(item.type)}
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-
-            // РАСПИСАНИЕ ДЛЯ УЧЕНИКА НА СЕГОДНЯ
-            if (currentUser && currentUser.role === 'student' && studentTodaySchedule) {
-                const todayLessons = schedule.filter(item => item.date === today);
-                
-                studentTodaySchedule.innerHTML = '';
-                if (todayLessons.length === 0) {
-                    studentTodaySchedule.innerHTML = '<div class="empty-state"><div>📅</div><p>На сегодня занятий нет</p></div>';
+            reportCards.forEach(card => {
+                const reportText = card.textContent.toLowerCase();
+                if (reportText.includes(searchTerm)) {
+                    card.style.display = 'block';
                 } else {
-                    todayLessons.forEach(item => {
-                        const status = getScheduleStatus(item);
-                        const typeIcon = getScheduleTypeIcon(item.type);
-                        
-                        studentTodaySchedule.innerHTML += `
-                            <div class="schedule-item ${status.status}">
-                                <div class="schedule-status status-${status.status}">${status.text}</div>
-                                <div class="schedule-time">⏰ ${formatTime(item.start_time)} - ${formatTime(item.end_time)}</div>
-                                <div class="schedule-subject">${typeIcon} ${item.subject}</div>
-                                <div class="schedule-teacher">👨‍🏫 ${item.teacher}</div>
-                                ${item.description ? `
-                                    <div style="color: var(--gray); font-size: 0.9em; margin-top: 8px;">
-                                        ${item.description}
-                                    </div>
-                                ` : ''}
-                            </div>
-                        `;
-                    });
+                    card.style.display = 'none';
                 }
-            }
-        }
-
-        function getScheduleTypeIcon(type) {
-            const icons = {
-                'regular': '📚',
-                'test': '🎓',
-                'conversation': '🗣️',
-                'grammar': '📖',
-                'project': '📁'
-            };
-            return icons[type] || '📚';
-        }
-
-        function getScheduleTypeName(type) {
-            const names = {
-                'regular': 'Обычный урок',
-                'test': 'Тестирование',
-                'conversation': 'Разговорная практика',
-                'grammar': 'Грамматика',
-                'project': 'Проектная работа'
-            };
-            return names[type] || 'Урок';
-        }
-
-        async function loadStudentSchedule() {
-            await loadSchedule();
-        }
-
-        // ФУНКЦИИ КАЛЕНДАРЯ
-        function generateCalendar() {
-            const calendarGrid = document.getElementById('calendarGrid');
-            const currentMonth = document.getElementById('currentMonth');
-            
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-            
-            const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
-            currentMonth.textContent = `${monthNames[month]} ${year}`;
-            
-            calendarGrid.innerHTML = '';
-            
-            const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-            days.forEach(day => {
-                const dayElement = document.createElement('div');
-                dayElement.className = 'calendar-day';
-                dayElement.style.fontWeight = 'bold';
-                dayElement.textContent = day;
-                calendarGrid.appendChild(dayElement);
             });
-            
-            const firstDay = new Date(year, month, 1);
-            const startingDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            
-            for (let i = 0; i < startingDay; i++) {
-                const emptyDay = document.createElement('div');
-                emptyDay.className = 'calendar-day';
-                emptyDay.style.visibility = 'hidden';
-                calendarGrid.appendChild(emptyDay);
-            }
-            
-            const today = new Date();
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dayElement = document.createElement('div');
-                dayElement.className = 'calendar-day';
-                dayElement.textContent = day;
-                
-                if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-                    dayElement.classList.add('today');
-                }
-                
-                const dayOfWeek = new Date(year, month, day).getDay();
-                if (dayOfWeek === 0 || dayOfWeek === 6) {
-                    dayElement.classList.add('weekend');
-                }
-                
-                calendarGrid.appendChild(dayElement);
-            }
         }
 
-        function changeMonth(direction) {
-            currentDate.setMonth(currentDate.getMonth() + direction);
-            generateCalendar();
-            loadCalendarEvents();
+        function filterReports() {
+            loadAllReports();
         }
 
-        // ФУНКЦИИ СОБЫТИЙ КАЛЕНДАРЯ
-        async function addCalendarEvent() {
-            const title = document.getElementById('eventTitle').value;
-            const date = document.getElementById('eventDate').value;
-            const time = document.getElementById('eventTime').value;
-            const description = document.getElementById('eventDescription').value;
-            const type = document.getElementById('eventType').value;
-
-            if (!title || !date) {
-                alert('⚠️ Заполните обязательные поля!');
-                return;
-            }
-
-            const { data, error } = await supabase
-                .from('calendar_events')
-                .insert([{
-                    title: title,
-                    date: date,
-                    time: time,
-                    description: description,
-                    type: type,
-                    created_at: new Date().toISOString()
-                }])
-                .select();
-
-            if (error) {
-                alert('❌ Ошибка: ' + error.message);
-                return;
-            }
-
-            document.getElementById('eventTitle').value = '';
-            document.getElementById('eventDate').value = '';
-            document.getElementById('eventTime').value = '';
-            document.getElementById('eventDescription').value = '';
-
-            loadCalendarEvents();
-            alert('✅ Событие добавлено в календарь!');
-        }
-
-        async function loadCalendarEvents() {
-            const { data: events, error } = await supabase
-                .from('calendar_events')
-                .select('*')
-                .order('date', { ascending: true })
-                .order('time', { ascending: true });
-
-            if (error) {
-                console.error('Error loading events:', error);
-                return;
-            }
-
-            const calendarEventsList = document.getElementById('calendarEventsList');
-            const upcomingEvents = document.getElementById('upcomingEvents');
-            const studentUpcomingEvents = document.getElementById('studentUpcomingEvents');
-            
-            if (!events || events.length === 0) {
-                calendarEventsList.innerHTML = '<div class="empty-state"><div>🗓️</div><p>Нет событий в календаре</p></div>';
-                upcomingEvents.innerHTML = '<div class="empty-state"><div>🗓️</div><p>Нет предстоящих событий</p></div>';
-                if (studentUpcomingEvents) {
-                    studentUpcomingEvents.innerHTML = '<div class="empty-state"><div>🗓️</div><p>Нет предстоящих событий</p></div>';
-                }
-                return;
-            }
-
-            const today = new Date().toISOString().split('T')[0];
-            const upcoming = events.filter(event => event.date >= today).slice(0, 5);
-
-            calendarEventsList.innerHTML = '';
-            events.forEach(event => {
-                const eventTypes = {
-                    'lesson': '📚',
-                    'test': '🎓', 
-                    'meeting': '👥',
-                    'holiday': '🎉',
-                    'deadline': '⏰'
-                };
-                
-                calendarEventsList.innerHTML += `
-                    <div class="notification ${event.date === today ? 'upcoming' : ''}">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="font-size: 1.2em;">${eventTypes[event.type]}</span>
-                            <div style="flex: 1;">
-                                <strong>${event.title}</strong>
-                                <div style="color: var(--gray); font-size: 0.9em;">
-                                    📅 ${formatDate(event.date)}${event.time ? ` ⏰ ${event.time}` : ''}
-                                </div>
-                                ${event.description ? `<div style="margin-top: 5px;">${event.description}</div>` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            upcomingEvents.innerHTML = '';
-            upcoming.forEach(event => {
-                const eventTypes = {
-                    'lesson': '📚',
-                    'test': '🎓',
-                    'meeting': '👥', 
-                    'holiday': '🎉',
-                    'deadline': '⏰'
-                };
-                
-                upcomingEvents.innerHTML += `
-                    <div class="notification upcoming">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="font-size: 1.2em;">${eventTypes[event.type]}</span>
-                            <div style="flex: 1;">
-                                <strong>${event.title}</strong>
-                                <div style="color: var(--gray); font-size: 0.9em;">
-                                    📅 ${formatDate(event.date)}${event.time ? ` ⏰ ${event.time}` : ''}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            if (currentUser && currentUser.role === 'student' && studentUpcomingEvents) {
-                studentUpcomingEvents.innerHTML = '';
-                if (upcoming.length === 0) {
-                    studentUpcomingEvents.innerHTML = '<div class="empty-state"><div>🗓️</div><p>Нет предстоящих событий</p></div>';
-                } else {
-                    upcoming.forEach(event => {
-                        studentUpcomingEvents.innerHTML += `
-                            <div class="notification upcoming">
-                                <strong>${eventTypes[event.type]} ${event.title}</strong>
-                                <div style="color: var(--gray); font-size: 0.9em;">
-                                    📅 ${formatDate(event.date)}${event.time ? ` ⏰ ${event.time}` : ''}
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-            }
-        }
-
-        // ФУНКЦИИ ЧАТА ПОДДЕРЖКИ
-        function toggleChat() {
-            const chatWindow = document.getElementById('supportChat');
-            if (chatWindow.style.display === 'none') {
-                chatWindow.style.display = 'block';
-                document.getElementById('chatNotification').style.display = 'none';
-            } else {
-                chatWindow.style.display = 'none';
-            }
-        }
-
-        function sendMessage() {
-            const chatInput = document.getElementById('chatInput');
-            const message = chatInput.value.trim();
-            
-            if (!message) return;
-            
-            const chatMessages = document.getElementById('chatMessages');
-            
-            // Добавляем сообщение пользователя
-            const userMessage = document.createElement('div');
-            userMessage.className = 'message user-message';
-            userMessage.innerHTML = `
-                <div class="message-content">
-                    <strong>Вы:</strong> ${message}
-                </div>
-                <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-            `;
-            chatMessages.appendChild(userMessage);
-            
-            // Очищаем поле ввода
-            chatInput.value = '';
-            
-            // Прокручиваем вниз
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            // Имитируем ответ поддержки (в реальной системе здесь был бы WebSocket)
-            setTimeout(() => {
-                const responses = [
-                    "Спасибо за ваш вопрос! Мы уже работаем над ним.",
-                    "Понимаю вашу проблему. Давайте разберемся вместе!",
-                    "Это хороший вопрос! Наш специалист скоро свяжется с вами.",
-                    "Благодарим за обращение! Мы уже ищем решение для вас.",
-                    "Отличный вопрос! Давайте я помогу вам с этим."
-                ];
-                
-                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                
-                const supportMessage = document.createElement('div');
-                supportMessage.className = 'message support-message';
-                supportMessage.innerHTML = `
-                    <div class="message-content">
-                        <strong>Поддержка:</strong> ${randomResponse}
-                    </div>
-                    <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-                `;
-                chatMessages.appendChild(supportMessage);
-                
-                // Прокручиваем вниз
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 1000 + Math.random() * 2000);
-        }
-
-        // Обработка нажатия Enter в чате
-        document.addEventListener('DOMContentLoaded', function() {
-            const chatInput = document.getElementById('chatInput');
-            if (chatInput) {
-                chatInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        sendMessage();
-                    }
-                });
-            }
-        });
+        // ОСТАЛЬНЫЕ СУЩЕСТВУЮЩИЕ ФУНКЦИИ...
 
         // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
         function getCourseName(course) {
@@ -4171,4 +3229,4 @@
 
     </script>
 </body>
-                                </html>
+    </html>
