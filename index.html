@@ -6,104 +6,6 @@
     <title>PrimeSpeak Academy</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* СТИЛИ ДЛЯ СИСТЕМЫ РЕПОРТОВ */
-        .reports-section {
-            margin-top: 20px;
-        }
-        
-        .report-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            border-left: 4px solid var(--warning);
-        }
-        
-        .report-card.urgent {
-            border-left-color: var(--danger);
-            background: #fef2f2;
-        }
-        
-        .report-card.resolved {
-            border-left-color: var(--secondary);
-            background: #f0fdf4;
-        }
-        
-        .report-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-        
-        .report-student {
-            font-weight: bold;
-            font-size: 1.1em;
-            color: var(--dark);
-        }
-        
-        .report-teacher {
-            color: var(--gray);
-            font-size: 0.9em;
-        }
-        
-        .report-date {
-            color: var(--gray);
-            font-size: 0.8em;
-        }
-        
-        .report-reason {
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-        
-        .report-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .report-status {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        .status-pending {
-            background: #fffbeb;
-            color: #f59e0b;
-        }
-        
-        .status-resolved {
-            background: #f0fdf4;
-            color: #10b981;
-        }
-        
-        .status-urgent {
-            background: #fef2f2;
-            color: #ef4444;
-        }
-        
-        .report-count {
-            background: var(--danger);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7em;
-            margin-left: 5px;
-        }
-        
-        /* Остальные стили остаются без изменений */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         :root { --primary: #4f46e5; --primary-dark: #3730a3; --secondary: #10b981; --danger: #ef4444; --warning: #f59e0b; --light: #f8fafc; --dark: #1e293b; --gray: #64748b; }
         body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 15px; color: var(--dark); }
@@ -702,6 +604,52 @@
             transition: width 0.5s ease;
         }
 
+        /* СТИЛИ ДЛЯ СИСТЕМЫ ЖАЛОБ */
+        .report-card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            margin-bottom: 15px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--danger);
+        }
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .report-student-info {
+            flex: 1;
+        }
+        .report-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-reviewed { background: #dbeafe; color: #1e40af; }
+        .status-resolved { background: #dcfce7; color: #166534; }
+        .report-reason {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .report-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .report-form {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--warning);
+        }
+
         /* АДАПТИВНОСТЬ */
         @media (max-width: 768px) {
             .nav-btn { min-width: 70px; font-size: 10px; padding: 12px 5px; }
@@ -721,6 +669,13 @@
             }
             .message {
                 max-width: 90%;
+            }
+            .report-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .report-actions {
+                flex-direction: column;
             }
         }
     </style>
@@ -842,9 +797,9 @@
             <button class="nav-btn" onclick="showSection('students')">👨‍🎓<span>Ученики</span></button>
             <button class="nav-btn" onclick="showSection('addStudent')">➕<span>Добавить</span></button>
             <button class="nav-btn" onclick="showSection('grades')">📝<span>Оценки</span></button>
-            <button class="nav-btn" onclick="showSection('reports')">⚠️<span>Жалобы</span></button>
             <button class="nav-btn" onclick="showSection('schedule')">📅<span>Расписание</span></button>
             <button class="nav-btn" onclick="showSection('calendar')">🗓️<span>Календарь</span></button>
+            <button class="nav-btn" onclick="showSection('teacherReports')">⚠️<span>Жалобы</span></button>
         </div>
 
         <!-- Навигация для Завуча -->
@@ -853,7 +808,6 @@
             <button class="nav-btn" onclick="showSection('academicAnalytics')">📊<span>Аналитика</span></button>
             <button class="nav-btn" onclick="showSection('teacherManagement')">👨‍🏫<span>Учителя</span></button>
             <button class="nav-btn" onclick="showSection('students')">👨‍🎓<span>Ученики</span></button>
-            <button class="nav-btn" onclick="showSection('reports')">⚠️<span>Жалобы</span></button>
             <button class="nav-btn" onclick="showSection('schedule')">📅<span>Расписание</span></button>
             <button class="nav-btn" onclick="showSection('qualityControl')">🎯<span>Контроль</span></button>
             <button class="nav-btn" onclick="showSection('reports')">📋<span>Отчеты</span></button>
@@ -865,10 +819,10 @@
             <button class="nav-btn" onclick="showSection('userManagement')">👥<span>Пользователи</span></button>
             <button class="nav-btn" onclick="showSection('groupManagement')">🏷️<span>Группы</span></button>
             <button class="nav-btn" onclick="showSection('teacherRatings')">⭐<span>Рейтинги</span></button>
-            <button class="nav-btn" onclick="showSection('reports')">⚠️<span>Жалобы</span></button>
             <button class="nav-btn" onclick="showSection('systemSettings')">⚙️<span>Настройки</span></button>
             <button class="nav-btn" onclick="showSection('systemAnalytics')">📈<span>Аналитика</span></button>
             <button class="nav-btn" onclick="showSection('security')">🔒<span>Безопасность</span></button>
+            <button class="nav-btn" onclick="showSection('adminReports')">⚠️<span>Жалобы</span></button>
         </div>
 
         <div class="content">
@@ -879,7 +833,7 @@
                     <div class="stat-card"><div>👨‍🎓</div><div class="stat-number" id="totalStudents">0</div><div class="stat-label">Учеников</div></div>
                     <div class="stat-card"><div>⭐</div><div class="stat-number" id="averageGrade">0.0</div><div class="stat-label">Средний балл</div></div>
                     <div class="stat-card"><div>📝</div><div class="stat-number" id="totalGrades">0</div><div class="stat-label">Оценок</div></div>
-                    <div class="stat-card"><div>⚠️</div><div class="stat-number" id="totalReports">0</div><div class="stat-label">Жалоб</div></div>
+                    <div class="stat-card"><div>🎯</div><div class="stat-number" id="gradeTypesCount">7</div><div class="stat-label">Типов оценок</div></div>
                 </div>
                 
                 <div class="card">
@@ -891,95 +845,881 @@
                 <div class="card"><h3>📊 Распределение по уровням</h3><div id="courseLevelsStats"></div></div>
             </div>
 
-            <!-- СИСТЕМА ЖАЛОБ И РЕПОРТОВ -->
-            <div id="reports" class="section">
-                <h2>⚠️ Система жалоб и отчетов</h2>
+            <!-- ДАШБОРД ЗАВУЧА -->
+            <div id="headTeacherDashboard" class="section">
+                <h2>🎓 Академическая панель завуча</h2>
                 
-                <!-- Для учителей: форма отправки жалобы -->
-                <div id="teacherReportsSection" style="display: none;">
-                    <div class="card">
-                        <h3>📝 Отправить жалобу на ученика</h3>
-                        <div class="form-group">
-                            <label>👨‍🎓 Выберите ученика</label>
-                            <select class="select" id="reportStudent">
-                                <option value="">-- Выберите ученика --</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>⚠️ Причина жалобы</label>
-                            <select class="select" id="reportReason">
-                                <option value="">-- Выберите причину --</option>
-                                <option value="behavior">Плохое поведение</option>
-                                <option value="homework">Невыполнение домашних заданий</option>
-                                <option value="attendance">Проблемы с посещаемостью</option>
-                                <option value="disrespect">Неуважительное отношение</option>
-                                <option value="cheating">Списывание</option>
-                                <option value="other">Другое</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>📝 Подробное описание</label>
-                            <textarea class="input" id="reportDescription" placeholder="Опишите ситуацию подробно..." rows="4"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>🎯 Серьезность ситуации</label>
-                            <select class="select" id="reportSeverity">
-                                <option value="low">Низкая</option>
-                                <option value="medium" selected>Средняя</option>
-                                <option value="high">Высокая</option>
-                                <option value="urgent">Срочно</option>
-                            </select>
-                        </div>
-                        <button class="btn btn-danger" onclick="submitReport()">⚠️ Отправить жалобу</button>
+                <div class="academic-stats">
+                    <div class="academic-card">
+                        <div>👨‍🏫</div>
+                        <div class="academic-number" id="htTotalTeachers">0</div>
+                        <div class="stat-label">Преподавателей</div>
                     </div>
-
-                    <div class="card">
-                        <h3>📋 Мои отправленные жалобы</h3>
-                        <div id="teacherReportsList"></div>
+                    <div class="academic-card">
+                        <div>👨‍🎓</div>
+                        <div class="academic-number" id="htTotalStudents">0</div>
+                        <div class="stat-label">Учеников</div>
+                    </div>
+                    <div class="academic-card">
+                        <div>📊</div>
+                        <div class="academic-number" id="htSchoolAverage">0.0</div>
+                        <div class="stat-label">Средний по школе</div>
+                    </div>
+                    <div class="academic-card">
+                        <div>🎯</div>
+                        <div class="academic-number" id="htSuccessRate">0%</div>
+                        <div class="stat-label">Успеваемость</div>
                     </div>
                 </div>
 
-                <!-- Для учеников: просмотр полученных жалоб -->
-                <div id="studentReportsSection" style="display: none;">
-                    <div class="card">
-                        <h3>📋 Полученные жалобы</h3>
-                        <div id="studentReportsList"></div>
-                    </div>
+                <div class="card">
+                    <h3>📈 Успеваемость по уровням</h3>
+                    <div id="levelPerformance"></div>
                 </div>
 
-                <!-- Для администрации: управление всеми жалобами -->
-                <div id="adminReportsSection" style="display: none;">
-                    <div class="card">
-                        <h3>📊 Статистика жалоб</h3>
-                        <div class="stats-grid">
-                            <div class="stat-card"><div>⚠️</div><div class="stat-number" id="totalReportsCount">0</div><div class="stat-label">Всего жалоб</div></div>
-                            <div class="stat-card"><div>⏳</div><div class="stat-number" id="pendingReportsCount">0</div><div class="stat-label">Ожидают</div></div>
-                            <div class="stat-card"><div>✅</div><div class="stat-number" id="resolvedReportsCount">0</div><div class="stat-label">Решено</div></div>
-                            <div class="stat-card"><div>🚨</div><div class="stat-number" id="urgentReportsCount">0</div><div class="stat-label">Срочные</div></div>
-                        </div>
-                    </div>
+                <div class="card">
+                    <h3>👨‍🏫 Активность преподавателей</h3>
+                    <div id="teacherActivity"></div>
+                </div>
 
-                    <div class="card">
-                        <h3>📋 Все жалобы</h3>
-                        <div class="form-group">
-                            <input type="text" class="input" id="searchReports" placeholder="🔍 Поиск по ученику или учителю..." onkeyup="searchReports()">
-                        </div>
-                        <div class="form-group">
-                            <select class="select" id="filterReportsStatus" onchange="filterReports()">
-                                <option value="all">Все статусы</option>
-                                <option value="pending">Ожидают решения</option>
-                                <option value="resolved">Решено</option>
-                                <option value="urgent">Срочные</option>
-                            </select>
-                        </div>
-                        <div id="adminReportsList"></div>
+                <div class="card">
+                    <h3>📊 Контроль качества обучения</h3>
+                    <div id="qualityMetrics"></div>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Быстрые отчеты</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button class="btn" onclick="generateAcademicReport()">📄 Академический отчет</button>
+                        <button class="btn" onclick="generateTeacherReport()">👨‍🏫 Отчет по учителям</button>
+                        <button class="btn" onclick="generateProgressReport()">📈 Отчет по прогрессу</button>
+                        <button class="btn" onclick="generateQualityReport()">🎯 Отчет качества</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Остальные разделы остаются без изменений -->
-            <!-- ... -->
+            <!-- ДАШБОРД АДМИНИСТРАТОРА -->
+            <div id="adminDashboard" class="section">
+                <h2>👑 Панель администратора</h2>
+                
+                <div class="admin-stats">
+                    <div class="admin-card">
+                        <div>👥</div>
+                        <div class="admin-number" id="adminTotalUsers">0</div>
+                        <div class="stat-label">Всего пользователей</div>
+                    </div>
+                    <div class="admin-card">
+                        <div>👨‍🏫</div>
+                        <div class="admin-number" id="adminTotalTeachers">0</div>
+                        <div class="stat-label">Преподавателей</div>
+                    </div>
+                    <div class="admin-card">
+                        <div>👨‍🎓</div>
+                        <div class="admin-number" id="adminTotalStudents">0</div>
+                        <div class="stat-label">Учеников</div>
+                    </div>
+                    <div class="admin-card">
+                        <div>🏷️</div>
+                        <div class="admin-number" id="adminTotalGroups">0</div>
+                        <div class="stat-label">Групп</div>
+                    </div>
+                </div>
 
+                <div class="card">
+                    <h3>📈 Статистика по преподавателям и группам</h3>
+                    <div id="teacherGroupStats"></div>
+                </div>
+
+                <div class="card">
+                    <h3>🔔 Последние действия</h3>
+                    <div id="recentActivities"></div>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Статистика системы</h3>
+                    <div id="systemStats"></div>
+                </div>
+            </div>
+
+            <!-- СИСТЕМА ЖАЛОБ ДЛЯ УЧИТЕЛЕЙ -->
+            <div id="teacherReports" class="section">
+                <h2>⚠️ Система жалоб на учеников</h2>
+                
+                <div class="report-form">
+                    <h3>📝 Подать жалобу на ученика</h3>
+                    <div class="form-group">
+                        <label>👨‍🎓 Выберите ученика</label>
+                        <select class="select" id="reportStudent">
+                            <option value="">-- Выберите ученика --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>🎯 Причина жалобы</label>
+                        <select class="select" id="reportReason">
+                            <option value="">-- Выберите причину --</option>
+                            <option value="behavior">🚫 Неадекватное поведение</option>
+                            <option value="homework">📚 Систематическое невыполнение ДЗ</option>
+                            <option value="attendance">⏰ Проблемы с посещаемостью</option>
+                            <option value="respect">🙅‍♂️ Неуважение к учителю</option>
+                            <option value="cheating">📝 Списывание на тестах</option>
+                            <option value="disruption">🔇 Срыв уроков</option>
+                            <option value="other">❓ Другая причина</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>📄 Подробное описание ситуации</label>
+                        <textarea class="input" id="reportDescription" placeholder="Опишите подробно ситуацию, дату, время и обстоятельства..." rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>💪 Предлагаемые меры</label>
+                        <select class="select" id="reportAction">
+                            <option value="">-- Выберите рекомендуемые меры --</option>
+                            <option value="warning">⚠️ Предупреждение</option>
+                            <option value="parent">👨‍👩‍👧‍👦 Уведомление родителям</option>
+                            <option value="meeting">🤝 Встреча с родителями</option>
+                            <option value="counseling">🧠 Консультация психолога</option>
+                            <option value="suspension">🚫 Временное отстранение</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>🔔 Срочность</label>
+                        <select class="select" id="reportUrgency">
+                            <option value="low">🟢 Низкая</option>
+                            <option value="medium">🟡 Средняя</option>
+                            <option value="high">🔴 Высокая</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-danger" onclick="submitReport()">⚠️ Отправить жалобу</button>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Мои отправленные жалобы</h3>
+                    <div id="teacherReportsList"></div>
+                </div>
+            </div>
+
+            <!-- СИСТЕМА ЖАЛОБ ДЛЯ АДМИНИСТРАТОРА -->
+            <div id="adminReports" class="section">
+                <h2>⚠️ Управление жалобами</h2>
+                
+                <div class="card">
+                    <h3>📊 Статистика жалоб</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card"><div>⚠️</div><div class="stat-number" id="totalReports">0</div><div class="stat-label">Всего жалоб</div></div>
+                        <div class="stat-card"><div>⏳</div><div class="stat-number" id="pendingReports">0</div><div class="stat-label">Ожидают</div></div>
+                        <div class="stat-card"><div>✅</div><div class="stat-number" id="resolvedReports">0</div><div class="stat-label">Решено</div></div>
+                        <div class="stat-card"><div>🔴</div><div class="stat-number" id="urgentReports">0</div><div class="stat-label">Срочные</div></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Все жалобы</h3>
+                    <div class="form-group">
+                        <select class="select" id="reportFilter" onchange="filterReports()">
+                            <option value="all">Все жалобы</option>
+                            <option value="pending">⏳ Ожидающие</option>
+                            <option value="reviewed">👁️ Просмотренные</option>
+                            <option value="resolved">✅ Решенные</option>
+                            <option value="urgent">🔴 Срочные</option>
+                        </select>
+                    </div>
+                    <div id="adminReportsList"></div>
+                </div>
+            </div>
+
+            <!-- СИСТЕМА ЖАЛОБ ДЛЯ УЧЕНИКА -->
+            <div id="studentReports" class="section">
+                <h2>⚠️ Жалобы на меня</h2>
+                
+                <div class="card">
+                    <h3>📋 История жалоб</h3>
+                    <div id="studentReportsList"></div>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Статистика</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card"><div>⚠️</div><div class="stat-number" id="studentTotalReports">0</div><div class="stat-label">Всего жалоб</div></div>
+                        <div class="stat-card"><div>✅</div><div class="stat-number" id="studentResolvedReports">0</div><div class="stat-label">Решено</div></div>
+                        <div class="stat-card"><div>⏳</div><div class="stat-number" id="studentPendingReports">0</div><div class="stat-label">Активные</div></div>
+                        <div class="stat-card"><div>📈</div><div class="stat-number" id="studentImprovement">0%</div><div class="stat-label">Улучшение</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- УПРАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯМИ -->
+            <div id="userManagement" class="section">
+                <h2>👥 Управление пользователями</h2>
+                
+                <div class="card">
+                    <h3>➕ Добавить пользователя</h3>
+                    <div class="form-group">
+                        <label>👤 Полное имя</label>
+                        <input type="text" class="input" id="newUserName" placeholder="Имя и фамилия">
+                    </div>
+                    <div class="form-group">
+                        <label>📧 Email</label>
+                        <input type="email" class="input" id="newUserEmail" placeholder="example@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>🔑 Пароль</label>
+                        <input type="password" class="input" id="newUserPassword" placeholder="Придумайте пароль">
+                    </div>
+                    <div class="form-group">
+                        <label>🎭 Роль</label>
+                        <select class="select" id="newUserRole">
+                            <option value="teacher">👨‍🏫 Учитель</option>
+                            <option value="head_teacher">🎓 Завуч</option>
+                            <option value="admin">👑 Администратор</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="addUser()">✅ Добавить пользователя</button>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Список пользователей</h3>
+                    <div id="usersList"></div>
+                </div>
+            </div>
+
+            <!-- УПРАВЛЕНИЕ ГРУППАМИ -->
+            <div id="groupManagement" class="section">
+                <h2>🏷️ Управление группами</h2>
+                
+                <div class="card">
+                    <h3>➕ Создать новую группу</h3>
+                    <div class="form-group">
+                        <label>🏷️ Название группы</label>
+                        <input type="text" class="input" id="groupName" placeholder="Например: Beginner A1-1">
+                    </div>
+                    <div class="form-group">
+                        <label>👨‍🏫 Преподаватель группы</label>
+                        <select class="select" id="groupTeacher">
+                            <option value="">-- Выберите преподавателя --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>📚 Уровень группы</label>
+                        <select class="select" id="groupLevel">
+                            <option value="beginner">BEGINNER (A1)</option>
+                            <option value="elementary">ELEMENTARY (A2)</option>
+                            <option value="intermediate">INTERMEDIATE (B1)</option>
+                            <option value="advanced">ADVANCED (B2)</option>
+                            <option value="fluent">FLUENT (C1-C2)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>👥 Максимум студентов в группе</label>
+                        <input type="number" class="input" id="groupMaxStudents" value="12" min="1" max="30">
+                    </div>
+                    <button class="btn" onclick="createGroup()">✅ Создать группу</button>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Статистика по преподавателям</h3>
+                    <div id="teacherStats"></div>
+                </div>
+
+                <div class="card">
+                    <h3>🗂️ Список групп</h3>
+                    <div id="groupsList"></div>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 Назначить студента в группу</h3>
+                    <div class="form-group">
+                        <label>👨‍🎓 Выберите студента</label>
+                        <select class="select" id="assignStudent">
+                            <option value="">-- Выберите студента --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>🏷️ Выберите группу</label>
+                        <select class="select" id="assignGroup">
+                            <option value="">-- Выберите группу --</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="assignStudentToGroup()">✅ Назначить в группу</button>
+                </div>
+            </div>
+
+            <!-- РЕЙТИНГИ УЧИТЕЛЕЙ -->
+            <div id="teacherRatings" class="section">
+                <h2>⭐ Рейтинги преподавателей</h2>
+                
+                <div class="card">
+                    <h3>📊 Общая статистика рейтингов</h3>
+                    <div id="ratingsStats"></div>
+                </div>
+
+                <div class="card">
+                    <h3>👨‍🏫 Список преподавателей</h3>
+                    <div id="teachersRatingsList"></div>
+                </div>
+
+                <div class="card">
+                    <h3>➕ Добавить рейтинг преподавателю</h3>
+                    <div class="form-group">
+                        <label>👨‍🏫 Выберите преподавателя</label>
+                        <select class="select" id="ratingTeacher"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>⭐ Оценка</label>
+                        <div class="star-rating" id="starRating">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <input type="hidden" id="ratingValue" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>📝 Комментарий (опционально)</label>
+                        <textarea class="input" id="ratingComment" placeholder="Ваш комментарий..." rows="3"></textarea>
+                    </div>
+                    <button class="btn" onclick="addTeacherRating()">⭐ Добавить рейтинг</button>
+                </div>
+            </div>
+
+            <!-- НАСТРОЙКИ СИСТЕМЫ -->
+            <div id="systemSettings" class="section">
+                <h2>⚙️ Настройки системы</h2>
+                
+                <div class="card">
+                    <h3>🔧 Основные настройки</h3>
+                    <div class="form-group">
+                        <label>🏫 Название школы</label>
+                        <input type="text" class="input" id="schoolName" value="PrimeSpeak Academy">
+                    </div>
+                    <div class="form-group">
+                        <label>📧 Email администратора</label>
+                        <input type="email" class="input" id="adminEmailSetting" value="admin@primespeak.com">
+                    </div>
+                    <div class="form-group">
+                        <label>🌐 Язык системы</label>
+                        <select class="select" id="systemLanguage">
+                            <option value="ru">Русский</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-success" onclick="saveSystemSettings()">💾 Сохранить настройки</button>
+                </div>
+
+                <div class="card">
+                    <h3>🔐 Настройки безопасности</h3>
+                    <div class="form-group">
+                        <label>🔑 Минимальная длина пароля</label>
+                        <input type="number" class="input" id="minPasswordLength" value="8" min="6" max="20">
+                    </div>
+                    <div class="form-group">
+                        <label>⏰ Автоматический выход (минуты)</label>
+                        <input type="number" class="input" id="autoLogoutTime" value="60" min="15" max="480">
+                    </div>
+                    <div class="form-group">
+                        <label>📧 Уведомления по email</label>
+                        <select class="select" id="emailNotifications">
+                            <option value="enabled">Включены</option>
+                            <option value="disabled">Выключены</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-success" onclick="saveSecuritySettings()">💾 Сохранить настройки</button>
+                </div>
+            </div>
+
+            <!-- АНАЛИТИКА СИСТЕМЫ -->
+            <div id="systemAnalytics" class="section">
+                <h2>📈 Аналитика системы</h2>
+                
+                <div class="card">
+                    <h3>📊 Использование системы</h3>
+                    <div id="systemUsage"></div>
+                </div>
+
+                <div class="card">
+                    <h3>📈 Статистика активности</h3>
+                    <div id="activityStats"></div>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Отчеты системы</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button class="btn" onclick="generateSystemReport()">📄 Системный отчет</button>
+                        <button class="btn" onclick="generateUserReport()">👥 Отчет по пользователям</button>
+                        <button class="btn" onclick="generateSecurityReport()">🔒 Отчет безопасности</button>
+                        <button class="btn" onclick="generatePerformanceReport()">⚡ Отчет производительности</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- БЕЗОПАСНОСТЬ -->
+            <div id="security" class="section">
+                <h2>🔒 Безопасность системы</h2>
+                
+                <div class="card">
+                    <h3>🛡️ Мониторинг безопасности</h3>
+                    <div id="securityMonitoring"></div>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Журнал событий</h3>
+                    <div id="securityLog"></div>
+                </div>
+
+                <div class="card">
+                    <h3>🔐 Смена пароля администратора</h3>
+                    <div class="form-group">
+                        <label>🔑 Текущий пароль</label>
+                        <input type="password" class="input" id="currentAdminPassword">
+                    </div>
+                    <div class="form-group">
+                        <label>🔑 Новый пароль</label>
+                        <input type="password" class="input" id="newAdminPassword">
+                    </div>
+                    <div class="form-group">
+                        <label>🔑 Подтвердите новый пароль</label>
+                        <input type="password" class="input" id="confirmAdminPassword">
+                    </div>
+                    <button class="btn btn-success" onclick="changeAdminPassword()">🔐 Сменить пароль</button>
+                </div>
+            </div>
+
+            <!-- АНАЛИТИКА ДЛЯ ЗАВУЧА -->
+            <div id="academicAnalytics" class="section">
+                <h2>📊 Детальная аналитика</h2>
+                <div class="card">
+                    <h3>Статистика успеваемости</h3>
+                    <div id="detailedAnalytics"></div>
+                </div>
+            </div>
+
+            <!-- УПРАВЛЕНИЕ УЧИТЕЛЯМИ -->
+            <div id="teacherManagement" class="section">
+                <h2>👨‍🏫 Управление преподавателями</h2>
+                <div class="card">
+                    <h3>Список преподавателей</h3>
+                    <div id="teachersList"></div>
+                </div>
+            </div>
+
+            <!-- КОНТРОЛЬ КАЧЕСТВА -->
+            <div id="qualityControl" class="section">
+                <h2>🎯 Контроль качества обучения</h2>
+                <div class="card">
+                    <h3>Метрики качества</h3>
+                    <div id="qualityControlMetrics"></div>
+                </div>
+            </div>
+
+            <!-- ОТЧЕТЫ -->
+            <div id="reports" class="section">
+                <h2>📋 Академические отчеты</h2>
+                <div class="card">
+                    <h3>Генерация отчетов</h3>
+                    <div id="reportsSection"></div>
+                </div>
+            </div>
+
+            <!-- УЧЕНИКИ -->
+            <div id="students" class="section">
+                <h2>👨‍🎓 Список учеников</h2>
+                <div class="card">
+                    <div class="form-group">
+                        <input type="text" class="input" id="searchStudent" placeholder="🔍 Поиск ученика по имени..." onkeyup="searchStudents()">
+                    </div>
+                </div>
+                <div id="studentsList"></div>
+            </div>
+
+            <!-- ДОБАВЛЕНИЕ УЧЕНИКА -->
+            <div id="addStudent" class="section">
+                <h2>➕ Добавить ученика</h2>
+                <div class="card">
+                    <div class="form-group">
+                        <label>👤 Полное имя ученика</label>
+                        <input type="text" class="input" id="studentName" placeholder="Имя и фамилия">
+                    </div>
+                    <div class="form-group">
+                        <label>👤 Логин для входа</label>
+                        <input type="text" class="input" id="studentUsername" placeholder="Придумайте логин">
+                    </div>
+                    <div class="form-group">
+                        <label>🔑 Пароль для входа</label>
+                        <input type="text" class="input" id="studentPasswordInput" placeholder="Придумайте пароль">
+                    </div>
+                    <div class="form-group">
+                        <label>📧 Email ученика</label>
+                        <input type="email" class="input" id="studentEmail" placeholder="example@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>📚 Уровень английского</label>
+                        <select class="select" id="studentCourse">
+                            <option value="beginner">BEGINNER (A1) - Начинающий</option>
+                            <option value="elementary">ELEMENTARY (A2) - Элементарный</option>
+                            <option value="intermediate">INTERMEDIATE (B1) - Средний</option>
+                            <option value="advanced">ADVANCED (B2) - Продвинутый</option>
+                            <option value="fluent">FLUENT (C1-C2) - Свободный</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>🏷️ Группа (опционально)</label>
+                        <select class="select" id="studentGroup">
+                            <option value="">-- Без группы --</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="addStudent()">✅ Добавить ученика</button>
+                </div>
+            </div>
+
+            <!-- ОЦЕНКИ -->
+            <div id="grades" class="section">
+                <h2>📝 Выставление оценок</h2>
+                <div class="card">
+                    <div class="form-group">
+                        <label>👨‍🎓 Выберите ученика</label>
+                        <select class="select" id="gradeStudent"></select>
+                    </div>
+                    
+                    <div class="grade-type-tabs">
+                        <button class="grade-type-tab active" onclick="showGradeType('regular')">📚 Обычные</button>
+                        <button class="grade-type-tab" onclick="showGradeType('test')">🎓 Тесты</button>
+                        <button class="grade-type-tab" onclick="showGradeType('homework')">🏠 Домашние</button>
+                        <button class="grade-type-tab" onclick="showGradeType('activity')">💪 Активность</button>
+                        <button class="grade-type-tab" onclick="showGradeType('project')">📁 Проекты</button>
+                        <button class="grade-type-tab" onclick="showGradeType('oral')">🎤 Устные</button>
+                        <button class="grade-type-tab" onclick="showGradeType('attendance')">📅 Посещаемость</button>
+                    </div>
+
+                    <!-- Обычные оценки (10 баллов) -->
+                    <div id="regularGrades" class="grade-type-content">
+                        <div class="form-group">
+                            <label>⭐ Оценка (10-балльная система)</label>
+                            <select class="select" id="gradeValue">
+                                <option value="1">1 - Очень плохо</option>
+                                <option value="2">2 - Плохо</option>
+                                <option value="3">3 - Неудовлетворительно</option>
+                                <option value="4">4 - Ниже среднего</option>
+                                <option value="5">5 - Удовлетворительно</option>
+                                <option value="6">6 - Хорошо</option>
+                                <option value="7">7 - Очень хорошо</option>
+                                <option value="8">8 - Отлично</option>
+                                <option value="9">9 - Превосходно</option>
+                                <option value="10">10 - Блестяще</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Тесты (25 баллов) -->
+                    <div id="testGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>🎓 Оценка за тест (25-балльная система) 
+                                <span id="testGradeDisplay" style="color: var(--primary); font-weight: bold; margin-left: 10px;">15/25</span>
+                            </label>
+                            <select class="select" id="testGradeValue" onchange="updateTestGradeDisplay()">
+                                <option value="1">1 балл</option>
+                                <option value="2">2 балла</option>
+                                <option value="3">3 балла</option>
+                                <option value="4">4 балла</option>
+                                <option value="5">5 баллов</option>
+                                <option value="6">6 баллов</option>
+                                <option value="7">7 баллов</option>
+                                <option value="8">8 баллов</option>
+                                <option value="9">9 баллов</option>
+                                <option value="10">10 баллов</option>
+                                <option value="11">11 баллов</option>
+                                <option value="12">12 баллов</option>
+                                <option value="13">13 баллов</option>
+                                <option value="14">14 баллов</option>
+                                <option value="15" selected>15 баллов</option>
+                                <option value="16">16 баллов</option>
+                                <option value="17">17 баллов</option>
+                                <option value="18">18 баллов</option>
+                                <option value="19">19 баллов</option>
+                                <option value="20">20 баллов</option>
+                                <option value="21">21 балл</option>
+                                <option value="22">22 балла</option>
+                                <option value="23">23 балла</option>
+                                <option value="24">24 балла</option>
+                                <option value="25">25 баллов</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Домашние задания (10 баллов) -->
+                    <div id="homeworkGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>🏠 Домашнее задание (10-балльная система)</label>
+                            <select class="select" id="homeworkGradeValue">
+                                <option value="1">1 - Не сдано</option>
+                                <option value="2">2 - Очень плохо</option>
+                                <option value="3">3 - Плохо</option>
+                                <option value="4">4 - Ниже среднего</option>
+                                <option value="5">5 - Удовлетворительно</option>
+                                <option value="6">6 - Хорошо</option>
+                                <option value="7">7 - Очень хорошо</option>
+                                <option value="8">8 - Отлично</option>
+                                <option value="9">9 - Превосходно</option>
+                                <option value="10">10 - Идеально</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Активность на уроке (5 баллов) -->
+                    <div id="activityGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>💪 Активность на уроке (5-балльная система)</label>
+                            <select class="select" id="activityGradeValue">
+                                <option value="1">1 - Пассивный</option>
+                                <option value="2">2 - Редко участвует</option>
+                                <option value="3">3 - Средняя активность</option>
+                                <option value="4">4 - Активный</option>
+                                <option value="5">5 - Очень активный</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Проектные работы (20 баллов) -->
+                    <div id="projectGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>📁 Проектная работа (20-балльная система)</label>
+                            <select class="select" id="projectGradeValue">
+                                <option value="1">1 балл</option>
+                                <option value="2">2 балла</option>
+                                <option value="3">3 балла</option>
+                                <option value="4">4 балла</option>
+                                <option value="5">5 баллов</option>
+                                <option value="6">6 баллов</option>
+                                <option value="7">7 баллов</option>
+                                <option value="8">8 баллов</option>
+                                <option value="9">9 баллов</option>
+                                <option value="10">10 баллов</option>
+                                <option value="11">11 баллов</option>
+                                <option value="12">12 баллов</option>
+                                <option value="13">13 баллов</option>
+                                <option value="14">14 баллов</option>
+                                <option value="15">15 баллов</option>
+                                <option value="16">16 баллов</option>
+                                <option value="17">17 баллов</option>
+                                <option value="18">18 баллов</option>
+                                <option value="19">19 баллов</option>
+                                <option value="20">20 баллов</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Устные ответы (5 баллов) -->
+                    <div id="oralGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>🎤 Устный ответ (5-балльная система)</label>
+                            <select class="select" id="oralGradeValue">
+                                <option value="1">1 - Не ответил</option>
+                                <option value="2">2 - С ошибками</option>
+                                <option value="3">3 - Удовлетворительно</option>
+                                <option value="4">4 - Хорошо</option>
+                                <option value="5">5 - Отлично</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Посещаемость (2 балла) -->
+                    <div id="attendanceGrades" class="grade-type-content" style="display: none;">
+                        <div class="form-group">
+                            <label>📅 Посещаемость</label>
+                            <select class="select" id="attendanceGradeValue">
+                                <option value="2">✅ Присутствовал</option>
+                                <option value="1">⏰ Опоздал</option>
+                                <option value="0">❌ Отсутствовал</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📄 Задание/Тема урока</label>
+                        <input type="text" class="input" id="gradeAssignment" placeholder="Present Simple, Homework #5, Project Work">
+                    </div>
+                    <div class="form-group">
+                        <label>📝 Комментарий (опционально)</label>
+                        <textarea class="input" id="gradeComment" placeholder="Дополнительные комментарии..." rows="2"></textarea>
+                    </div>
+                    <button class="btn" onclick="addGrade()">📝 Поставить оценку</button>
+                </div>
+                <div class="card"><h3>📋 История оценок</h3><div id="gradesHistory"></div></div>
+            </div>
+
+            <!-- УЛУЧШЕННОЕ РАСПИСАНИЕ С ГРУППИРОВКОЙ ПО ДАТАМ -->
+            <div id="schedule" class="section">
+                <h2>📅 Расписание занятий</h2>
+                
+                <!-- Фильтры расписания -->
+                <div class="schedule-filters">
+                    <button class="filter-btn active" onclick="filterSchedule('all')">📅 Все занятия</button>
+                    <button class="filter-btn" onclick="filterSchedule('today')">🎯 Сегодня</button>
+                    <button class="filter-btn" onclick="filterSchedule('week')">📆 Эта неделя</button>
+                    <button class="filter-btn" onclick="filterSchedule('upcoming')">⏰ Предстоящие</button>
+                    <button class="filter-btn" onclick="filterSchedule('past')">📋 Прошедшие</button>
+                </div>
+                
+                <div class="card">
+                    <h3>➕ Добавить занятие в расписание</h3>
+                    <div class="form-group">
+                        <label>📚 Предмет</label>
+                        <input type="text" class="input" id="scheduleSubject" placeholder="Английский язык, Grammar">
+                    </div>
+                    <div class="form-group">
+                        <label>👨‍🏫 Преподаватель</label>
+                        <input type="text" class="input" id="scheduleTeacher" placeholder="Radmir Nurislamov" value="Radmir Nurislamov">
+                    </div>
+                    <div class="form-group">
+                        <label>👨‍🎓 Уровень/Группа</label>
+                        <select class="select" id="scheduleLevel">
+                            <option value="all">Все уровни</option>
+                            <option value="beginner">BEGINNER</option>
+                            <option value="elementary">ELEMENTARY</option>
+                            <option value="intermediate">INTERMEDIATE</option>
+                            <option value="advanced">ADVANCED</option>
+                            <option value="fluent">FLUENT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>📅 Дата</label>
+                        <input type="date" class="input" id="scheduleDate">
+                    </div>
+                    <div class="form-group">
+                        <label>⏰ Время начала</label>
+                        <input type="time" class="input" id="scheduleStartTime">
+                    </div>
+                    <div class="form-group">
+                        <label>⏰ Время окончания</label>
+                        <input type="time" class="input" id="scheduleEndTime">
+                    </div>
+                    <div class="form-group">
+                        <label>🎯 Тип занятия</label>
+                        <select class="select" id="scheduleType">
+                            <option value="regular">📚 Обычный урок</option>
+                            <option value="test">🎓 Тестирование</option>
+                            <option value="conversation">🗣️ Разговорная практика</option>
+                            <option value="grammar">📖 Грамматика</option>
+                            <option value="project">📁 Проектная работа</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>📝 Описание (опционально)</label>
+                        <textarea class="input" id="scheduleDescription" placeholder="Тема урока, домашнее задание..." rows="3"></textarea>
+                    </div>
+                    <button class="btn" onclick="addScheduleItem()">✅ Добавить в расписание</button>
+                </div>
+
+                <!-- БЛИЖАЙШИЕ ЗАНЯТИЯ (топ 5) -->
+                <div class="card">
+                    <h3>⏰ Ближайшие занятия</h3>
+                    <div id="upcomingLessons" class="schedule-items-container"></div>
+                </div>
+
+                <!-- ОСНОВНОЕ РАСПИСАНИЕ С ГРУППИРОВКОЙ ПО ДАТАМ -->
+                <div class="card">
+                    <h3>🗓️ Расписание по датам</h3>
+                    <div id="scheduleList"></div>
+                </div>
+            </div>
+
+            <!-- КАЛЕНДАРЬ -->
+            <div id="calendar" class="section">
+                <h2>🗓️ Календарь событий</h2>
+                
+                <div class="card">
+                    <h3>➕ Добавить событие</h3>
+                    <div class="form-group">
+                        <label>🎯 Название события</label>
+                        <input type="text" class="input" id="eventTitle" placeholder="Тест, Собрание, Мероприятие">
+                    </div>
+                    <div class="form-group">
+                        <label>📅 Дата события</label>
+                        <input type="date" class="input" id="eventDate">
+                    </div>
+                    <div class="form-group">
+                        <label>⏰ Время (опционально)</label>
+                        <input type="time" class="input" id="eventTime">
+                    </div>
+                    <div class="form-group">
+                        <label>📝 Описание</label>
+                        <textarea class="input" id="eventDescription" placeholder="Описание события..." rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>🎨 Тип события</label>
+                        <select class="select" id="eventType">
+                            <option value="lesson">📚 Урок</option>
+                            <option value="test">🎓 Тест</option>
+                            <option value="meeting">👥 Собрание</option>
+                            <option value="holiday">🎉 Мероприятие</option>
+                            <option value="deadline">⏰ Дедлайн</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="addCalendarEvent()">✅ Добавить событие</button>
+                </div>
+
+                <div class="card">
+                    <div class="calendar-header">
+                        <button class="btn" onclick="changeMonth(-1)" style="width: auto;">⬅️</button>
+                        <h3 id="currentMonth">Май 2024</h3>
+                        <button class="btn" onclick="changeMonth(1)" style="width: auto;">➡️</button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                </div>
+
+                <div class="card">
+                    <h3>📅 Ближайшие события</h3>
+                    <div id="calendarEventsList"></div>
+                </div>
+            </div>
+
+            <!-- СТРАНИЦА УЧЕНИКА -->
+            <div id="studentGrades" class="section">
+                <h2>📊 Мой учебный портал</h2>
+                <div class="card">
+                    <h3>👋 Привет, <span id="welcomeStudentName">Ученик</span>!</h3>
+                    <p><strong>Твой средний балл:</strong> <span id="studentAverageGrade" style="font-size: 1.5em; color: var(--primary);">0.0</span></p>
+                    <p><strong>Уровень:</strong> <span id="studentCourseDisplay">-</span></p>
+                    <p><strong>Зачислен:</strong> <span id="studentJoinDate">-</span></p>
+                    <p><strong>👨‍🏫 Ваш учитель:</strong> <span style="color: var(--primary); font-weight: bold;">Radmir Nurislamov</span></p>
+                    
+                    <!-- ПРОГРЕСС ЗА СЕГОДНЯ -->
+                    <div id="todayProgress" class="today-progress" style="display: none;">
+                        <h4>📊 Прогресс за сегодня</h4>
+                        <div class="progress-percentage" id="todayProgressPercentage">0%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="todayProgressBar" style="width: 0%"></div>
+                        </div>
+                        <div id="todayProgressText">Сегодня еще нет оценок</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📅 Мое расписание на сегодня</h3>
+                    <div id="studentTodaySchedule" class="schedule-items-container"></div>
+                </div>
+
+                <div class="card">
+                    <h3>🔔 Ближайшие события</h3>
+                    <div id="studentUpcomingEvents"></div>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Статистика по типам оценок</h3>
+                    <div id="studentGradeStats"></div>
+                </div>
+
+                <div class="card">
+                    <h3>📝 История моих оценок</h3>
+                    <div class="student-grades-list" id="studentGradesList"></div>
+                </div>
+
+                <!-- ЖАЛОБЫ ДЛЯ УЧЕНИКА -->
+                <div class="card">
+                    <h3>⚠️ Жалобы на меня</h3>
+                    <div id="studentReportsSection"></div>
+                    <button class="btn" onclick="showSection('studentReports')">📋 Подробнее о жалобах</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1041,12 +1781,12 @@
         const userRoles = {
             'teacher': {
                 name: '👨‍🏫 Учитель',
-                permissions: ['view_students', 'add_grades', 'view_schedule', 'add_schedule', 'submit_reports'],
+                permissions: ['view_students', 'add_grades', 'view_schedule', 'add_schedule'],
                 dashboard: 'teacher_dashboard'
             },
             'student': {
                 name: '👨‍🎓 Ученик',
-                permissions: ['view_own_grades', 'view_schedule', 'view_own_reports'],
+                permissions: ['view_own_grades', 'view_schedule'],
                 dashboard: 'student_dashboard'
             },
             'head_teacher': {
@@ -1055,7 +1795,7 @@
                     'view_all_students', 'view_all_grades', 'view_all_teachers',
                     'manage_schedule', 'manage_curriculum', 'quality_control',
                     'progress_monitoring', 'generate_reports', 'teacher_performance',
-                    'student_analytics', 'academic_planning', 'manage_reports'
+                    'student_analytics', 'academic_planning'
                 ],
                 dashboard: 'head_teacher_dashboard'
             },
@@ -1064,31 +1804,152 @@
                 permissions: [
                     'manage_all_users', 'system_settings', 'security_management',
                     'view_system_analytics', 'teacher_ratings', 'full_control',
-                    'manage_groups', 'assign_students', 'manage_all_reports'
+                    'manage_groups', 'assign_students'
                 ],
                 dashboard: 'admin_dashboard'
             }
         };
 
+        // ТИПЫ ОЦЕНОК
+        const gradeTypes = {
+            'regular': { name: '📚 Обычная', max: 10, color: '#3b82f6' },
+            'test': { name: '🎓 Тест', max: 25, color: '#8b5cf6' },
+            'homework': { name: '🏠 Домашняя', max: 10, color: '#10b981' },
+            'activity': { name: '💪 Активность', max: 5, color: '#f59e0b' },
+            'project': { name: '📁 Проект', max: 20, color: '#ec4899' },
+            'oral': { name: '🎤 Устная', max: 5, color: '#06b6d4' },
+            'attendance': { name: '📅 Посещаемость', max: 2, color: '#6b7280' }
+        };
+
+        // УРОВНИ КУРСОВ
+        const courseLevels = {
+            'beginner': { name: 'BEGINNER', level: 'A1', description: 'Basic vocabulary, simple sentences', color: 'course-beginner' },
+            'elementary': { name: 'ELEMENTARY', level: 'A2', description: 'Everyday conversations, basic grammar', color: 'course-elementary' },
+            'intermediate': { name: 'INTERMEDIATE', level: 'B1', description: 'Confident communication, complex sentences', color: 'course-intermediate' },
+            'advanced': { name: 'ADVANCED', level: 'B2', description: 'Fluent speech, business English', color: 'course-advanced' },
+            'fluent': { name: 'FLUENT', level: 'C1-C2', description: 'Native-like proficiency', color: 'course-fluent' }
+        };
+
         // ПРИЧИНЫ ЖАЛОБ
         const reportReasons = {
-            'behavior': 'Плохое поведение',
-            'homework': 'Невыполнение домашних заданий',
-            'attendance': 'Проблемы с посещаемостью',
-            'disrespect': 'Неуважительное отношение',
-            'cheating': 'Списывание',
-            'other': 'Другое'
+            'behavior': { name: '🚫 Неадекватное поведение', description: 'Неподобающее поведение на уроке' },
+            'homework': { name: '📚 Систематическое невыполнение ДЗ', description: 'Регулярное невыполнение домашних заданий' },
+            'attendance': { name: '⏰ Проблемы с посещаемостью', description: 'Частые опоздания или пропуски занятий' },
+            'respect': { name: '🙅‍♂️ Неуважение к учителю', description: 'Проявление неуважения к преподавателю' },
+            'cheating': { name: '📝 Списывание на тестах', description: 'Попытки списывания во время контрольных работ' },
+            'disruption': { name: '🔇 Срыв уроков', description: 'Создание помех для проведения урока' },
+            'other': { name: '❓ Другая причина', description: 'Иная причина, требующая внимания' }
         };
 
-        // СЕРЬЕЗНОСТЬ ЖАЛОБ
-        const reportSeverities = {
-            'low': { name: 'Низкая', color: '#10b981' },
-            'medium': { name: 'Средняя', color: '#f59e0b' },
-            'high': { name: 'Высокая', color: '#ef4444' },
-            'urgent': { name: 'Срочно', color: '#dc2626' }
+        // ДАННЫЕ ДЛЯ АВТОРИЗАЦИИ
+        const teacherCredentials = {
+            email: 'nurislamovradmir9@gmail.com',
+            password: 'teacher123',
+            name: 'Radmir Nurislamov'
         };
+
+        const headTeacherCredentials = {
+            email: 'nurislamovradmir9@gmail.com',
+            password: 'headteacher123',
+            name: 'Radmir Nurislamov'
+        };
+
+        const adminCredentials = {
+            email: 'admin@primespeak.com',
+            password: 'admin123',
+            name: 'Администратор системы'
+        };
+
+        // ФУНКЦИИ ДЛЯ РАБОТЫ С ОЦЕНКАМИ
+        function getGradeColorClass(grade, type) {
+            grade = parseInt(grade);
+            if (type === 'test') {
+                if (grade <= 10) return 'test-grade-1';
+                if (grade <= 15) return 'test-grade-11';
+                return 'test-grade-16';
+            } else if (type === 'activity') {
+                if (grade <= 2) return 'activity-grade-1';
+                if (grade === 3) return 'activity-grade-3';
+                return 'activity-grade-4';
+            } else if (type === 'homework') {
+                if (grade <= 3) return 'homework-grade-1';
+                if (grade <= 6) return 'homework-grade-4';
+                return 'homework-grade-7';
+            } else if (type === 'project') {
+                if (grade <= 10) return 'project-grade-1';
+                if (grade <= 15) return 'project-grade-11';
+                return 'project-grade-16';
+            } else if (type === 'oral') {
+                if (grade <= 2) return 'oral-grade-1';
+                if (grade === 3) return 'oral-grade-3';
+                return 'oral-grade-4';
+            } else if (type === 'attendance') {
+                return `attendance-grade-${grade}`;
+            } else {
+                if (grade <= 3) return `grade-${grade}`;
+                if (grade <= 6) return `grade-${grade}`;
+                return `grade-${grade}`;
+            }
+        }
+
+        function renderGrade(grade, type) {
+            const colorClass = getGradeColorClass(grade, type);
+            if (type === 'test') {
+                return `<span class="grade ${colorClass}">${grade}/25</span>`;
+            } else if (type === 'activity') {
+                return `<span class="grade ${colorClass}">${grade}/5</span>`;
+            } else if (type === 'attendance') {
+                const labels = { '0': '❌', '1': '⏰', '2': '✅' };
+                return `<span class="grade ${colorClass}">${labels[grade] || grade}/2</span>`;
+            } else if (type === 'oral') {
+                return `<span class="grade ${colorClass}">${grade}/5</span>`;
+            } else if (type === 'project') {
+                return `<span class="grade ${colorClass}">${grade}/20</span>`;
+            } else if (type === 'homework') {
+                return `<span class="grade ${colorClass}">${grade}/10</span>`;
+            } else {
+                return `<span class="grade ${colorClass}">${grade}</span>`;
+            }
+        }
+
+        function renderCourseLevel(course) {
+            const courseInfo = courseLevels[course] || { name: course, color: 'course-beginner' };
+            return `<span class="course-badge ${courseInfo.color} course-tooltip" data-tooltip="${courseInfo.description}">${courseInfo.name} (${courseInfo.level})</span>`;
+        }
+
+        function getCourseName(course) {
+            const courseInfo = courseLevels[course] || { name: course, level: '' };
+            return `${courseInfo.name} (${courseInfo.level})`;
+        }
+
+        // ФУНКЦИИ ДЛЯ РАБОТЫ С РАСПИСАНИЕМ
+        function filterSchedule(filter) {
+            currentScheduleFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            loadSchedule();
+        }
+
+        function getScheduleStatus(item) {
+            const now = new Date();
+            const lessonDate = new Date(item.date + 'T' + item.start_time);
+            const lessonEnd = new Date(item.date + 'T' + item.end_time);
+            
+            if (now >= lessonDate && now <= lessonEnd) {
+                return { status: 'ongoing', text: 'Идет сейчас' };
+            } else if (now < lessonDate) {
+                return { status: 'upcoming', text: 'Предстоит' };
+            } else {
+                return { status: 'completed', text: 'Завершено' };
+            }
+        }
 
         // ОСНОВНЫЕ ФУНКЦИИ СИСТЕМЫ
+        function updateTestGradeDisplay() {
+            const gradeValue = document.getElementById('testGradeValue').value;
+            document.getElementById('testGradeDisplay').textContent = `${gradeValue}/25`;
+        }
+
         async function testConnection() {
             try {
                 const { data, error } = await supabase.from('teacher').select('*').limit(1);
@@ -1113,6 +1974,58 @@
             document.getElementById('adminLogin').style.display = tab === 'admin' ? 'block' : 'none';
         }
 
+        // ФУНКЦИИ ДЛЯ "ЗАПОМНИТЬ МЕНЯ"
+        function saveCredentials(role, credentials) {
+            const rememberCheckbox = document.getElementById(`remember${role.charAt(0).toUpperCase() + role.slice(1)}`);
+            
+            if (rememberCheckbox && rememberCheckbox.checked) {
+                localStorage.setItem(`${role}Credentials`, JSON.stringify(credentials));
+                localStorage.setItem(`${role}RememberMe`, 'true');
+            } else {
+                localStorage.removeItem(`${role}Credentials`);
+                localStorage.removeItem(`${role}RememberMe`);
+            }
+        }
+
+        function restoreCredentials(role) {
+            const savedCredentials = localStorage.getItem(`${role}Credentials`);
+            const rememberMe = localStorage.getItem(`${role}RememberMe`);
+            
+            if (savedCredentials && rememberMe === 'true') {
+                const credentials = JSON.parse(savedCredentials);
+                
+                if (role === 'teacher') {
+                    document.getElementById('teacherEmail').value = credentials.email || '';
+                    document.getElementById('teacherPassword').value = credentials.password || '';
+                    document.getElementById('rememberTeacher').checked = true;
+                } else if (role === 'student') {
+                    document.getElementById('studentLoginInput').value = credentials.username || '';
+                    document.getElementById('studentPassword').value = credentials.password || '';
+                    document.getElementById('rememberStudent').checked = true;
+                } else if (role === 'headTeacher') {
+                    document.getElementById('headTeacherEmail').value = credentials.email || '';
+                    document.getElementById('headTeacherPassword').value = credentials.password || '';
+                    document.getElementById('rememberHeadTeacher').checked = true;
+                } else if (role === 'admin') {
+                    document.getElementById('adminEmail').value = credentials.email || '';
+                    document.getElementById('adminPassword').value = credentials.password || '';
+                    document.getElementById('rememberAdmin').checked = true;
+                }
+                
+                return true;
+            }
+            return false;
+        }
+
+        function autoLogin() {
+            // Просто заполняем поля, но не входим автоматически
+            const roles = ['teacher', 'student', 'headTeacher', 'admin'];
+            
+            for (let role of roles) {
+                restoreCredentials(role);
+            }
+        }
+
         // ФУНКЦИИ ВХОДА
         async function loginTeacher() {
             const email = document.getElementById('teacherEmail').value;
@@ -1124,12 +2037,14 @@
             }
             
             try {
-                if (email === 'nurislamovradmir9@gmail.com' && password === 'teacher123') {
+                if (email === teacherCredentials.email && password === teacherCredentials.password) {
                     currentUser = { 
-                        name: 'Radmir Nurislamov', 
-                        email: 'nurislamovradmir9@gmail.com',
+                        name: teacherCredentials.name, 
+                        email: teacherCredentials.email,
                         role: 'teacher' 
                     };
+                    
+                    saveCredentials('teacher', { email, password });
                     
                     showMainApp('teacher');
                     alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
@@ -1144,6 +2059,7 @@
                     if (error) throw error;
 
                     currentUser = { ...data, role: 'teacher' };
+                    saveCredentials('teacher', { email, password });
                     showMainApp('teacher');
                     alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
                 }
@@ -1173,6 +2089,7 @@
                 if (error) throw error;
 
                 currentUser = { ...data, role: 'student' };
+                saveCredentials('student', { username, password });
                 showMainApp('student');
                 alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
                 
@@ -1191,12 +2108,14 @@
             }
             
             try {
-                if (email === 'nurislamovradmir9@gmail.com' && password === 'headteacher123') {
+                if (email === headTeacherCredentials.email && password === headTeacherCredentials.password) {
                     currentUser = { 
-                        name: 'Radmir Nurislamov', 
-                        email: 'nurislamovradmir9@gmail.com',
+                        name: headTeacherCredentials.name, 
+                        email: headTeacherCredentials.email,
                         role: 'head_teacher' 
                     };
+                    
+                    saveCredentials('headTeacher', { email, password });
                     
                     showMainApp('head_teacher');
                     alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
@@ -1211,6 +2130,7 @@
                     if (error) throw error;
 
                     currentUser = { ...data, role: 'head_teacher' };
+                    saveCredentials('headTeacher', { email, password });
                     showMainApp('head_teacher');
                     alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
                 }
@@ -1230,12 +2150,14 @@
             }
             
             try {
-                if (email === 'admin@primespeak.com' && password === 'admin123') {
+                if (email === adminCredentials.email && password === adminCredentials.password) {
                     currentUser = { 
-                        name: 'Администратор системы', 
-                        email: 'admin@primespeak.com',
+                        name: adminCredentials.name, 
+                        email: adminCredentials.email,
                         role: 'admin' 
                     };
+                    
+                    saveCredentials('admin', { email, password });
                     
                     showMainApp('admin');
                     alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
@@ -1250,6 +2172,7 @@
                     if (error) throw error;
 
                     currentUser = { ...data, role: 'admin' };
+                    saveCredentials('admin', { email, password });
                     showMainApp('admin');
                     alert('🎉 Добро пожаловать, ' + currentUser.name + '!');
                 }
@@ -1297,6 +2220,7 @@
                 document.getElementById('adminNameDisplay').textContent = currentUser.name;
                 showSection('adminDashboard');
                 loadAdminData();
+                initStarRating();
             }
             
             loadSchedule();
@@ -1319,410 +2243,16 @@
             
             document.getElementById(sectionName).classList.add('active');
             if (event) event.currentTarget.classList.add('active');
+        }
+
+        function showGradeType(type) {
+            currentGradeType = type;
+            document.querySelectorAll('.grade-type-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.grade-type-content').forEach(content => content.style.display = 'none');
             
-            // При показе раздела с жалобами загружаем соответствующие данные
-            if (sectionName === 'reports') {
-                loadReportsSection();
-            }
-        }
-
-        // ФУНКЦИИ ДЛЯ СИСТЕМЫ ЖАЛОБ
-        async function loadReportsSection() {
-            // Скрываем все разделы
-            document.getElementById('teacherReportsSection').style.display = 'none';
-            document.getElementById('studentReportsSection').style.display = 'none';
-            document.getElementById('adminReportsSection').style.display = 'none';
-            
-            if (currentUser.role === 'teacher') {
-                document.getElementById('teacherReportsSection').style.display = 'block';
-                await loadReportStudentSelect();
-                await loadTeacherReports();
-            } else if (currentUser.role === 'student') {
-                document.getElementById('studentReportsSection').style.display = 'block';
-                await loadStudentReports();
-            } else if (currentUser.role === 'head_teacher' || currentUser.role === 'admin') {
-                document.getElementById('adminReportsSection').style.display = 'block';
-                await loadAdminReports();
-                await loadReportsStatistics();
-            }
-        }
-
-        async function loadReportStudentSelect() {
-            const { data: students, error } = await supabase
-                .from('students')
-                .select('id, name, username')
-                .order('name');
-
-            if (error) return;
-
-            const select = document.getElementById('reportStudent');
-            select.innerHTML = '<option value="">-- Выберите ученика --</option>';
-            students.forEach(student => {
-                select.innerHTML += `<option value="${student.id}">${student.name} (${student.username})</option>`;
-            });
-        }
-
-        async function submitReport() {
-            const studentId = parseInt(document.getElementById('reportStudent').value);
-            const reason = document.getElementById('reportReason').value;
-            const description = document.getElementById('reportDescription').value.trim();
-            const severity = document.getElementById('reportSeverity').value;
-
-            if (!studentId || !reason || !description) {
-                alert('⚠️ Заполните все обязательные поля!');
-                return;
-            }
-
-            try {
-                // Получаем информацию об ученике
-                const { data: student, error: studentError } = await supabase
-                    .from('students')
-                    .select('name, username')
-                    .eq('id', studentId)
-                    .single();
-
-                if (studentError) throw studentError;
-
-                const { data, error } = await supabase
-                    .from('reports')
-                    .insert([{
-                        student_id: studentId,
-                        student_name: student.name,
-                        student_username: student.username,
-                        teacher_id: currentUser.id,
-                        teacher_name: currentUser.name,
-                        reason: reason,
-                        description: description,
-                        severity: severity,
-                        status: 'pending',
-                        created_at: new Date().toISOString()
-                    }])
-                    .select();
-
-                if (error) throw error;
-
-                // Очищаем форму
-                document.getElementById('reportStudent').value = '';
-                document.getElementById('reportReason').value = '';
-                document.getElementById('reportDescription').value = '';
-                document.getElementById('reportSeverity').value = 'medium';
-
-                // Обновляем список жалоб
-                await loadTeacherReports();
-                
-                alert(`✅ Жалоба на ученика ${student.name} отправлена!`);
-                
-            } catch (err) {
-                alert('❌ Ошибка: ' + err.message);
-            }
-        }
-
-        async function loadTeacherReports() {
-            const { data: reports, error } = await supabase
-                .from('reports')
-                .select('*')
-                .eq('teacher_id', currentUser.id)
-                .order('created_at', { ascending: false });
-
-            if (error) {
-                console.error('Error loading teacher reports:', error);
-                return;
-            }
-
-            const reportsList = document.getElementById('teacherReportsList');
-            
-            if (!reports || reports.length === 0) {
-                reportsList.innerHTML = '<div class="empty-state"><div>⚠️</div><p>Вы еще не отправляли жалоб</p></div>';
-                return;
-            }
-
-            reportsList.innerHTML = '';
-            reports.forEach(report => {
-                const severityInfo = reportSeverities[report.severity];
-                const reasonText = reportReasons[report.reason] || report.reason;
-                
-                reportsList.innerHTML += `
-                    <div class="report-card ${report.severity === 'urgent' ? 'urgent' : ''} ${report.status === 'resolved' ? 'resolved' : ''}">
-                        <div class="report-header">
-                            <div>
-                                <div class="report-student">${report.student_name}</div>
-                                <div class="report-teacher">Причина: ${reasonText}</div>
-                            </div>
-                            <div class="report-date">${formatDate(report.created_at)}</div>
-                        </div>
-                        
-                        <div class="report-reason">
-                            ${report.description}
-                        </div>
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span class="report-status status-${report.status}">
-                                ${report.status === 'pending' ? '⏳ Ожидает' : report.status === 'resolved' ? '✅ Решено' : '🚨 Срочно'}
-                            </span>
-                            <span style="color: ${severityInfo.color}; font-weight: bold;">
-                                ${severityInfo.name}
-                            </span>
-                        </div>
-                        
-                        ${report.admin_comment ? `
-                            <div style="background: #eff6ff; padding: 10px; border-radius: 6px; margin-top: 10px;">
-                                <strong>💬 Комментарий администрации:</strong><br>
-                                ${report.admin_comment}
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            });
-        }
-
-        async function loadStudentReports() {
-            const { data: reports, error } = await supabase
-                .from('reports')
-                .select('*')
-                .eq('student_id', currentUser.id)
-                .order('created_at', { ascending: false });
-
-            if (error) {
-                console.error('Error loading student reports:', error);
-                return;
-            }
-
-            const reportsList = document.getElementById('studentReportsList');
-            
-            if (!reports || reports.length === 0) {
-                reportsList.innerHTML = '<div class="empty-state"><div>✅</div><p>У вас нет полученных жалоб</p></div>';
-                return;
-            }
-
-            reportsList.innerHTML = '';
-            reports.forEach(report => {
-                const severityInfo = reportSeverities[report.severity];
-                const reasonText = reportReasons[report.reason] || report.reason;
-                
-                reportsList.innerHTML += `
-                    <div class="report-card ${report.severity === 'urgent' ? 'urgent' : ''} ${report.status === 'resolved' ? 'resolved' : ''}">
-                        <div class="report-header">
-                            <div>
-                                <div class="report-student">От: ${report.teacher_name}</div>
-                                <div class="report-teacher">Причина: ${reasonText}</div>
-                            </div>
-                            <div class="report-date">${formatDate(report.created_at)}</div>
-                        </div>
-                        
-                        <div class="report-reason">
-                            ${report.description}
-                        </div>
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span class="report-status status-${report.status}">
-                                ${report.status === 'pending' ? '⏳ Ожидает' : report.status === 'resolved' ? '✅ Решено' : '🚨 Срочно'}
-                            </span>
-                            <span style="color: ${severityInfo.color}; font-weight: bold;">
-                                ${severityInfo.name}
-                            </span>
-                        </div>
-                        
-                        ${report.admin_comment ? `
-                            <div style="background: #eff6ff; padding: 10px; border-radius: 6px; margin-top: 10px;">
-                                <strong>💬 Комментарий администрации:</strong><br>
-                                ${report.admin_comment}
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            });
-        }
-
-        async function loadAdminReports() {
-            const { data: reports, error } = await supabase
-                .from('reports')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            if (error) {
-                console.error('Error loading admin reports:', error);
-                return;
-            }
-
-            const reportsList = document.getElementById('adminReportsList');
-            
-            if (!reports || reports.length === 0) {
-                reportsList.innerHTML = '<div class="empty-state"><div>⚠️</div><p>Нет жалоб в системе</p></div>';
-                return;
-            }
-
-            reportsList.innerHTML = '';
-            reports.forEach(report => {
-                const severityInfo = reportSeverities[report.severity];
-                const reasonText = reportReasons[report.reason] || report.reason;
-                
-                reportsList.innerHTML += `
-                    <div class="report-card ${report.severity === 'urgent' ? 'urgent' : ''} ${report.status === 'resolved' ? 'resolved' : ''}">
-                        <div class="report-header">
-                            <div>
-                                <div class="report-student">👨‍🎓 ${report.student_name} (${report.student_username})</div>
-                                <div class="report-teacher">👨‍🏫 От: ${report.teacher_name}</div>
-                                <div style="color: var(--gray); font-size: 0.8em;">Причина: ${reasonText}</div>
-                            </div>
-                            <div class="report-date">${formatDate(report.created_at)}</div>
-                        </div>
-                        
-                        <div class="report-reason">
-                            ${report.description}
-                        </div>
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                            <span class="report-status status-${report.status}">
-                                ${report.status === 'pending' ? '⏳ Ожидает' : report.status === 'resolved' ? '✅ Решено' : '🚨 Срочно'}
-                            </span>
-                            <span style="color: ${severityInfo.color}; font-weight: bold;">
-                                ${severityInfo.name}
-                            </span>
-                        </div>
-                        
-                        <div class="report-actions">
-                            <button class="btn btn-success" onclick="resolveReport(${report.id})" style="width: auto; padding: 8px 12px;">
-                                ✅ Решить
-                            </button>
-                            <button class="btn" onclick="addAdminComment(${report.id})" style="width: auto; padding: 8px 12px;">
-                                💬 Комментарий
-                            </button>
-                            <button class="btn btn-danger" onclick="deleteReport(${report.id})" style="width: auto; padding: 8px 12px;">
-                                🗑️ Удалить
-                            </button>
-                        </div>
-                        
-                        ${report.admin_comment ? `
-                            <div style="background: #eff6ff; padding: 10px; border-radius: 6px; margin-top: 10px;">
-                                <strong>💬 Комментарий администрации:</strong><br>
-                                ${report.admin_comment}
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            });
-        }
-
-        async function loadReportsStatistics() {
-            const { data: reports, error } = await supabase
-                .from('reports')
-                .select('*');
-
-            if (error) return;
-
-            const total = reports ? reports.length : 0;
-            const pending = reports ? reports.filter(r => r.status === 'pending').length : 0;
-            const resolved = reports ? reports.filter(r => r.status === 'resolved').length : 0;
-            const urgent = reports ? reports.filter(r => r.severity === 'urgent').length : 0;
-
-            document.getElementById('totalReportsCount').textContent = total;
-            document.getElementById('pendingReportsCount').textContent = pending;
-            document.getElementById('resolvedReportsCount').textContent = resolved;
-            document.getElementById('urgentReportsCount').textContent = urgent;
-        }
-
-        async function resolveReport(reportId) {
-            if (!confirm('Пометить жалобу как решенную?')) return;
-
-            try {
-                const { error } = await supabase
-                    .from('reports')
-                    .update({ 
-                        status: 'resolved',
-                        resolved_at: new Date().toISOString(),
-                        resolved_by: currentUser.name
-                    })
-                    .eq('id', reportId);
-
-                if (error) throw error;
-
-                await loadAdminReports();
-                await loadReportsStatistics();
-                alert('✅ Жалоба помечена как решенная!');
-                
-            } catch (err) {
-                alert('❌ Ошибка: ' + err.message);
-            }
-        }
-
-        async function addAdminComment(reportId) {
-            const comment = prompt('Введите комментарий для этой жалобы:');
-            
-            if (!comment) return;
-
-            try {
-                const { error } = await supabase
-                    .from('reports')
-                    .update({ 
-                        admin_comment: comment,
-                        commented_at: new Date().toISOString(),
-                        commented_by: currentUser.name
-                    })
-                    .eq('id', reportId);
-
-                if (error) throw error;
-
-                await loadAdminReports();
-                alert('💬 Комментарий добавлен!');
-                
-            } catch (err) {
-                alert('❌ Ошибка: ' + err.message);
-            }
-        }
-
-        async function deleteReport(reportId) {
-            if (!confirm('Удалить эту жалобу?')) return;
-
-            try {
-                const { error } = await supabase
-                    .from('reports')
-                    .delete()
-                    .eq('id', reportId);
-
-                if (error) throw error;
-
-                await loadAdminReports();
-                await loadReportsStatistics();
-                alert('🗑️ Жалоба удалена!');
-                
-            } catch (err) {
-                alert('❌ Ошибка: ' + err.message);
-            }
-        }
-
-        function searchReports() {
-            const searchTerm = document.getElementById('searchReports').value.toLowerCase();
-            const reportCards = document.querySelectorAll('#adminReportsList .report-card');
-            
-            reportCards.forEach(card => {
-                const studentName = card.querySelector('.report-student').textContent.toLowerCase();
-                const teacherName = card.querySelector('.report-teacher').textContent.toLowerCase();
-                
-                if (studentName.includes(searchTerm) || teacherName.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        function filterReports() {
-            const status = document.getElementById('filterReportsStatus').value;
-            const reportCards = document.querySelectorAll('#adminReportsList .report-card');
-            
-            reportCards.forEach(card => {
-                if (status === 'all') {
-                    card.style.display = 'block';
-                } else if (status === 'pending' && card.querySelector('.status-pending')) {
-                    card.style.display = 'block';
-                } else if (status === 'resolved' && card.querySelector('.status-resolved')) {
-                    card.style.display = 'block';
-                } else if (status === 'urgent' && card.classList.contains('urgent')) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+            event.target.classList.add('active');
+            document.getElementById(type + 'Grades').style.display = 'block';
+            if (type === 'test') updateTestGradeDisplay();
         }
 
         // ФУНКЦИИ ДЛЯ УЧИТЕЛЯ
@@ -1731,6 +2261,8 @@
             await loadGradeStudentSelect();
             await loadGradesHistory();
             await updateDashboard();
+            await loadReportStudentSelect();
+            await loadTeacherReports();
         }
 
         async function addStudent() {
@@ -1980,7 +2512,6 @@
         async function updateDashboard() {
             const { data: students } = await supabase.from('students').select('id, course');
             const { data: grades } = await supabase.from('grades').select('grade, type');
-            const { data: reports } = await supabase.from('reports').select('*');
 
             document.getElementById('totalStudents').textContent = students ? students.length : 0;
             
@@ -1990,7 +2521,6 @@
             
             document.getElementById('averageGrade').textContent = average;
             document.getElementById('totalGrades').textContent = totalGrades;
-            document.getElementById('totalReports').textContent = reports ? reports.length : 0;
             
             await updateRecentGrades();
             await updateCourseLevelsStats(students);
@@ -2077,6 +2607,494 @@
             } catch (err) {
                 alert('❌ Ошибка при удалении: ' + err.message);
             }
+        }
+
+        // СИСТЕМА ЖАЛОБ - ФУНКЦИИ ДЛЯ УЧИТЕЛЯ
+        async function loadReportStudentSelect() {
+            const { data: students, error } = await supabase
+                .from('students')
+                .select('id, name, username')
+                .order('name');
+
+            if (error) return;
+
+            const select = document.getElementById('reportStudent');
+            select.innerHTML = '<option value="">-- Выберите ученика --</option>';
+            students.forEach(student => {
+                select.innerHTML += `<option value="${student.id}">${student.name} (${student.username})</option>`;
+            });
+        }
+
+        async function submitReport() {
+            const studentId = parseInt(document.getElementById('reportStudent').value);
+            const reason = document.getElementById('reportReason').value;
+            const description = document.getElementById('reportDescription').value.trim();
+            const action = document.getElementById('reportAction').value;
+            const urgency = document.getElementById('reportUrgency').value;
+
+            if (!studentId || !reason || !description) {
+                alert('⚠️ Заполните все обязательные поля!');
+                return;
+            }
+
+            try {
+                const { data, error } = await supabase
+                    .from('reports')
+                    .insert([{
+                        student_id: studentId,
+                        teacher_id: currentUser.id,
+                        reason: reason,
+                        description: description,
+                        suggested_action: action,
+                        urgency: urgency,
+                        status: 'pending',
+                        created_at: new Date().toISOString(),
+                        teacher_name: currentUser.name
+                    }])
+                    .select();
+
+                if (error) throw error;
+
+                // Получаем информацию о студенте для уведомления
+                const student = await getStudentById(studentId);
+
+                document.getElementById('reportStudent').value = '';
+                document.getElementById('reportReason').value = '';
+                document.getElementById('reportDescription').value = '';
+                document.getElementById('reportAction').value = '';
+                document.getElementById('reportUrgency').value = 'low';
+
+                loadTeacherReports();
+                
+                alert(`⚠️ Жалоба на ученика ${student.name} отправлена!\n\nАдминистрация уведомлена и рассмотрит вашу жалобу в ближайшее время.`);
+                
+            } catch (err) {
+                alert('❌ Ошибка при отправке жалобы: ' + err.message);
+            }
+        }
+
+        async function loadTeacherReports() {
+            const { data: reports, error } = await supabase
+                .from('reports')
+                .select(`
+                    *,
+                    students (name, username)
+                `)
+                .eq('teacher_id', currentUser.id)
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error loading reports:', error);
+                return;
+            }
+
+            const reportsList = document.getElementById('teacherReportsList');
+            
+            if (!reports || reports.length === 0) {
+                reportsList.innerHTML = '<div class="empty-state"><div>⚠️</div><p>Вы еще не отправляли жалоб</p></div>';
+                return;
+            }
+
+            reportsList.innerHTML = '';
+            reports.forEach(report => {
+                const reasonInfo = reportReasons[report.reason] || { name: report.reason, description: '' };
+                const statusClass = `status-${report.status}`;
+                const statusText = getStatusText(report.status);
+                const urgencyIcon = getUrgencyIcon(report.urgency);
+                
+                reportsList.innerHTML += `
+                    <div class="report-card">
+                        <div class="report-header">
+                            <div class="report-student-info">
+                                <h4>👨‍🎓 ${report.students.name}</h4>
+                                <p>📅 ${new Date(report.created_at).toLocaleDateString('ru-RU')}</p>
+                                <p>${urgencyIcon} ${reasonInfo.name}</p>
+                            </div>
+                            <div class="report-status ${statusClass}">${statusText}</div>
+                        </div>
+                        
+                        <div class="report-reason">
+                            <strong>📄 Описание:</strong>
+                            <p>${report.description}</p>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                            <div>
+                                <strong>💪 Предлагаемые меры:</strong>
+                                <p>${getActionText(report.suggested_action)}</p>
+                            </div>
+                            ${report.admin_comment ? `
+                                <div style="background: #eff6ff; padding: 10px; border-radius: 8px; margin-top: 10px;">
+                                    <strong>👑 Комментарий администратора:</strong>
+                                    <p>${report.admin_comment}</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        ${report.status === 'pending' ? `
+                            <div class="report-actions">
+                                <button class="btn btn-danger" onclick="cancelReport(${report.id})" style="width: auto;">❌ Отозвать жалобу</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+        }
+
+        async function cancelReport(reportId) {
+            if (!confirm('Отозвать эту жалобу?')) return;
+
+            try {
+                const { error } = await supabase
+                    .from('reports')
+                    .update({ status: 'cancelled' })
+                    .eq('id', reportId);
+
+                if (error) throw error;
+
+                loadTeacherReports();
+                alert('✅ Жалоба отозвана');
+                
+            } catch (err) {
+                alert('❌ Ошибка при отзыве жалобы: ' + err.message);
+            }
+        }
+
+        // СИСТЕМА ЖАЛОБ - ФУНКЦИИ ДЛЯ АДМИНИСТРАТОРА
+        async function loadAdminReports() {
+            const { data: reports, error } = await supabase
+                .from('reports')
+                .select(`
+                    *,
+                    students (name, username, email),
+                    teacher:teacher_id (name)
+                `)
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error loading admin reports:', error);
+                return;
+            }
+
+            // Обновляем статистику
+            const totalReports = reports ? reports.length : 0;
+            const pendingReports = reports ? reports.filter(r => r.status === 'pending').length : 0;
+            const resolvedReports = reports ? reports.filter(r => r.status === 'resolved').length : 0;
+            const urgentReports = reports ? reports.filter(r => r.urgency === 'high').length : 0;
+
+            document.getElementById('totalReports').textContent = totalReports;
+            document.getElementById('pendingReports').textContent = pendingReports;
+            document.getElementById('resolvedReports').textContent = resolvedReports;
+            document.getElementById('urgentReports').textContent = urgentReports;
+
+            // Фильтрация отчетов
+            const filter = document.getElementById('reportFilter').value;
+            let filteredReports = reports;
+            
+            if (filter === 'pending') {
+                filteredReports = reports.filter(r => r.status === 'pending');
+            } else if (filter === 'reviewed') {
+                filteredReports = reports.filter(r => r.status === 'reviewed');
+            } else if (filter === 'resolved') {
+                filteredReports = reports.filter(r => r.status === 'resolved');
+            } else if (filter === 'urgent') {
+                filteredReports = reports.filter(r => r.urgency === 'high');
+            }
+
+            const reportsList = document.getElementById('adminReportsList');
+            
+            if (!filteredReports || filteredReports.length === 0) {
+                reportsList.innerHTML = '<div class="empty-state"><div>⚠️</div><p>Нет жалоб по выбранному фильтру</p></div>';
+                return;
+            }
+
+            reportsList.innerHTML = '';
+            filteredReports.forEach(report => {
+                const reasonInfo = reportReasons[report.reason] || { name: report.reason, description: '' };
+                const statusClass = `status-${report.status}`;
+                const statusText = getStatusText(report.status);
+                const urgencyIcon = getUrgencyIcon(report.urgency);
+                
+                reportsList.innerHTML += `
+                    <div class="report-card">
+                        <div class="report-header">
+                            <div class="report-student-info">
+                                <h4>👨‍🎓 ${report.students.name} (${report.students.username})</h4>
+                                <p>👨‍🏫 Учитель: ${report.teacher?.name || 'Неизвестно'}</p>
+                                <p>📅 ${new Date(report.created_at).toLocaleDateString('ru-RU')}</p>
+                                <p>${urgencyIcon} ${reasonInfo.name}</p>
+                            </div>
+                            <div class="report-status ${statusClass}">${statusText}</div>
+                        </div>
+                        
+                        <div class="report-reason">
+                            <strong>📄 Описание проблемы:</strong>
+                            <p>${report.description}</p>
+                        </div>
+                        
+                        <div style="margin-top: 10px;">
+                            <strong>💪 Предлагаемые меры учителя:</strong>
+                            <p>${getActionText(report.suggested_action)}</p>
+                        </div>
+                        
+                        ${report.admin_comment ? `
+                            <div style="background: #eff6ff; padding: 10px; border-radius: 8px; margin-top: 10px;">
+                                <strong>👑 Ваш комментарий:</strong>
+                                <p>${report.admin_comment}</p>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="report-actions">
+                            ${report.status === 'pending' ? `
+                                <button class="btn" onclick="reviewReport(${report.id})">👁️ Рассмотреть</button>
+                                <button class="btn btn-success" onclick="resolveReport(${report.id})">✅ Решено</button>
+                                <button class="btn btn-danger" onclick="rejectReport(${report.id})">❌ Отклонить</button>
+                            ` : ''}
+                            
+                            ${report.status === 'reviewed' ? `
+                                <button class="btn btn-success" onclick="resolveReport(${report.id})">✅ Решено</button>
+                                <button class="btn" onclick="addCommentToReport(${report.id})">💬 Добавить комментарий</button>
+                            ` : ''}
+                            
+                            <button class="btn" onclick="contactStudent(${report.students.id}, '${report.students.name}')">📧 Связаться с учеником</button>
+                            <button class="btn" onclick="contactTeacher(${report.teacher_id}, '${report.teacher?.name}')">📧 Связаться с учителем</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterReports() {
+            loadAdminReports();
+        }
+
+        async function reviewReport(reportId) {
+            try {
+                const { error } = await supabase
+                    .from('reports')
+                    .update({ status: 'reviewed' })
+                    .eq('id', reportId);
+
+                if (error) throw error;
+
+                loadAdminReports();
+                alert('👁️ Жалоба отмечена как рассмотренная');
+                
+            } catch (err) {
+                alert('❌ Ошибка: ' + err.message);
+            }
+        }
+
+        async function resolveReport(reportId) {
+            const comment = prompt('Добавьте комментарий к решению (опционально):');
+            
+            try {
+                const updateData = { status: 'resolved' };
+                if (comment) {
+                    updateData.admin_comment = comment;
+                }
+
+                const { error } = await supabase
+                    .from('reports')
+                    .update(updateData)
+                    .eq('id', reportId);
+
+                if (error) throw error;
+
+                loadAdminReports();
+                alert('✅ Жалоба отмечена как решенная');
+                
+            } catch (err) {
+                alert('❌ Ошибка: ' + err.message);
+            }
+        }
+
+        async function rejectReport(reportId) {
+            const reason = prompt('Укажите причину отклонения жалобы:');
+            if (!reason) return;
+
+            try {
+                const { error } = await supabase
+                    .from('reports')
+                    .update({ 
+                        status: 'rejected',
+                        admin_comment: reason
+                    })
+                    .eq('id', reportId);
+
+                if (error) throw error;
+
+                loadAdminReports();
+                alert('❌ Жалоба отклонена');
+                
+            } catch (err) {
+                alert('❌ Ошибка: ' + err.message);
+            }
+        }
+
+        async function addCommentToReport(reportId) {
+            const comment = prompt('Добавьте комментарий к жалобе:');
+            if (!comment) return;
+
+            try {
+                const { error } = await supabase
+                    .from('reports')
+                    .update({ admin_comment: comment })
+                    .eq('id', reportId);
+
+                if (error) throw error;
+
+                loadAdminReports();
+                alert('💬 Комментарий добавлен');
+                
+            } catch (err) {
+                alert('❌ Ошибка: ' + err.message);
+            }
+        }
+
+        function contactStudent(studentId, studentName) {
+            alert(`📧 Связь с учеником ${studentName}\n\nОткроется форма для отправки email или уведомления ученику.`);
+        }
+
+        function contactTeacher(teacherId, teacherName) {
+            alert(`📧 Связь с учителем ${teacherName}\n\nОткроется форма для отправки email или уведомления учителю.`);
+        }
+
+        // СИСТЕМА ЖАЛОБ - ФУНКЦИИ ДЛЯ УЧЕНИКА
+        async function loadStudentReports() {
+            const { data: reports, error } = await supabase
+                .from('reports')
+                .select(`
+                    *,
+                    teacher:teacher_id (name)
+                `)
+                .eq('student_id', currentUser.id)
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error loading student reports:', error);
+                return;
+            }
+
+            // Обновляем статистику для ученика
+            const totalReports = reports ? reports.length : 0;
+            const resolvedReports = reports ? reports.filter(r => r.status === 'resolved').length : 0;
+            const pendingReports = reports ? reports.filter(r => r.status === 'pending' || r.status === 'reviewed').length : 0;
+            const improvement = totalReports > 0 ? Math.round((resolvedReports / totalReports) * 100) : 100;
+
+            document.getElementById('studentTotalReports').textContent = totalReports;
+            document.getElementById('studentResolvedReports').textContent = resolvedReports;
+            document.getElementById('studentPendingReports').textContent = pendingReports;
+            document.getElementById('studentImprovement').textContent = improvement + '%';
+
+            const reportsList = document.getElementById('studentReportsList');
+            const studentReportsSection = document.getElementById('studentReportsSection');
+            
+            if (!reports || reports.length === 0) {
+                reportsList.innerHTML = '<div class="empty-state"><div>⚠️</div><p>На вас нет жалоб</p></div>';
+                studentReportsSection.innerHTML = '<p style="color: var(--secondary); text-align: center;">🎉 На вас нет активных жалоб! Продолжайте в том же духе!</p>';
+                return;
+            }
+
+            // Для главной страницы ученика показываем только активные жалобы
+            const activeReports = reports.filter(r => r.status === 'pending' || r.status === 'reviewed');
+            
+            if (activeReports.length === 0) {
+                studentReportsSection.innerHTML = '<p style="color: var(--secondary); text-align: center;">🎉 На вас нет активных жалоб! Продолжайте в том же духе!</p>';
+            } else {
+                studentReportsSection.innerHTML = `
+                    <div class="notification important">
+                        <strong>⚠️ У вас ${activeReports.length} активных жалоб</strong>
+                        <p>Обратите внимание на свое поведение и успеваемость. Администрация рассмотрит жалобы в ближайшее время.</p>
+                    </div>
+                `;
+            }
+
+            // Для страницы с деталями показываем все жалобы
+            reportsList.innerHTML = '';
+            reports.forEach(report => {
+                const reasonInfo = reportReasons[report.reason] || { name: report.reason, description: '' };
+                const statusClass = `status-${report.status}`;
+                const statusText = getStatusText(report.status);
+                const urgencyIcon = getUrgencyIcon(report.urgency);
+                
+                reportsList.innerHTML += `
+                    <div class="report-card">
+                        <div class="report-header">
+                            <div class="report-student-info">
+                                <h4>👨‍🏫 От: ${report.teacher?.name || 'Учитель'}</h4>
+                                <p>📅 ${new Date(report.created_at).toLocaleDateString('ru-RU')}</p>
+                                <p>${urgencyIcon} ${reasonInfo.name}</p>
+                            </div>
+                            <div class="report-status ${statusClass}">${statusText}</div>
+                        </div>
+                        
+                        <div class="report-reason">
+                            <strong>📄 Описание проблемы:</strong>
+                            <p>${report.description}</p>
+                        </div>
+                        
+                        <div style="margin-top: 10px;">
+                            <strong>💪 Предлагаемые меры:</strong>
+                            <p>${getActionText(report.suggested_action)}</p>
+                        </div>
+                        
+                        ${report.admin_comment ? `
+                            <div style="background: #eff6ff; padding: 10px; border-radius: 8px; margin-top: 10px;">
+                                <strong>👑 Комментарий администратора:</strong>
+                                <p>${report.admin_comment}</p>
+                            </div>
+                        ` : ''}
+                        
+                        ${report.status === 'pending' || report.status === 'reviewed' ? `
+                            <div class="report-actions">
+                                <button class="btn" onclick="improveBehavior(${report.id})">💪 Улучшить поведение</button>
+                                <button class="btn" onclick="contactAdminAboutReport(${report.id})">📧 Связаться с администрацией</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+        }
+
+        function improveBehavior(reportId) {
+            alert('💪 Отличное решение! Постарайтесь улучшить свое поведение и успеваемость. Администрация будет отслеживать ваш прогресс.');
+        }
+
+        function contactAdminAboutReport(reportId) {
+            alert('📧 Связь с администрацией\n\nОткроется форма для обращения к администрации по поводу этой жалобы.');
+        }
+
+        // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ СИСТЕМЫ ЖАЛОБ
+        function getStatusText(status) {
+            const statuses = {
+                'pending': '⏳ Ожидает',
+                'reviewed': '👁️ Рассмотрена', 
+                'resolved': '✅ Решена',
+                'rejected': '❌ Отклонена',
+                'cancelled': '🚫 Отозвана'
+            };
+            return statuses[status] || status;
+        }
+
+        function getUrgencyIcon(urgency) {
+            const icons = {
+                'low': '🟢',
+                'medium': '🟡', 
+                'high': '🔴'
+            };
+            return icons[urgency] || '⚪';
+        }
+
+        function getActionText(action) {
+            const actions = {
+                'warning': '⚠️ Предупреждение',
+                'parent': '👨‍👩‍👧‍👦 Уведомление родителям',
+                'meeting': '🤝 Встреча с родителями',
+                'counseling': '🧠 Консультация психолога',
+                'suspension': '🚫 Временное отстранение'
+            };
+            return actions[action] || action;
         }
 
         // ФУНКЦИИ ДЛЯ ЗАВУЧА
@@ -2212,6 +3230,7 @@
             await loadTeacherRatings();
             await loadSystemAnalytics();
             await loadSecurityData();
+            await loadAdminReports();
         }
 
         async function loadUserManagement() {
@@ -3041,12 +4060,14 @@
                 return;
             }
 
-            if (currentPassword !== 'admin123') {
+            if (currentPassword !== adminCredentials.password) {
                 alert('❌ Текущий пароль неверен!');
                 return;
             }
 
             // В реальной системе здесь был бы запрос к API для смены пароля
+            adminCredentials.password = newPassword;
+            
             document.getElementById('currentAdminPassword').value = '';
             document.getElementById('newAdminPassword').value = '';
             document.getElementById('confirmAdminPassword').value = '';
@@ -3106,6 +4127,7 @@
             // РАСЧЕТ ПРОГРЕССА ЗА СЕГОДНЯ
             await updateTodayProgress(grades);
             await updateStudentGradeStats(grades);
+            await loadStudentReports();
             
             const gradesList = document.getElementById('studentGradesList');
             if (!grades || grades.length === 0) {
@@ -3802,80 +4824,12 @@
             });
         }
 
-        function renderGrade(grade, type) {
-            const colorClass = getGradeColorClass(grade, type);
-            if (type === 'test') {
-                return `<span class="grade ${colorClass}">${grade}/25</span>`;
-            } else if (type === 'activity') {
-                return `<span class="grade ${colorClass}">${grade}/5</span>`;
-            } else if (type === 'attendance') {
-                const labels = { '0': '❌', '1': '⏰', '2': '✅' };
-                return `<span class="grade ${colorClass}">${labels[grade] || grade}/2</span>`;
-            } else if (type === 'oral') {
-                return `<span class="grade ${colorClass}">${grade}/5</span>`;
-            } else if (type === 'project') {
-                return `<span class="grade ${colorClass}">${grade}/20</span>`;
-            } else if (type === 'homework') {
-                return `<span class="grade ${colorClass}">${grade}/10</span>`;
-            } else {
-                return `<span class="grade ${colorClass}">${grade}</span>`;
-            }
-        }
-
-        function getGradeColorClass(grade, type) {
-            grade = parseInt(grade);
-            if (type === 'test') {
-                if (grade <= 10) return 'test-grade-1';
-                if (grade <= 15) return 'test-grade-11';
-                return 'test-grade-16';
-            } else if (type === 'activity') {
-                if (grade <= 2) return 'activity-grade-1';
-                if (grade === 3) return 'activity-grade-3';
-                return 'activity-grade-4';
-            } else if (type === 'homework') {
-                if (grade <= 3) return 'homework-grade-1';
-                if (grade <= 6) return 'homework-grade-4';
-                return 'homework-grade-7';
-            } else if (type === 'project') {
-                if (grade <= 10) return 'project-grade-1';
-                if (grade <= 15) return 'project-grade-11';
-                return 'project-grade-16';
-            } else if (type === 'oral') {
-                if (grade <= 2) return 'oral-grade-1';
-                if (grade === 3) return 'oral-grade-3';
-                return 'oral-grade-4';
-            } else if (type === 'attendance') {
-                return `attendance-grade-${grade}`;
-            } else {
-                if (grade <= 3) return `grade-${grade}`;
-                if (grade <= 6) return `grade-${grade}`;
-                return `grade-${grade}`;
-            }
-        }
-
-        function renderCourseLevel(course) {
-            const courseInfo = courseLevels[course] || { name: course, color: 'course-beginner' };
-            return `<span class="course-badge ${courseInfo.color} course-tooltip" data-tooltip="${courseInfo.description}">${courseInfo.name} (${courseInfo.level})</span>`;
-        }
-
-        function getScheduleStatus(item) {
-            const now = new Date();
-            const lessonDate = new Date(item.date + 'T' + item.start_time);
-            const lessonEnd = new Date(item.date + 'T' + item.end_time);
-            
-            if (now >= lessonDate && now <= lessonEnd) {
-                return { status: 'ongoing', text: 'Идет сейчас' };
-            } else if (now < lessonDate) {
-                return { status: 'upcoming', text: 'Предстоит' };
-            } else {
-                return { status: 'completed', text: 'Завершено' };
-            }
-        }
-
         // ИНИЦИАЛИЗАЦИЯ
         window.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 PrimeSpeak Academy загружается...');
             generateCalendar();
+            updateTestGradeDisplay();
+            autoLogin();
             
             const today = new Date().toISOString().split('T')[0];
             if (document.getElementById('scheduleDate')) {
@@ -3888,4 +4842,4 @@
 
     </script>
 </body>
-                </html>
+    </html>
