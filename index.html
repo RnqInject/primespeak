@@ -1,336 +1,110 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Kometa.space | Магазин игровых ключей</title>
     <style>
-        /* СТИЛИ */
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --dark: #0f172a;
-            --dark-light: #1e293b;
-            --light: #f8fafc;
-            --border: #334155;
-            --success: #22c55e;
+        :root{
+            --primary:#6366f1;--primary-dark:#4f46e5;--secondary:#10b981;--danger:#ef4444;
+            --warning:#f59e0b;--dark:#0f172a;--dark-light:#1e293b;--light:#f8fafc;--border:#334155;--success:#22c55e;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: var(--light);
-            min-height: 100vh;
-            padding-bottom: 50px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Шапка */
-        .header {
-            background: rgba(15, 23, 42, 0.95);
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-        }
-
-        .logo i {
-            color: var(--primary);
-        }
-
-        .nav {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: #cbd5e1;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: white;
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .balance {
-            background: var(--primary);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-weight: 600;
-        }
-
-        /* Основной контент */
-        .hero {
-            text-align: center;
-            padding: 3rem 0;
-            margin: 2rem 0;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .btn {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-
-        /* Модальные окна */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1001;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--dark-light);
-            border-radius: 12px;
-            width: 90%;
-            max-width: 400px;
-            border: 1px solid var(--border);
-        }
-
-        .modal-header {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h3 {
-            font-size: 1.3rem;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: #94a3b8;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-        }
-
-        /* Формы */
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #cbd5e1;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        /* Вкладки */
-        .tabs {
-            display: flex;
-            margin-bottom: 1.5rem;
-        }
-
-        .tab {
-            padding: 0.8rem 1.5rem;
-            background: none;
-            border: none;
-            color: #94a3b8;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-        }
-
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Уведомления */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            background: var(--dark-light);
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
-            z-index: 1002;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
+        *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+        body{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);color:var(--light);min-height:100vh;padding-bottom:60px}
+        .container{max-width:1200px;margin:0 auto;padding:0 16px}
+        .header{background:rgba(15,23,42,0.95);padding:12px 0;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1000}
+        .header-content{display:flex;align-items:center;justify-content:space-between}
+        .logo{display:flex;gap:10px;align-items:center;font-weight:700}
+        .nav{display:flex;gap:12px;align-items:center}
+        .nav-link{color:#cbd5e1;text-decoration:none;padding:6px 10px;border-radius:6px}
+        .nav-link.active,.nav-link:hover{background:rgba(99,102,241,0.08);color:#fff}
+        .user-menu{display:flex;align-items:center;gap:8px}
+        .user-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--primary);font-weight:700;cursor:pointer}
+        .balance{background:var(--primary);padding:6px 10px;border-radius:8px;font-weight:700}
+        .hero{text-align:center;padding:40px 0;margin:20px 0}
+        .btn{padding:10px 16px;border-radius:8px;border:0;cursor:pointer;font-weight:700}
+        .btn-primary{background:var(--primary);color:#fff}
+        .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;z-index:1001}
+        .modal.active{display:flex}
+        .modal-content{background:var(--dark-light);width:92%;max-width:420px;border-radius:12px;border:1px solid var(--border)}
+        .modal-header{padding:14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+        .modal-body{padding:16px}
+        .form-group{margin-bottom:12px}
+        .form-group label{display:block;color:#cbd5e1;margin-bottom:6px}
+        .form-group input, .form-group select, .form-group textarea{width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.03);color:#fff}
+        .tabs{display:flex;gap:8px;margin-bottom:12px}
+        .tab{padding:8px 12px;border-radius:8px;border:0;background:transparent;color:#94a3b8;cursor:pointer}
+        .tab.active{color:var(--primary);background:rgba(99,102,241,0.06)}
+        .card{background:rgba(255,255,255,0.04);padding:12px;border-radius:12px;border:1px solid var(--border)}
+        .grid{display:grid;gap:12px}
+        .grid.cols-3{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+        .game-icon{font-size:34px;margin-bottom:8px;text-align:center}
+        .notification{position:fixed;top:20px;right:20px;padding:12px 16px;border-radius:8px;background:var(--dark-light);border-left:4px solid var(--primary);z-index:1002}
+        footer{position:fixed;left:0;right:0;bottom:0;background:#fff;padding:8px 0;color:#333;border-top-left-radius:12px;border-top-right-radius:12px}
+        footer .menu{display:flex;justify-content:space-around;max-width:900px;margin:0 auto}
+        footer .menu a{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#666;font-size:12px}
+        .price{color:var(--success);font-weight:800}
+        .variant-btn{padding:8px 10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);cursor:pointer;color:#cbd5e1;margin-right:8px}
+        .variant-btn.active{border-color:var(--primary);color:#fff;background:rgba(99,102,241,0.06)}
+        pre.key{background:rgba(0,0,0,0.3);padding:8px;border-radius:6px;font-family:monospace}
+        .small-muted{color:#94a3b8;font-size:13px}
+        .deposit-status{display:inline-block;padding:4px 8px;border-radius:6px;font-size:12px;font-weight:600}
+        .status-pending{background:rgba(245,158,11,0.12);color:#f59e0b}
+        .status-approved{background:rgba(34,197,94,0.12);color:#22c55e}
+        .status-rejected{background:rgba(239,68,68,0.12);color:#ef4444}
+        .file-link{display:inline-block;margin:4px;padding:6px 12px;background:var(--primary);border-radius:6px;color:white;text-decoration:none}
+        @media (min-width:900px){ .grid.cols-3{grid-template-columns:repeat(4,1fr)} }
     </style>
 </head>
 <body>
-    <!-- Шапка -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <div>🚀</div>
-                    <span>KOMETA.SPACE</span>
+                <div style="display:flex;align-items:center;gap:10px">
+                    <div class="logo">🚀 <span style="margin-left:6px">KOMET.SPACE</span></div>
                 </div>
-                
+
                 <nav class="nav" id="mainNav">
-                    <a href="#" class="nav-link active" onclick="showPage('home')">Главная</a>
-                    <a href="#" class="nav-link" onclick="showPage('catalog')">Каталог</a>
-                    <a href="#" class="nav-link" onclick="showPage('profile')">Профиль</a>
+                    <!-- nav will be rendered by JS -->
                 </nav>
-                
+
                 <div class="user-menu" id="userMenu">
-                    <!-- Будет заполнено через JS -->
+                    <!-- rendered by JS -->
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Основной контент -->
     <main class="container" id="mainContent">
-        <div class="hero">
-            <h1>Магазин игровых ключей</h1>
-            <p>Покупайте ключи для игр, DLC и читов</p>
-            <button class="btn btn-primary" onclick="showPage('catalog')">
-                Смотреть каталог
-            </button>
-        </div>
+        <!-- main content rendered by JS -->
     </main>
 
-    <!-- Модальное окно входа -->
-    <div class="modal" id="authModal">
+    <!-- Auth modal -->
+    <div class="modal" id="authModal" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Вход / Регистрация</h3>
-                <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
+                <button onclick="closeModal('authModal')" style="background:none;border:0;color:#94a3b8;font-size:20px;cursor:pointer">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="tabs">
-                    <button class="tab active" onclick="switchTab('login')">Войти</button>
-                    <button class="tab" onclick="switchTab('register')">Регистрация</button>
+                    <button class="tab active" data-tab="login" onclick="switchTab('login')">Войти</button>
+                    <button class="tab" data-tab="register" onclick="switchTab('register')">Регистрация</button>
                 </div>
-                
-                <div id="loginTab" class="tab-content active">
+
+                <div id="loginTab">
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" id="loginEmail" placeholder="test@mail.com" value="test@mail.com">
+                        <input type="email" id="loginEmail" placeholder="Ваш email">
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
-                        <input type="password" id="loginPassword" placeholder="Пароль" value="123456">
+                        <input type="password" id="loginPassword" placeholder="Пароль">
                     </div>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="login()">
-                        Войти
-                    </button>
+                    <button class="btn btn-primary" style="width:100%" onclick="login()">Войти</button>
                 </div>
-                
-                <div id="registerTab" class="tab-content">
+
+                <div id="registerTab" style="display:none">
                     <div class="form-group">
                         <label>Email</label>
                         <input type="email" id="registerEmail" placeholder="example@gmail.com">
@@ -343,646 +117,880 @@
                         <label>Пароль</label>
                         <input type="password" id="registerPassword" placeholder="Минимум 6 символов">
                     </div>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="register()">
-                        Зарегистрироваться
-                    </button>
+                    <button class="btn btn-primary" style="width:100%" onclick="register()">Зарегистрироваться</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Модальное окно пополнения -->
-    <div class="modal" id="depositModal">
+    <!-- Deposit modal -->
+    <div class="modal" id="depositModal" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Пополнение баланса</h3>
-                <button class="modal-close" onclick="closeModal('depositModal')">&times;</button>
+                <button onclick="closeModal('depositModal')" style="background:none;border:0;color:#94a3b8;font-size:20px;cursor:pointer">&times;</button>
             </div>
             <div class="modal-body">
-                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                    <h4>Реквизиты Тинькофф:</h4>
-                    <p>Карта: <strong>2200 7010 2813 9613</strong></p>
-                    <p>Телефон: <strong>+7 (993) 091-04-11</strong></p>
+                <div class="card" style="margin-bottom:12px">
+                    <strong>Реквизиты для оплаты:</strong>
+                    <div class="small-muted" style="margin-top:8px"><strong>Т-Банк (СПБ)</strong></div>
+                    <div class="small-muted">Номер: <strong>+7 (917) 863-04-11</strong></div>
+                    <div class="small-muted" style="margin-top:8px"><strong>Тинькофф</strong></div>
+                    <div class="small-muted">Карта: <strong>2200 7010 2813 9613</strong></div>
                 </div>
                 <div class="form-group">
-                    <label>Сумма пополнения (₽)</label>
+                    <label>Сумма (₽)</label>
                     <input type="number" id="depositAmount" value="1000" min="100">
                 </div>
-                <button class="btn btn-primary" style="width: 100%;" onclick="submitDeposit()">
-                    Отправить заявку
-                </button>
+                <div class="form-group">
+                    <label>Комментарий к платежу (укажите ваш email)</label>
+                    <input type="text" id="depositComment" placeholder="test@mail.com" value="${currentUser ? currentUser.email : ''}">
+                </div>
+                <button class="btn btn-primary" style="width:100%" onclick="submitDeposit()">Отправить заявку на пополнение</button>
             </div>
         </div>
     </div>
 
-    <!-- Уведомления -->
+    <!-- File upload modal for admin -->
+    <div class="modal" id="fileUploadModal" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить файлы к читу</h3>
+                <button onclick="closeModal('fileUploadModal')" style="background:none;border:0;color:#94a3b8;font-size:20px;cursor:pointer">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Название файла</label>
+                    <input type="text" id="fileName" placeholder="Чит.apk">
+                </div>
+                <div class="form-group">
+                    <label>Ссылка на файл</label>
+                    <input type="text" id="fileUrl" placeholder="https://example.com/файл.apk">
+                </div>
+                <div class="form-group">
+                    <label>Тип файла</label>
+                    <select id="fileType">
+                        <option value="apk">APK</option>
+                        <option value="zip">ZIP</option>
+                        <option value="exe">EXE</option>
+                        <option value="rar">RAR</option>
+                        <option value="other">Другой</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" style="width:100%" onclick="addFileToCheat()">Добавить файл</button>
+            </div>
+        </div>
+    </div>
+
     <div id="notifications"></div>
 
-    <script>
-        // ====================== ГОСУДАРСТВО ПРИЛОЖЕНИЯ ======================
-        let currentUser = null;
-        let currentPage = 'home';
-        
-        // Тестовые данные (вместо базы данных)
-        let games = [
-            {
-                id: 1,
-                name: 'Standoff 2',
-                description: 'DLC с эксклюзивным оружием',
-                price: 299,
-                icon: '🎮'
-            },
-            {
-                id: 2,
-                name: 'PUBG Mobile',
-                description: 'Чит с улучшенной точностью',
-                price: 499,
-                icon: '🔫'
-            }
+    <footer>
+        <div class="menu container">
+            <a href="#" onclick="showPage('home')"><span>🏠</span><span>Главная</span></a>
+            <a href="#" onclick="showPage('catalog')"><span>🔍</span><span>Каталог</span></a>
+            <a href="#" onclick="showPage('keys')"><span>🔑</span><span>Ключи</span></a>
+            <a href="#" onclick="showPage('profile')"><span>👤</span><span>Профиль</span></a>
+            <a href="#" onclick="showPage('about')"><span>⭐</span><span>Комета</span></a>
+        </div>
+    </footer>
+
+<script>
+/* ------------ state ------------ */
+let currentUser = null;
+let currentPage = 'home';
+let games = [];          // {id,name,icon,description,cheats: [{id,name,version,variants:[{label,price}], files: [{name,url,type}]}]}
+let purchases = [];      // saved purchases
+let depositRequests = []; // заявки на пополнение
+let currentCheatForFiles = null; // текущий чит для добавления файлов
+/* ------------ init ------------ */
+document.addEventListener('DOMContentLoaded',()=>{
+    loadFromStorage();
+    createTestAdminAndSample();
+    renderNav();
+    updateUserMenu();
+    showPage('home');
+});
+
+/* ---------- storage helpers ---------- */
+function loadFromStorage(){
+    const g = localStorage.getItem('kometa_games');
+    const p = localStorage.getItem('kometa_purchases');
+    const u = localStorage.getItem('kometa_user');
+    const d = localStorage.getItem('kometa_deposit_requests');
+    const savedGames = g ? JSON.parse(g) : null;
+    const savedPurchases = p ? JSON.parse(p) : [];
+    const savedUser = u ? JSON.parse(u) : null;
+    const savedDeposits = d ? JSON.parse(d) : [];
+    games = savedGames || [
+        // default sample if nothing saved (kept small)
+    ];
+    purchases = savedPurchases;
+    currentUser = savedUser;
+    depositRequests = savedDeposits;
+}
+
+function saveGames(){ localStorage.setItem('kometa_games', JSON.stringify(games)); }
+function savePurchases(){ localStorage.setItem('kometa_purchases', JSON.stringify(purchases)); }
+function saveDepositRequests(){ localStorage.setItem('kometa_deposit_requests', JSON.stringify(depositRequests)); }
+function saveCurrentUserInUsersList(){ // also update kometa_users balances
+    if(!currentUser) return;
+    let users = JSON.parse(localStorage.getItem('kometa_users')||'[]');
+    const idx = users.findIndex(u=>u.id===currentUser.id);
+    if(idx!==-1){ users[idx].balance = currentUser.balance; localStorage.setItem('kometa_users', JSON.stringify(users)); }
+    localStorage.setItem('kometa_user', JSON.stringify(currentUser));
+}
+
+/* ---------- create test admin + sample data ---------- */
+function createTestAdminAndSample(){
+    // create admin/users if missing (from original)
+    let users = JSON.parse(localStorage.getItem('kometa_users') || '[]');
+    const adminExists = users.some(u => u.email === 'nurislamovradmir9@gmail.com');
+    if(!adminExists){
+        users.push({id:1,email:'nurislamovradmir9@gmail.com',username:'Admin',password:'makson555777',balance:0,isAdmin:true});
+    }
+    // Не создаем тестового пользователя - пусть регистрируются сами
+    localStorage.setItem('kometa_users', JSON.stringify(users));
+
+    // sample games & cheats (only create when none exist)
+    if(!localStorage.getItem('kometa_games')){
+        games = [
+            {id:1,name:'Standoff 2',icon:'🛡️',description:'Шутер онлайн',cheats:[
+                {id:1,name:'Plutonium',version:'0.36.1',variants:[
+                    {label:'7 дней',price:99},{label:'30 дней',price:249},{label:'Навсегда',price:99500}
+                ], files: [
+                    {name: 'Чит-мод.apk', url: 'https://example.com/чит.apk', type: 'apk'},
+                    {name: 'Инструкция.zip', url: 'https://example.com/инструкция.zip', type: 'zip'}
+                ]}
+            ]},
+            {id:2,name:'PUBG Mobile',icon:'🔫',description:'Мобильный королевская битва',cheats:[]},
+            {id:3,name:'Roblox',icon:'🧩',description:'Песочница',cheats:[]}
         ];
+        saveGames();
+    } else {
+        // keep loaded games
+    }
+}
 
-        // ====================== ИНИЦИАЛИЗАЦИЯ ======================
-        document.addEventListener('DOMContentLoaded', function() {
-            // Проверяем, есть ли сохраненный пользователь
-            const savedUser = localStorage.getItem('kometa_user');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-            }
-            
-            // Создаем тестового админа, если его нет
-            createTestAdmin();
-            
-            // Показываем домашнюю страницу
-            showPage('home');
-            updateUserMenu();
-        });
+/* ---------- rendering: nav & user menu ---------- */
+function renderNav(){
+    const nav = document.getElementById('mainNav');
+    nav.innerHTML = `
+        <a href="#" class="nav-link ${currentPage==='home'?'active':''}" onclick="showPage('home')">Главная</a>
+        <a href="#" class="nav-link ${currentPage==='catalog'?'active':''}" onclick="showPage('catalog')">Каталог</a>
+        <a href="#" class="nav-link ${currentPage==='keys'?'active':''}" onclick="showPage('keys')">Ключи</a>
+        <a href="#" class="nav-link ${currentPage==='profile'?'active':''}" onclick="showPage('profile')">Профиль</a>
+    `;
+}
 
-        // ====================== СТРАНИЦЫ ======================
-        function showPage(page) {
-            currentPage = page;
-            const mainContent = document.getElementById('mainContent');
-            
-            switch(page) {
-                case 'home':
-                    mainContent.innerHTML = `
-                        <div class="hero">
-                            <h1>Добро пожаловать в Kometa.space!</h1>
-                            <p style="margin-bottom: 2rem; color: #94a3b8;">
-                                Магазин игровых ключей и читов. Покупайте с гарантией!
-                            </p>
-                            ${!currentUser ? `
-                                <button class="btn btn-primary" onclick="openAuthModal()">
-                                    Начать покупки
-                                </button>
-                            ` : `
-                                <button class="btn btn-primary" onclick="showPage('catalog')">
-                                    В каталог
-                                </button>
-                            `}
+function updateUserMenu(){
+    const menu = document.getElementById('userMenu');
+    if(currentUser){
+        menu.innerHTML = `
+            <div class="balance">${currentUser.balance} ₽</div>
+            <button class="btn btn-primary" onclick="openDepositModal()">Пополнить</button>
+            <div class="user-avatar" title="Профиль" onclick="showPage('profile')">${(currentUser.username||'U').charAt(0).toUpperCase()}</div>
+            <button class="btn" onclick="logout()" style="background:rgba(255,255,255,0.06);color:#fff">Выйти</button>
+        `;
+    } else {
+        menu.innerHTML = `<button class="btn btn-primary" onclick="openAuthModal()">Войти</button>`;
+    }
+    renderNav();
+}
+
+/* ---------- page router ---------- */
+function showPage(page, payload){
+    currentPage = page;
+    const main = document.getElementById('mainContent');
+    renderNav();
+    if(page==='home'){
+        main.innerHTML = `
+            <div class="hero">
+                <h1 style="color:var(--primary)">Магазин игровых ключей</h1>
+                <p class="small-muted" style="margin:10px 0 18px">Покупай DLC, читы и ключи — безопасно через баланс</p>
+                ${currentUser ? `<button class="btn btn-primary" onclick="showPage('catalog')">В каталог</button>` : `<button class="btn btn-primary" onclick="openAuthModal()">Начать покупки</button>`}
+            </div>
+            <h2 style="margin:10px 0 14px">Популярные игры</h2>
+            <div class="grid cols-3">
+                ${games.map(g=>`
+                    <div class="card" style="cursor:pointer" onclick="openGame(${g.id})">
+                        <div class="game-icon">${g.icon}</div>
+                        <div style="font-weight:800">${g.name}</div>
+                        <div class="small-muted" style="margin-top:6px">${g.description}</div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    } else if(page==='catalog'){
+        main.innerHTML = `
+            <h1 style="margin:14px 0">Каталог игр</h1>
+            <div class="grid cols-3">
+                ${games.map(g=>`
+                    <div class="card" style="cursor:pointer" onclick="openGame(${g.id})">
+                        <div class="game-icon">${g.icon}</div>
+                        <div style="font-weight:800">${g.name}</div>
+                        <div class="small-muted" style="margin-top:6px">${g.description}</div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    } else if(page==='profile'){
+        if(!currentUser){ openAuthModal(); return; }
+        // render profile and purchases
+        const userPurchases = purchases.filter(p=>p.userId===currentUser.id);
+        const userDeposits = depositRequests.filter(d=>d.userId===currentUser.id);
+        main.innerHTML = `
+            <div style="max-width:720px;margin:16px auto">
+                <h1>Личный кабинет</h1>
+                <div class="card" style="margin:12px 0;padding:16px">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+                        <div class="user-avatar">${(currentUser.username||'U').charAt(0).toUpperCase()}</div>
+                        <div>
+                            <div style="font-weight:800">${currentUser.username||'Пользователь'}</div>
+                            <div class="small-muted">${currentUser.email}</div>
                         </div>
-                        <div style="text-align: center; margin-top: 3rem;">
-                            <h2 style="margin-bottom: 1.5rem;">Популярные игры</h2>
-                            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                                ${games.map(game => `
-                                    <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; width: 200px;">
-                                        <div style="font-size: 2rem; margin-bottom: 1rem;">${game.icon}</div>
-                                        <h3>${game.name}</h3>
-                                        <p style="color: #94a3b8; font-size: 0.9rem; margin: 0.5rem 0;">${game.description}</p>
-                                        <div style="color: var(--success); font-weight: bold; margin: 1rem 0;">${game.price} ₽</div>
-                                        ${currentUser ? `
-                                            <button class="btn btn-primary" style="width: 100%;" onclick="buyGame(${game.id})">
-                                                Купить
-                                            </button>
-                                        ` : `
-                                            <button class="btn btn-primary" style="width: 100%;" onclick="openAuthModal()">
-                                                Войти для покупки
-                                            </button>
-                                        `}
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <div>
+                            <div class="small-muted">Баланс</div>
+                            <div style="font-size:20px;font-weight:800;color:var(--success)">${currentUser.balance} ₽</div>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" onclick="openDepositModal()">Пополнить</button>
+                            ${currentUser.isAdmin?` <button class="btn" onclick="showAdminPanel()" style="background:rgba(245,158,11,0.12);margin-left:8px">Админ</button>`:''}
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Мои заявки на пополнение</h2>
+                <div id="depositRequestsList">
+                    ${userDeposits.length===0?`<p class="small-muted">У вас нет заявок на пополнение</p>`: userDeposits.map(d=>{
+                        let statusClass = 'status-pending';
+                        let statusText = 'Ожидание';
+                        if(d.status === 'approved') { statusClass = 'status-approved'; statusText = 'Одобрено'; }
+                        if(d.status === 'rejected') { statusClass = 'status-rejected'; statusText = 'Отклонено'; }
+                        return `
+                        <div class="card" style="margin:8px 0">
+                            <div style="display:flex;justify-content:space-between;align-items:center">
+                                <div>
+                                    <div style="font-weight:800">${d.amount} ₽</div>
+                                    <div class="small-muted">${new Date(d.date).toLocaleString('ru-RU')}</div>
+                                </div>
+                                <div style="text-align:right">
+                                    <div class="deposit-status ${statusClass}">${statusText}</div>
+                                    ${d.status === 'pending' ? `<div class="small-muted" style="margin-top:4px">Ожидает проверки</div>` : ''}
+                                    ${d.adminComment ? `<div class="small-muted" style="margin-top:4px">${d.adminComment}</div>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    }).join('')}
+                </div>
+
+                <h2>Мои покупки</h2>
+                <div id="purchasesList">
+                    ${userPurchases.length===0?`<p class="small-muted">У вас еще нет покупок</p>`: userPurchases.map(p=>{
+                        const game = games.find(g=>g.id===p.gameId);
+                        const cheat = game ? game.cheats.find(c=>c.id===p.cheatId) : null;
+                        const files = cheat ? cheat.files || [] : [];
+                        return `
+                        <div class="card" style="margin:8px 0">
+                            <div style="display:flex;justify-content:space-between;align-items:center">
+                                <div>
+                                    <div style="font-weight:800">${p.gameName} — ${p.cheatName}</div>
+                                    <div class="small-muted">${p.variantLabel} — ${new Date(p.date).toLocaleString('ru-RU')}</div>
+                                </div>
+                                <div style="text-align:right">
+                                    <div class="price">${p.price} ₽</div>
+                                    <button class="btn" onclick="copyKey('${p.key}')" style="margin-top:6px">Копировать ключ</button>
+                                </div>
+                            </div>
+                            <div style="margin-top:8px"><pre class="key">${p.key}</pre></div>
+                            ${files.length > 0 ? `
+                            <div style="margin-top:12px">
+                                <div class="small-muted" style="margin-bottom:6px">Файлы для скачивания:</div>
+                                ${files.map(f=>`
+                                    <a href="${f.url}" target="_blank" class="file-link">${f.name}</a>
+                                `).join('')}
+                            </div>
+                            ` : ''}
+                        </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+        `;
+    } else if(page==='keys'){
+        // show all keys (if logged in)
+        if(!currentUser){ openAuthModal(); return; }
+        const userPurchases = purchases.filter(p=>p.userId===currentUser.id);
+        main.innerHTML = `
+            <h1 style="margin:12px 0">Мои ключи</h1>
+            <div style="max-width:720px;margin:0 auto">
+                ${userPurchases.length===0?`<p class="small-muted">Покупок нет</p>`: userPurchases.map(p=>{
+                    const game = games.find(g=>g.id===p.gameId);
+                    const cheat = game ? game.cheats.find(c=>c.id===p.cheatId) : null;
+                    const files = cheat ? cheat.files || [] : [];
+                    return `
+                    <div class="card" style="margin:8px 0">
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                            <div><strong>${p.gameName}</strong><div class="small-muted">${p.cheatName} — ${p.variantLabel}</div></div>
+                            <div class="price">${p.price} ₽</div>
+                        </div>
+                        <div style="margin-top:8px"><pre class="key">${p.key}</pre></div>
+                        ${files.length > 0 ? `
+                        <div style="margin-top:12px">
+                            <div class="small-muted" style="margin-bottom:6px">Файлы для скачивания:</div>
+                            ${files.map(f=>`
+                                <a href="${f.url}" target="_blank" class="file-link">${f.name}</a>
+                            `).join('')}
+                        </div>
+                        ` : ''}
+                    </div>
+                `}).join('')}
+            </div>
+        `;
+    } else if(page==='about'){
+        main.innerHTML = `
+            <h1 style="margin:12px 0">О проекте</h1>
+            <div class="card" style="padding:16px;max-width:720px;margin:0 auto">
+                <p class="small-muted">Информация о магазине Kometa.space. По вопросам возвратов: <a href="https://t.me/kometspace" style="color:var(--primary)">t.me/kometspace</a></p>
+            </div>
+        `;
+    }
+}
+
+/* ---------- open a game's page (show cheats) ---------- */
+function openGame(gameId){
+    const game = games.find(g=>g.id===gameId);
+    if(!game) return;
+    currentPage = 'game';
+    const main = document.getElementById('mainContent');
+    main.innerHTML = `
+        <div style="max-width:900px;margin:12px auto">
+            <button onclick="showPage('catalog')" class="btn" style="margin-bottom:12px;background:transparent;border:1px solid rgba(255,255,255,0.05)">← Вернуться</button>
+            <div style="display:flex;gap:16px;align-items:center">
+                <div class="game-icon" style="font-size:48px">${game.icon}</div>
+                <div>
+                    <h1 style="margin-bottom:6px">${game.name}</h1>
+                    <div class="small-muted">${game.description}</div>
+                </div>
+            </div>
+
+            <div style="margin-top:16px">
+                <h3>Доступные читы / DLC</h3>
+                <div id="cheatsList">
+                    ${game.cheats.length===0?`<p class="small-muted">Пока нет доступных читов/длc для этой игры</p>`: game.cheats.map(c=>`
+                        <div class="card" style="margin:10px 0">
+                            <div style="display:flex;justify-content:space-between;align-items:center">
+                                <div>
+                                    <div style="font-weight:800">${c.name} ${c.version?(' v'+c.version):''}</div>
+                                    <div class="small-muted" style="margin-top:6px">Добавил администратор</div>
+                                </div>
+                                <div style="text-align:right">
+                                    <div class="price">${c.variants[0].price} ₽</div>
+                                    <button class="btn btn-primary" onclick="openCheat(${game.id},${c.id})" style="margin-top:8px">Купить</button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+/* ---------- open cheat purchase modal / page ---------- */
+function openCheat(gameId, cheatId){
+    const game = games.find(g=>g.id===gameId);
+    const cheat = game.cheats.find(cc=>cc.id===cheatId);
+    if(!game || !cheat) return;
+    // render interactive purchase area (single page)
+    const main = document.getElementById('mainContent');
+    let selectedVariantIndex = 0;
+    main.innerHTML = `
+        <div style="max-width:720px;margin:12px auto">
+            <button onclick="openGame(${gameId})" class="btn" style="margin-bottom:12px;background:transparent;border:1px solid rgba(255,255,255,0.05)">← Назад</button>
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <div>
+                        <div style="font-weight:800">${game.name} — ${cheat.name} ${cheat.version?(' v'+cheat.version):''}</div>
+                        <div class="small-muted" style="margin-top:6px">Выберите вариант</div>
+                    </div>
+                    <div style="text-align:right">
+                        <div class="small-muted">К оплате</div>
+                        <div id="purchasePrice" class="price">${cheat.variants[0].price} ₽</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:12px">
+                    <div id="variantsContainer"></div>
+                </div>
+
+                <div style="margin-top:12px;display:flex;gap:8px">
+                    <button class="btn btn-primary" id="buyBtn">Оплатить</button>
+                    <button class="btn" id="contactBtn" style="background:rgba(255,255,255,0.04)">Написать</button>
+                </div>
+            </div>
+        </div>
+    `;
+    // render buttons for variants
+    const variantsContainer = document.getElementById('variantsContainer');
+    variantsContainer.innerHTML = cheat.variants.map((v,i)=>`
+        <button class="variant-btn ${i===0?'active':''}" data-idx="${i}" onclick="selectVariant(${gameId},${cheatId},${i})">${v.label} — ${v.price} ₽</button>
+    `).join('');
+
+    // attach buy handler to global function using closure
+    window._currentSelection = {gameId,cheatId,variantIndex:0};
+    document.getElementById('buyBtn').onclick = ()=> {
+        buyCheat(gameId, cheatId, window._currentSelection.variantIndex);
+    };
+    document.getElementById('contactBtn').onclick = ()=> {
+        showNotification('info','Напишите в Telegram: t.me/kometspace');
+    };
+}
+
+function selectVariant(gameId,cheatId,variantIndex){
+    const game = games.find(g=>g.id===gameId);
+    const cheat = game.cheats.find(c=>c.id===cheatId);
+    if(!cheat) return;
+    // update active classes
+    document.querySelectorAll('#variantsContainer .variant-btn').forEach(btn=>btn.classList.remove('active'));
+    const btn = document.querySelector(`#variantsContainer .variant-btn[data-idx="${variantIndex}"]`);
+    if(btn) btn.classList.add('active');
+    // update price display
+    const price = cheat.variants[variantIndex].price;
+    document.getElementById('purchasePrice').innerText = `${price} ₽`;
+    // save selection
+    window._currentSelection = {gameId,cheatId,variantIndex};
+}
+
+/* ---------- purchase logic ---------- */
+function buyCheat(gameId,cheatId,variantIndex){
+    if(!currentUser){ openAuthModal(); return; }
+    const game = games.find(g=>g.id===gameId);
+    const cheat = game.cheats.find(c=>c.id===cheatId);
+    if(!cheat) return;
+    const variant = cheat.variants[variantIndex];
+    if(currentUser.balance < variant.price){
+        showNotification('error','Недостаточно средств');
+        openDepositModal();
+        return;
+    }
+    // charge
+    currentUser.balance -= variant.price;
+    saveCurrentUserInUsersList();
+    // create key
+    const key = generateKey();
+    const purchase = {
+        id: Date.now(),
+        userId: currentUser.id,
+        gameId: game.id,
+        gameName: game.name,
+        cheatId: cheat.id,
+        cheatName: cheat.name,
+        variantLabel: variant.label,
+        price: variant.price,
+        key: key,
+        date: new Date().toISOString()
+    };
+    purchases.push(purchase);
+    savePurchases();
+    showNotification('success', `Покупка успешна! Ключ: ${key}`);
+    updateUserMenu();
+    // go to profile to show purchase
+    showPage('profile');
+}
+
+/* ---------- deposit system ---------- */
+function submitDeposit(){
+    if(!currentUser){ openAuthModal(); return; }
+    const amount = parseInt(document.getElementById('depositAmount').value);
+    const comment = document.getElementById('depositComment').value.trim() || currentUser.email;
+    
+    if(!amount || amount < 100){ showNotification('error','Минимальная сумма 100 ₽'); return; }
+    if(!comment){ showNotification('error','Укажите комментарий к платежу'); return; }
+    
+    // Создаем заявку на пополнение
+    const depositRequest = {
+        id: Date.now(),
+        userId: currentUser.id,
+        userEmail: currentUser.email,
+        username: currentUser.username,
+        amount: amount,
+        comment: comment,
+        status: 'pending', // pending, approved, rejected
+        date: new Date().toISOString(),
+        adminComment: ''
+    };
+    
+    depositRequests.push(depositRequest);
+    saveDepositRequests();
+    
+    showNotification('success', `Заявка на пополнение ${amount} ₽ отправлена администратору. Ожидайте проверки.`);
+    closeModal('depositModal');
+    showPage('profile');
+}
+
+/* ---------- file management ---------- */
+function openFileUploadModal(gameId, cheatId){
+    currentCheatForFiles = {gameId, cheatId};
+    document.getElementById('fileUploadModal').classList.add('active');
+}
+
+function addFileToCheat(){
+    if(!currentCheatForFiles) return;
+    
+    const name = document.getElementById('fileName').value.trim();
+    const url = document.getElementById('fileUrl').value.trim();
+    const type = document.getElementById('fileType').value;
+    
+    if(!name || !url){ 
+        showNotification('error','Заполните все поля'); 
+        return; 
+    }
+    
+    const game = games.find(g=>g.id===currentCheatForFiles.gameId);
+    const cheat = game ? game.cheats.find(c=>c.id===currentCheatForFiles.cheatId) : null;
+    
+    if(!cheat){
+        showNotification('error','Чит не найден');
+        return;
+    }
+    
+    // Инициализируем массив файлов, если его нет
+    if(!cheat.files) cheat.files = [];
+    
+    // Добавляем файл
+    cheat.files.push({
+        name: name,
+        url: url,
+        type: type
+    });
+    
+    saveGames();
+    showNotification('success', `Файл "${name}" добавлен к читу`);
+    closeModal('fileUploadModal');
+    showAdminPanel();
+}
+
+function removeFile(gameId, cheatId, fileIndex){
+    const game = games.find(g=>g.id===gameId);
+    const cheat = game ? game.cheats.find(c=>c.id===cheatId) : null;
+    
+    if(!cheat || !cheat.files || cheat.files.length <= fileIndex){
+        showNotification('error','Файл не найден');
+        return;
+    }
+    
+    const fileName = cheat.files[fileIndex].name;
+    cheat.files.splice(fileIndex, 1);
+    saveGames();
+    showNotification('success', `Файл "${fileName}" удален`);
+    showAdminPanel();
+}
+
+/* ---------- utilities ---------- */
+function generateKey(){
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let key = '';
+    for(let i=0;i<16;i++){
+        if(i>0 && i%4===0) key += '-';
+        key += chars.charAt(Math.floor(Math.random()*chars.length));
+    }
+    return key;
+}
+
+function copyKey(k){
+    navigator.clipboard.writeText(k).then(()=>showNotification('success','Ключ скопирован!')).catch(()=>showNotification('error','Не удалось скопировать'));
+}
+
+/* ---------- auth ---------- */
+function openAuthModal(){ document.getElementById('authModal').classList.add('active'); }
+function closeModal(id){ document.getElementById(id).classList.remove('active'); }
+function switchTab(tab){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('#authModal .modal-body > div').forEach(d=>d.style.display='none');
+    if(tab==='login'){ document.querySelector('.tab[data-tab="login"]').classList.add('active'); document.getElementById('loginTab').style.display='block'; }
+    else { document.querySelector('.tab[data-tab="register"]').classList.add('active'); document.getElementById('registerTab').style.display='block'; }
+}
+function login(){
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    if(!email||!password){ showNotification('error','Заполните все поля'); return; }
+    const users = JSON.parse(localStorage.getItem('kometa_users')||'[]');
+    const user = users.find(u=>u.email===email&&u.password===password);
+    if(user){
+        currentUser = { id:user.id, email:user.email, username:user.username, balance:user.balance||0, isAdmin:user.isAdmin||false };
+        localStorage.setItem('kometa_user', JSON.stringify(currentUser));
+        updateUserMenu();
+        closeModal('authModal');
+        showNotification('success','Успешный вход!');
+        showPage('home');
+    } else showNotification('error','Неверный email или пароль');
+}
+function register(){
+    const email = document.getElementById('registerEmail').value.trim();
+    const username = document.getElementById('registerUsername').value.trim();
+    const password = document.getElementById('registerPassword').value;
+    if(!email||!username||!password){ showNotification('error','Заполните все поля'); return; }
+    if(password.length<6){ showNotification('error','Пароль минимум 6 символов'); return; }
+    let users = JSON.parse(localStorage.getItem('kometa_users')||'[]');
+    if(users.some(u=>u.email===email)){ showNotification('error','Пользователь с таким email уже существует'); return; }
+    const newUser = { id:Date.now(), email, username, password, balance:0, isAdmin:false }; // Начальный баланс 0
+    users.push(newUser);
+    localStorage.setItem('kometa_users', JSON.stringify(users));
+    currentUser = { id:newUser.id, email:newUser.email, username:newUser.username, balance:0, isAdmin:false };
+    localStorage.setItem('kometa_user', JSON.stringify(currentUser));
+    updateUserMenu();
+    closeModal('authModal');
+    showNotification('success','Регистрация успешна!');
+    showPage('home');
+}
+function logout(){ currentUser = null; localStorage.removeItem('kometa_user'); updateUserMenu(); showPage('home'); showNotification('success','Вы вышли'); }
+
+function openDepositModal(){ 
+    if(!currentUser){ openAuthModal(); return; } 
+    document.getElementById('depositModal').classList.add('active');
+    // Устанавливаем email пользователя в поле комментария
+    if(currentUser && document.getElementById('depositComment')) {
+        document.getElementById('depositComment').value = currentUser.email;
+    }
+}
+
+/* ---------- admin panel ---------- */
+function showAdminPanel(){
+    if(!currentUser || !currentUser.isAdmin){ showNotification('error','Доступ запрещен'); return; }
+    currentPage = 'admin';
+    const users = JSON.parse(localStorage.getItem('kometa_users')||'[]');
+    const main = document.getElementById('mainContent');
+    main.innerHTML = `
+        <div style="max-width:1000px;margin:12px auto">
+            <button class="btn" onclick="showPage('profile')" style="margin-bottom:12px;background:transparent;border:1px solid rgba(255,255,255,0.05)">← Назад</button>
+            <h1>Админ-панель</h1>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:12px 0">
+                <div class="card"><div style="font-size:24px;font-weight:800">${users.length}</div><div class="small-muted">Пользователей</div></div>
+                <div class="card"><div style="font-size:24px;font-weight:800">${purchases.length}</div><div class="small-muted">Продаж</div></div>
+                <div class="card"><div style="font-size:24px;font-weight:800">${purchases.reduce((s,p)=>s+p.price,0)} ₽</div><div class="small-muted">Выручка</div></div>
+                <div class="card"><div style="font-size:24px;font-weight:800">${depositRequests.filter(d=>d.status==='pending').length}</div><div class="small-muted">Заявок на пополнение</div></div>
+            </div>
+
+            <div style="margin-top:10px">
+                <h3>Заявки на пополнение</h3>
+                <div class="card" id="adminDepositRequests">
+                    ${depositRequests.length===0?'<p class="small-muted">Нет заявок на пополнение</p>': depositRequests.map(d=>{
+                        const user = users.find(u=>u.id===d.userId);
+                        let statusClass = 'status-pending';
+                        let statusText = 'Ожидание';
+                        if(d.status === 'approved') { statusClass = 'status-approved'; statusText = 'Одобрено'; }
+                        if(d.status === 'rejected') { statusClass = 'status-rejected'; statusText = 'Отклонено'; }
+                        return `
+                        <div style="padding:10px;border-bottom:1px solid var(--border)">
+                            <div style="display:flex;justify-content:space-between;align-items:center">
+                                <div>
+                                    <div><strong>${d.amount} ₽</strong></div>
+                                    <div class="small-muted">${user ? user.email : d.userEmail} (${d.username})</div>
+                                    <div class="small-muted">Комментарий: ${d.comment}</div>
+                                </div>
+                                <div>
+                                    <div class="deposit-status ${statusClass}" style="margin-bottom:8px">${statusText}</div>
+                                    ${d.status === 'pending' ? `
+                                        <div style="display:flex;gap:6px">
+                                            <button class="btn" style="padding:6px 10px;background:var(--success)" onclick="approveDeposit(${d.id})">✓ Одобрить</button>
+                                            <button class="btn" style="padding:6px 10px;background:var(--danger)" onclick="rejectDeposit(${d.id})">✗ Отклонить</button>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                            <div class="small-muted" style="margin-top:6px">${new Date(d.date).toLocaleString('ru-RU')}</div>
+                            ${d.adminComment ? `<div class="small-muted" style="margin-top:6px">Комментарий админа: ${d.adminComment}</div>` : ''}
+                        </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+
+            <div style="margin-top:18px">
+                <h3>Все игры и читы</h3>
+                <div id="gamesList">
+                    ${games.map(g=>`
+                        <div class="card" style="margin-bottom:12px">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                                <div>
+                                    <div style="font-weight:800">${g.name}</div>
+                                    <div class="small-muted">${g.description}</div>
+                                </div>
+                            </div>
+                            <div>
+                                ${g.cheats.length===0?'<p class="small-muted">Нет читов</p>': g.cheats.map(c=>`
+                                    <div style="padding:10px;background:rgba(255,255,255,0.02);border-radius:8px;margin:6px 0">
+                                        <div style="display:flex;justify-content:space-between;align-items:center">
+                                            <div>
+                                                <strong>${c.name} ${c.version?'v'+c.version:''}</strong>
+                                                <div class="small-muted">Варианты: ${c.variants.map(v=>v.label+' - '+v.price+'₽').join(', ')}</div>
+                                            </div>
+                                            <div>
+                                                <button class="btn" style="padding:6px 10px;background:var(--primary)" onclick="openFileUploadModal(${g.id},${c.id})">Добавить файл</button>
+                                            </div>
+                                        </div>
+                                        ${c.files && c.files.length > 0 ? `
+                                        <div style="margin-top:8px">
+                                            <div class="small-muted">Файлы:</div>
+                                            ${c.files.map((f,idx)=>`
+                                                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+                                                    <a href="${f.url}" target="_blank" style="color:var(--primary)">${f.name}</a>
+                                                    <button class="btn" style="padding:2px 6px;background:var(--danger);font-size:12px" onclick="removeFile(${g.id},${c.id},${idx})">Удалить</button>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                        ` : '<div class="small-muted" style="margin-top:4px">Нет файлов</div>'}
                                     </div>
                                 `).join('')}
                             </div>
                         </div>
-                    `;
-                    break;
-                    
-                case 'catalog':
-                    mainContent.innerHTML = `
-                        <h1 style="margin: 2rem 0;">Каталог игр</h1>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
-                            ${games.map(game => `
-                                <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border);">
-                                    <div style="font-size: 2.5rem; text-align: center; margin-bottom: 1rem;">${game.icon}</div>
-                                    <h3>${game.name}</h3>
-                                    <p style="color: #94a3b8; margin: 0.5rem 0; min-height: 40px;">${game.description}</p>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
-                                        <div style="color: var(--success); font-size: 1.2rem; font-weight: bold;">${game.price} ₽</div>
-                                        ${currentUser ? `
-                                            <button class="btn btn-primary" onclick="buyGame(${game.id})">
-                                                Купить
-                                            </button>
-                                        ` : `
-                                            <button class="btn btn-primary" onclick="openAuthModal()">
-                                                Купить
-                                            </button>
-                                        `}
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                    break;
-                    
-                case 'profile':
-                    if (!currentUser) {
-                        openAuthModal();
-                        return;
-                    }
-                    
-                    mainContent.innerHTML = `
-                        <div style="max-width: 600px; margin: 0 auto;">
-                            <h1 style="margin: 2rem 0;">Личный кабинет</h1>
-                            
-                            <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
-                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                                    <div class="user-avatar">${currentUser.username ? currentUser.username.charAt(0).toUpperCase() : 'U'}</div>
-                                    <div>
-                                        <h2>${currentUser.username || 'Пользователь'}</h2>
-                                        <p style="color: #94a3b8;">${currentUser.email}</p>
-                                    </div>
-                                </div>
-                                
-                                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        <div>
-                                            <div style="color: #94a3b8;">Баланс</div>
-                                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--success);">${currentUser.balance} ₽</div>
-                                        </div>
-                                        <button class="btn btn-primary" onclick="openDepositModal()">
-                                            Пополнить
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                ${currentUser.isAdmin ? `
-                                    <div style="background: rgba(245, 158, 11, 0.1); padding: 1rem; border-radius: 8px; margin: 1rem 0; border: 1px solid var(--warning);">
-                                        <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--warning);">
-                                            👑 Вы администратор
-                                        </div>
-                                    </div>
-                                ` : ''}
+                    `).join('')}
+                </div>
+            </div>
+
+            <div style="margin-top:18px">
+                <h3>Добавить игру</h3>
+                <div class="card">
+                    <div class="form-group"><label>Название</label><input id="newGameName" placeholder="Standoff 2"></div>
+                    <div class="form-group"><label>Иконка (эмодзи)</label><input id="newGameIcon" placeholder="🎮"></div>
+                    <div class="form-group"><label>Описание</label><input id="newGameDesc" placeholder="Описание"></div>
+                    <button class="btn btn-primary" onclick="addNewGame()">Добавить игру</button>
+                </div>
+            </div>
+
+            <div style="margin-top:18px">
+                <h3>Добавить чит / DLC к игре</h3>
+                <div class="card">
+                    <div class="form-group">
+                        <label>Выберите игру</label>
+                        <select id="selectGameForCheat">${games.map(g=>`<option value="${g.id}">${g.name}</option>`).join('')}</select>
+                    </div>
+                    <div class="form-group"><label>Название чита</label><input id="newCheatName" placeholder="Plutonium"></div>
+                    <div class="form-group"><label>Версия (опционально)</label><input id="newCheatVersion" placeholder="0.36.1"></div>
+                    <div class="form-group">
+                        <label>Варианты и цены (формат: название:цена, через запятую)</label>
+                        <input id="newCheatVariants" placeholder="7 дней:99,30 дней:249,Навсегда:99500">
+                    </div>
+                    <button class="btn btn-primary" onclick="addCheatToGame()">Добавить чит</button>
+                </div>
+            </div>
+
+            <div style="margin-top:18px">
+                <h3>Все покупки</h3>
+                <div class="card" id="adminPurchases">
+                    ${purchases.length===0?'<p class="small-muted">Покупок нет</p>': purchases.map(p=>{
+                        const u = users.find(x=>x.id===p.userId);
+                        const game = games.find(g=>g.id===p.gameId);
+                        const cheat = game ? game.cheats.find(c=>c.id===p.cheatId) : null;
+                        const files = cheat ? cheat.files || [] : [];
+                        return `<div style="padding:10px;border-bottom:1px solid var(--border)">
+                            <div style="display:flex;justify-content:space-between">
+                                <div><strong>${p.gameName}</strong><div class="small-muted">${p.cheatName} — ${u?u.email:'-'}</div></div>
+                                <div class="price">${p.price} ₽</div>
                             </div>
-                            
-                            <div>
-                                <h2 style="margin-bottom: 1rem;">Мои покупки</h2>
-                                <div id="purchasesList">
-                                    <!-- Покупки загрузятся здесь -->
-                                </div>
+                            <div class="small-muted" style="margin-top:6px">${new Date(p.date).toLocaleString('ru-RU')}</div>
+                            <div style="margin-top:8px"><pre class="key">${p.key}</pre></div>
+                            ${files.length > 0 ? `
+                            <div style="margin-top:8px">
+                                <div class="small-muted">Файлы:</div>
+                                ${files.map(f=>`<a href="${f.url}" target="_blank" class="file-link" style="margin-right:4px">${f.name}</a>`).join('')}
                             </div>
-                        </div>
-                    `;
-                    
-                    loadUserPurchases();
-                    break;
-            }
-            
-            updateNavigation();
-        }
+                            ` : ''}
+                        </div>`
+                    }).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+}
 
-        // ====================== АВТОРИЗАЦИЯ ======================
-        function createTestAdmin() {
-            // Проверяем, есть ли уже пользователи
-            let users = JSON.parse(localStorage.getItem('kometa_users') || '[]');
-            
-            // Создаем тестового админа
-            const adminExists = users.some(u => u.email === 'nurislamovradmir9@gmail.com');
-            if (!adminExists) {
-                users.push({
-                    id: 1,
-                    email: 'nurislamovradmir9@gmail.com',
-                    username: 'Admin',
-                    password: 'makson555777',
-                    balance: 10000,
-                    isAdmin: true
-                });
-                localStorage.setItem('kometa_users', JSON.stringify(users));
-            }
-            
-            // Создаем тестового пользователя
-            const userExists = users.some(u => u.email === 'test@mail.com');
-            if (!userExists) {
-                users.push({
-                    id: 2,
-                    email: 'test@mail.com',
-                    username: 'TestUser',
-                    password: '123456',
-                    balance: 500,
-                    isAdmin: false
-                });
-                localStorage.setItem('kometa_users', JSON.stringify(users));
-            }
-        }
-
-        function openAuthModal() {
-            document.getElementById('authModal').classList.add('active');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-
-        function switchTab(tab) {
-            // Обновляем вкладки
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            
-            if (tab === 'login') {
-                document.querySelector('.tab').classList.add('active');
-                document.getElementById('loginTab').classList.add('active');
-            } else {
-                document.querySelectorAll('.tab')[1].classList.add('active');
-                document.getElementById('registerTab').classList.add('active');
-            }
-        }
-
-        function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            if (!email || !password) {
-                showNotification('error', 'Заполните все поля');
-                return;
-            }
-            
-            // Ищем пользователя
-            const users = JSON.parse(localStorage.getItem('kometa_users') || '[]');
-            const user = users.find(u => u.email === email && u.password === password);
-            
-            if (user) {
-                currentUser = {
-                    id: user.id,
-                    email: user.email,
-                    username: user.username,
-                    balance: user.balance || 0,
-                    isAdmin: user.isAdmin || false
-                };
-                
-                localStorage.setItem('kometa_user', JSON.stringify(currentUser));
-                updateUserMenu();
-                closeModal('authModal');
-                showNotification('success', 'Успешный вход!');
-                showPage('home');
-            } else {
-                showNotification('error', 'Неверный email или пароль');
-            }
-        }
-
-        function register() {
-            const email = document.getElementById('registerEmail').value;
-            const username = document.getElementById('registerUsername').value;
-            const password = document.getElementById('registerPassword').value;
-            
-            if (!email || !username || !password) {
-                showNotification('error', 'Заполните все поля');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showNotification('error', 'Пароль должен быть минимум 6 символов');
-                return;
-            }
-            
-            // Проверяем, нет ли уже такого пользователя
-            const users = JSON.parse(localStorage.getItem('kometa_users') || '[]');
-            if (users.some(u => u.email === email)) {
-                showNotification('error', 'Пользователь с таким email уже существует');
-                return;
-            }
-            
-            // Создаем нового пользователя
-            const newUser = {
-                id: Date.now(),
-                email: email,
-                username: username,
-                password: password,
-                balance: 0,
-                isAdmin: false
-            };
-            
-            users.push(newUser);
-            localStorage.setItem('kometa_users', JSON.stringify(users));
-            
-            // Автоматически входим
-            currentUser = {
-                id: newUser.id,
-                email: newUser.email,
-                username: newUser.username,
-                balance: newUser.balance,
-                isAdmin: false
-            };
-            
+function approveDeposit(depositId){
+    const deposit = depositRequests.find(d=>d.id===depositId);
+    if(!deposit) return;
+    
+    // Обновляем статус
+    deposit.status = 'approved';
+    deposit.adminComment = 'Пополнение одобрено администратором';
+    
+    // Находим пользователя и пополняем баланс
+    let users = JSON.parse(localStorage.getItem('kometa_users')||'[]');
+    const user = users.find(u=>u.id===deposit.userId);
+    if(user){
+        user.balance += deposit.amount;
+        localStorage.setItem('kometa_users', JSON.stringify(users));
+        
+        // Если текущий пользователь - это тот же пользователь, обновляем его баланс
+        if(currentUser && currentUser.id === deposit.userId){
+            currentUser.balance = user.balance;
             localStorage.setItem('kometa_user', JSON.stringify(currentUser));
             updateUserMenu();
-            closeModal('authModal');
-            showNotification('success', 'Регистрация успешна!');
-            showPage('home');
         }
+    }
+    
+    saveDepositRequests();
+    showNotification('success', `Заявка на ${deposit.amount} ₽ одобрена!`);
+    showAdminPanel();
+}
 
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('kometa_user');
-            updateUserMenu();
-            showPage('home');
-            showNotification('success', 'Вы вышли из аккаунта');
-        }
+function rejectDeposit(depositId){
+    const deposit = depositRequests.find(d=>d.id===depositId);
+    if(!deposit) return;
+    
+    const reason = prompt('Укажите причину отказа:', 'Платеж не поступил');
+    if(reason === null) return; // пользователь отменил
+    
+    deposit.status = 'rejected';
+    deposit.adminComment = reason || 'Платеж не поступил';
+    
+    saveDepositRequests();
+    showNotification('info', `Заявка на ${deposit.amount} ₽ отклонена.`);
+    showAdminPanel();
+}
 
-        // ====================== ПОКУПКИ ======================
-        function buyGame(gameId) {
-            if (!currentUser) {
-                openAuthModal();
-                return;
-            }
-            
-            const game = games.find(g => g.id === gameId);
-            if (!game) return;
-            
-            if (currentUser.balance < game.price) {
-                showNotification('error', 'Недостаточно средств');
-                openDepositModal();
-                return;
-            }
-            
-            // Списание денег
-            currentUser.balance -= game.price;
-            localStorage.setItem('kometa_user', JSON.stringify(currentUser));
-            
-            // Сохраняем покупку
-            const purchases = JSON.parse(localStorage.getItem('kometa_purchases') || '[]');
-            const key = generateKey();
-            purchases.push({
-                id: Date.now(),
-                userId: currentUser.id,
-                gameId: game.id,
-                gameName: game.name,
-                price: game.price,
-                key: key,
-                date: new Date().toISOString()
-            });
-            localStorage.setItem('kometa_purchases', JSON.stringify(purchases));
-            
-            // Обновляем пользовательское меню
-            updateUserMenu();
-            
-            // Показываем ключ
-            showNotification('success', `Покупка успешна! Ключ: ${key}`);
-            
-            // Если это админ, обновляем его баланс в списке пользователей
-            const users = JSON.parse(localStorage.getItem('kometa_users') || '[]');
-            const userIndex = users.findIndex(u => u.id === currentUser.id);
-            if (userIndex !== -1) {
-                users[userIndex].balance = currentUser.balance;
-                localStorage.setItem('kometa_users', JSON.stringify(users));
-            }
-        }
+function addNewGame(){
+    const name = document.getElementById('newGameName').value.trim();
+    const icon = document.getElementById('newGameIcon').value.trim() || '🎮';
+    const desc = document.getElementById('newGameDesc').value.trim() || '';
+    if(!name){ showNotification('error','Введите название игры'); return; }
+    const newGame = { id: Date.now(), name, icon, description:desc, cheats: [] };
+    games.push(newGame);
+    saveGames();
+    showNotification('success', `Игра "${name}" добавлена`);
+    showAdminPanel();
+}
 
-        function generateKey() {
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let key = '';
-            for (let i = 0; i < 16; i++) {
-                if (i > 0 && i % 4 === 0) key += '-';
-                key += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return key;
-        }
+function addCheatToGame(){
+    const gameId = parseInt(document.getElementById('selectGameForCheat').value);
+    const name = document.getElementById('newCheatName').value.trim();
+    const version = document.getElementById('newCheatVersion').value.trim();
+    const variantsRaw = document.getElementById('newCheatVariants').value.trim(); // format: "7 дней:99,30 дней:249,Навсегда:99500"
+    if(!name || !variantsRaw){ showNotification('error','Введите название чита и варианты'); return; }
+    const variants = variantsRaw.split(',').map(s=>{
+        const [label, price] = s.split(':').map(x=>x && x.trim());
+        return { label: label || 'Вариант', price: parseInt(price||'0') || 0 };
+    });
+    const game = games.find(g=>g.id===gameId);
+    if(!game){ showNotification('error','Игра не найдена'); return; }
+    const cheat = { id: Date.now(), name, version, variants, files: [] };
+    game.cheats.push(cheat);
+    saveGames();
+    showNotification('success', `Чит "${name}" добавлен к "${game.name}"`);
+    showAdminPanel();
+}
 
-        function loadUserPurchases() {
-            if (!currentUser) return;
-            
-            const purchases = JSON.parse(localStorage.getItem('kometa_purchases') || '[]');
-            const userPurchases = purchases.filter(p => p.userId === currentUser.id);
-            
-            const purchasesList = document.getElementById('purchasesList');
-            if (!purchasesList) return;
-            
-            if (userPurchases.length === 0) {
-                purchasesList.innerHTML = '<p style="color: #94a3b8; text-align: center;">У вас еще нет покупок</p>';
-                return;
-            }
-            
-            purchasesList.innerHTML = userPurchases.map(purchase => `
-                <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <div style="font-weight: bold;">${purchase.gameName}</div>
-                        <div style="color: var(--success);">${purchase.price} ₽</div>
-                    </div>
-                    <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">
-                        ${new Date(purchase.date).toLocaleDateString('ru-RU')}
-                    </div>
-                    <div style="background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 6px; font-family: monospace;">
-                        ${purchase.key}
-                    </div>
-                    <button class="btn" style="margin-top: 0.5rem; width: 100%;" onclick="copyKey('${purchase.key}')">
-                        Скопировать ключ
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        function copyKey(key) {
-            navigator.clipboard.writeText(key)
-                .then(() => showNotification('success', 'Ключ скопирован!'))
-                .catch(() => showNotification('error', 'Не удалось скопировать'));
-        }
-
-        // ====================== ПОПОЛНЕНИЕ ======================
-        function openDepositModal() {
-            document.getElementById('depositModal').classList.add('active');
-        }
-
-        function submitDeposit() {
-            if (!currentUser) {
-                openAuthModal();
-                return;
-            }
-            
-            const amount = parseInt(document.getElementById('depositAmount').value);
-            if (!amount || amount < 100) {
-                showNotification('error', 'Минимальная сумма 100 ₽');
-                return;
-            }
-            
-            showNotification('success', `Заявка на пополнение ${amount}₽ отправлена администратору`);
-            closeModal('depositModal');
-        }
-
-        // ====================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ======================
-        function updateUserMenu() {
-            const userMenu = document.getElementById('userMenu');
-            if (!userMenu) return;
-            
-            if (currentUser) {
-                userMenu.innerHTML = `
-                    <div class="balance">${currentUser.balance} ₽</div>
-                    <button class="btn btn-primary" onclick="openDepositModal()">
-                        Пополнить
-                    </button>
-                    <div class="user-avatar" onclick="showPage('profile')">
-                        ${currentUser.username ? currentUser.username.charAt(0).toUpperCase() : 'U'}
-                    </div>
-                    <button class="btn" onclick="logout()" style="background: rgba(255,255,255,0.1);">
-                        Выйти
-                    </button>
-                `;
-            } else {
-                userMenu.innerHTML = `
-                    <button class="btn btn-primary" onclick="openAuthModal()">
-                        Войти
-                    </button>
-                `;
-            }
-        }
-
-        function updateNavigation() {
-            const nav = document.getElementById('mainNav');
-            if (!nav) return;
-            
-            nav.innerHTML = `
-                <a href="#" class="nav-link ${currentPage === 'home' ? 'active' : ''}" onclick="showPage('home')">Главная</a>
-                <a href="#" class="nav-link ${currentPage === 'catalog' ? 'active' : ''}" onclick="showPage('catalog')">Каталог</a>
-                ${currentUser ? `
-                    <a href="#" class="nav-link ${currentPage === 'profile' ? 'active' : ''}" onclick="showPage('profile')">Профиль</a>
-                    ${currentUser.isAdmin ? `
-                        <a href="#" class="nav-link" onclick="showAdminPanel()">Админ</a>
-                    ` : ''}
-                ` : ''}
-            `;
-        }
-
-        function showAdminPanel() {
-            if (!currentUser || !currentUser.isAdmin) {
-                showNotification('error', 'Доступ запрещен');
-                return;
-            }
-            
-            const mainContent = document.getElementById('mainContent');
-            const users = JSON.parse(localStorage.getItem('kometa_users') || '[]');
-            const purchases = JSON.parse(localStorage.getItem('kometa_purchases') || '[]');
-            
-            mainContent.innerHTML = `
-                <div style="max-width: 800px; margin: 0 auto;">
-                    <h1 style="margin: 2rem 0;">Админ-панель</h1>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                        <div style="background: rgba(99, 102, 241, 0.1); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--primary);">
-                            <div style="font-size: 2rem; color: var(--primary);">${users.length}</div>
-                            <div style="color: #94a3b8;">Пользователей</div>
-                        </div>
-                        <div style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--secondary);">
-                            <div style="font-size: 2rem; color: var(--secondary);">${purchases.length}</div>
-                            <div style="color: #94a3b8;">Продаж</div>
-                        </div>
-                        <div style="background: rgba(245, 158, 11, 0.1); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--warning);">
-                            <div style="font-size: 2rem; color: var(--warning);">
-                                ${purchases.reduce((sum, p) => sum + p.price, 0)} ₽
-                            </div>
-                            <div style="color: #94a3b8;">Выручка</div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-bottom: 2rem;">
-                        <h2>Добавить игру</h2>
-                        <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px;">
-                            <div class="form-group">
-                                <label>Название игры</label>
-                                <input type="text" id="newGameName" placeholder="Например: Standoff 2">
-                            </div>
-                            <div class="form-group">
-                                <label>Описание</label>
-                                <input type="text" id="newGameDesc" placeholder="Описание игры">
-                            </div>
-                            <div class="form-group">
-                                <label>Цена (₽)</label>
-                                <input type="number" id="newGamePrice" value="299" min="10">
-                            </div>
-                            <button class="btn btn-primary" onclick="addNewGame()">
-                                Добавить игру
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h2>Все покупки</h2>
-                        <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 12px;">
-                            ${purchases.map(purchase => {
-                                const user = users.find(u => u.id === purchase.userId);
-                                return `
-                                    <div style="padding: 1rem; border-bottom: 1px solid var(--border);">
-                                        <div style="display: flex; justify-content: space-between;">
-                                            <div>
-                                                <strong>${purchase.gameName}</strong>
-                                                <div style="color: #94a3b8; font-size: 0.9rem;">
-                                                    ${user ? user.email : 'Неизвестный пользователь'}
-                                                </div>
-                                            </div>
-                                            <div style="color: var(--success);">${purchase.price} ₽</div>
-                                        </div>
-                                        <div style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.5rem;">
-                                            ${new Date(purchase.date).toLocaleString('ru-RU')}
-                                        </div>
-                                        <div style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; margin-top: 0.5rem;">
-                                            ${purchase.key}
-                                        </div>
-                                    </div>
-                                `;
-                            }).join('') || '<p style="color: #94a3b8; text-align: center; padding: 2rem;">Покупок еще нет</p>'}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function addNewGame() {
-            const name = document.getElementById('newGameName').value;
-            const desc = document.getElementById('newGameDesc').value;
-            const price = parseInt(document.getElementById('newGamePrice').value);
-            
-            if (!name || !price) {
-                showNotification('error', 'Заполните название и цену');
-                return;
-            }
-            
-            const newGame = {
-                id: games.length + 1,
-                name: name,
-                description: desc || 'Описание игры',
-                price: price,
-                icon: '🎮'
-            };
-            
-            games.push(newGame);
-            showNotification('success', `Игра "${name}" добавлена!`);
-            
-            // Очищаем поля
-            document.getElementById('newGameName').value = '';
-            document.getElementById('newGameDesc').value = '';
-            
-            // Показываем каталог
-            showPage('catalog');
-        }
-
-        function showNotification(type, message) {
-            const notifications = document.getElementById('notifications');
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = message;
-            notification.style.borderLeftColor = type === 'success' ? 'var(--success)' : 'var(--danger)';
-            
-            notifications.appendChild(notification);
-            
-            // Удаляем через 3 секунды
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-    </script>
+/* ---------- notifications ---------- */
+function showNotification(type, message){
+    const notifications = document.getElementById('notifications');
+    const el = document.createElement('div');
+    el.className = 'notification';
+    el.innerText = message;
+    el.style.borderLeftColor = type==='success' ? 'var(--success)' : type==='error' ? 'var(--danger)' : 'var(--primary)';
+    notifications.appendChild(el);
+    setTimeout(()=>{ el.remove(); }, 3000);
+}
+</script>
 </body>
 </html>
