@@ -1,1151 +1,2030 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Kometa.space | Магазин игровых ключей</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrimeSpeak - Электронный журнал</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        :root{
-            --primary:#6366f1;--primary-dark:#4f46e5;--secondary:#10b981;--danger:#ef4444;
-            --warning:#f59e0b;--dark:#0f172a;--dark-light:#1e293b;--light:#f8fafc;--border:#334155;--success:#22c55e;
+        :root {
+            --primary: #1a237e;
+            --primary-light: #534bae;
+            --primary-dark: #000051;
+            --secondary: #ff9800;
+            --success: #4caf50;
+            --danger: #f44336;
+            --warning: #ffc107;
+            --info: #2196f3;
+            --light: #f5f7fa;
+            --dark: #263238;
+            --gray: #78909c;
+            --border: #e0e0e0;
         }
-        *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
-        body{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);color:var(--light);min-height:100vh;padding-bottom:60px}
-        .container{max-width:1200px;margin:0 auto;padding:0 16px}
-        .header{background:rgba(15,23,42,0.95);padding:12px 0;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1000}
-        .header-content{display:flex;align-items:center;justify-content:space-between}
-        .logo{display:flex;gap:10px;align-items:center;font-weight:700}
-        .nav{display:flex;gap:12px;align-items:center}
-        .nav-link{color:#cbd5e1;text-decoration:none;padding:6px 10px;border-radius:6px}
-        .nav-link.active,.nav-link:hover{background:rgba(99,102,241,0.08);color:#fff}
-        .user-menu{display:flex;align-items:center;gap:8px}
-        .user-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--primary);font-weight:700;cursor:pointer}
-        .balance{background:var(--primary);padding:6px 10px;border-radius:8px;font-weight:700}
-        .hero{text-align:center;padding:40px 0;margin:20px 0}
-        .btn{padding:10px 16px;border-radius:8px;border:0;cursor:pointer;font-weight:700}
-        .btn-primary{background:var(--primary);color:#fff}
-        .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;z-index:1001}
-        .modal.active{display:flex}
-        .modal-content{background:var(--dark-light);width:92%;max-width:420px;border-radius:12px;border:1px solid var(--border)}
-        .modal-header{padding:14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-        .modal-body{padding:16px}
-        .form-group{margin-bottom:12px}
-        .form-group label{display:block;color:#cbd5e1;margin-bottom:6px}
-        .form-group input, .form-group select, .form-group textarea{width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.03);color:#fff}
-        .tabs{display:flex;gap:8px;margin-bottom:12px}
-        .tab{padding:8px 12px;border-radius:8px;border:0;background:transparent;color:#94a3b8;cursor:pointer}
-        .tab.active{color:var(--primary);background:rgba(99,102,241,0.06)}
-        .card{background:rgba(255,255,255,0.04);padding:12px;border-radius:12px;border:1px solid var(--border)}
-        .grid{display:grid;gap:12px}
-        .grid.cols-3{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
-        .game-icon{font-size:34px;margin-bottom:8px;text-align:center}
-        .notification{position:fixed;top:20px;right:20px;padding:12px 16px;border-radius:8px;background:var(--dark-light);border-left:4px solid var(--primary);z-index:1002}
-        footer{position:fixed;left:0;right:0;bottom:0;background:#fff;padding:8px 0;color:#333;border-top-left-radius:12px;border-top-right-radius:12px}
-        footer .menu{display:flex;justify-content:space-around;max-width:900px;margin:0 auto}
-        footer .menu a{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#666;font-size:12px}
-        .price{color:var(--success);font-weight:800}
-        .variant-btn{padding:8px 10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);cursor:pointer;color:#cbd5e1;margin-right:8px}
-        .variant-btn.active{border-color:var(--primary);color:#fff;background:rgba(99,102,241,0.06)}
-        pre.key{background:rgba(0,0,0,0.3);padding:8px;border-radius:6px;font-family:monospace}
-        .small-muted{color:#94a3b8;font-size:13px}
-        .deposit-status{display:inline-block;padding:4px 8px;border-radius:6px;font-size:12px;font-weight:600}
-        .status-pending{background:rgba(245,158,11,0.12);color:#f59e0b}
-        .status-approved{background:rgba(34,197,94,0.12);color:#22c55e}
-        .status-rejected{background:rgba(239,68,68,0.12);color:#ef4444}
-        .file-link{display:inline-block;margin:4px;padding:6px 12px;background:var(--primary);border-radius:6px;color:white;text-decoration:none}
-        .game-avatar{width:80px;height:80px;border-radius:12px;object-fit:cover;border:2px solid var(--primary)}
-        .cheat-avatar{width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--secondary)}
-        @media (min-width:900px){ .grid.cols-3{grid-template-columns:repeat(4,1fr)} }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+        
+        /* Login Page */
+        .login-container {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-logo i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .login-logo h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+        
+        .login-logo span {
+            color: var(--secondary);
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .login-form input, .login-form select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .login-form input:focus, .login-form select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .login-error {
+            color: var(--danger);
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(244, 67, 54, 0.1);
+            border-radius: 6px;
+            display: none;
+        }
+        
+        /* Main App */
+        .app-container {
+            display: none;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .quarter-selector {
+            display: flex;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px;
+            border-radius: 8px;
+        }
+        
+        .quarter-btn {
+            padding: 8px 15px;
+            background: transparent;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .quarter-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .quarter-btn.active {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: white;
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 7px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Main Container */
+        .container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            background-color: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+            font-size: 0.95rem;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(26, 35, 126, 0.05);
+        }
+        
+        .nav-item.active {
+            background-color: rgba(26, 35, 126, 0.1);
+            border-left: 4px solid var(--primary);
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .nav-item i {
+            font-size: 1.1rem;
+            width: 22px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            background: var(--light);
+        }
+        
+        .page-header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .page-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .page-title h2 {
+            color: var(--primary);
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .page-title h2 i {
+            color: var(--secondary);
+        }
+        
+        .btn {
+            padding: 9px 18px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #3d8b40;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+        
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 22px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+        
+        .stat-icon.total {
+            background: linear-gradient(135deg, rgba(26, 35, 126, 0.1) 0%, rgba(83, 75, 174, 0.1) 100%);
+            color: var(--primary);
+        }
+        
+        .stat-icon.active {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(105, 240, 174, 0.1) 100%);
+            color: var(--success);
+        }
+        
+        .stat-icon.inactive {
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(255, 138, 128, 0.1) 100%);
+            color: var(--danger);
+        }
+        
+        .stat-icon.teacher {
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(255, 193, 7, 0.1) 100%);
+            color: var(--secondary);
+        }
+        
+        .stat-icon.class {
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(100, 181, 246, 0.1) 100%);
+            color: var(--info);
+        }
+        
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .stat-content p {
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+        
+        /* Grade Journal - КАК В KUNDALIK */
+        .grade-journal-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .journal-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .class-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        
+        .class-info p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .grade-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .grade-type-selector {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .grade-type-btn {
+            padding: 8px 15px;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .grade-type-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .grade-type-btn.active {
+            background: white;
+            color: var(--primary);
+        }
+        
+        /* Таблица оценок */
+        .grades-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .grades-table thead {
+            background: #f8f9fa;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .grades-table th {
+            padding: 15px 12px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--dark);
+            border-right: 1px solid var(--border);
+            min-width: 100px;
+        }
+        
+        .grades-table th.student-name {
+            min-width: 200px;
+            text-align: left;
+        }
+        
+        .grades-table td {
+            padding: 12px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            height: 60px;
+        }
+        
+        .grades-table td.student-cell {
+            text-align: left;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .student-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        /* Ячейка с оценкой */
+        .grade-cell {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .grade-cell:hover {
+            background: rgba(26, 35, 126, 0.05);
+        }
+        
+        .grade-value {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            min-width: 45px;
+            text-align: center;
+        }
+        
+        /* Цвета оценок */
+        .grade-10 { background: #4caf50; color: white; }
+        .grade-9 { background: #8bc34a; color: white; }
+        .grade-8 { background: #cddc39; color: var(--dark); }
+        .grade-7 { background: #ffeb3b; color: var(--dark); }
+        .grade-6 { background: #ffc107; color: var(--dark); }
+        .grade-5 { background: #ff9800; color: white; }
+        .grade-4 { background: #ff5722; color: white; }
+        .grade-3 { background: #f44336; color: white; }
+        .grade-2 { background: #d32f2f; color: white; }
+        .grade-1 { background: #b71c1c; color: white; }
+        
+        /* Баллы СОР/СОЧ */
+        .grade-points {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 3px;
+            display: block;
+        }
+        
+        /* Модальное окно для оценки */
+        .grade-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .grade-modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 1.3rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .grade-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .grade-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .grade-type-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .type-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .type-btn:hover {
+            border-color: var(--primary-light);
+        }
+        
+        .type-btn.active {
+            border-color: var(--primary);
+            background: rgba(26, 35, 126, 0.1);
+            color: var(--primary);
+        }
+        
+        .type-btn i {
+            margin-right: 8px;
+        }
+        
+        .max-points-display {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--info);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+        
+        .points-input-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .points-input-container span {
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .points-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            background: var(--border);
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        .points-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .points-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .grade-options {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .grade-option {
+            padding: 12px 5px;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .grade-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        
+        .modal-footer {
+            padding: 20px 25px 25px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            border-top: 1px solid var(--border);
+        }
+        
+        /* Статистика по четвертям */
+        .quarter-stats {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .quarter-stats h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        
+        .stat-card-small {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .stat-card-small h5 {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+        
+        .stat-card-small p {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .nav-item span {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .header-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 0;
+            }
+            
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+            }
+            
+            .nav-item {
+                padding: 15px;
+                white-space: nowrap;
+                border-left: none;
+                border-bottom: 4px solid transparent;
+            }
+            
+            .nav-item.active {
+                border-left: none;
+                border-bottom: 4px solid var(--primary);
+            }
+            
+            .grades-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
     </style>
 </head>
 <body>
-    <header class="header">
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <div class="login-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Prime<span>Speak</span></h1>
+                <p>Академия английского языка</p>
+            </div>
+            
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail"><i class="fas fa-user"></i> Логин (Email)</label>
+                    <input type="email" id="loginEmail" placeholder="admin@primespeak.kz" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword"><i class="fas fa-lock"></i> Пароль</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginRole"><i class="fas fa-user-tag"></i> Роль</label>
+                    <select id="loginRole">
+                        <option value="admin">Администратор</option>
+                        <option value="teacher">Учитель</option>
+                        <option value="student">Студент</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Войти в систему
+                </button>
+                
+                <div class="login-error" id="loginError">
+                    Неверный логин или пароль. Попробуйте снова.
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Main Application -->
+    <div class="app-container" id="appContainer">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Prime<span>Speak</span> Journal</h1>
+            </div>
+            
+            <div class="header-controls">
+                <div class="quarter-selector">
+                    <button class="quarter-btn active" data-quarter="1">I Четверть</button>
+                    <button class="quarter-btn" data-quarter="2">II Четверть</button>
+                    <button class="quarter-btn" data-quarter="3">III Четверть</button>
+                    <button class="quarter-btn" data-quarter="4">IV Четверть</button>
+                </div>
+                
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div>
+                        <div id="userName">Администратор</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;" id="userRole">Администратор</div>
+                    </div>
+                    <button class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Выйти
+                    </button>
+                </div>
+            </div>
+        </header>
+        
         <div class="container">
-            <div class="header-content">
-                <div style="display:flex;align-items:center;gap:10px">
-                    <div class="logo">🚀 <span style="margin-left:6px">KOMET.SPACE</span></div>
-                </div>
-
-                <nav class="nav" id="mainNav">
-                    <!-- nav will be rendered by JS -->
-                </nav>
-
-                <div class="user-menu" id="userMenu">
-                    <!-- rendered by JS -->
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="container" id="mainContent">
-        <!-- main content rendered by JS -->
-    </main>
-
-    <!-- Auth modal -->
-    <div class="modal" id="authModal" aria-hidden="true">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Вход / Регистрация</h3>
-                <button onclick="closeModal('authModal')" style="background:none;border:0;color:#94a3b8;font-size:20px;cursor:pointer">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="tabs">
-                    <button class="tab active" data-tab="login" onclick="switchTab('login')">Войти</button>
-                    <button class="ab" data-tab="register" onclick="switchTab('register')">Регистрация</button>
-                </div>
-
-                <div id="loginTab">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="loginEmail" placeholder="Ваш email">
-                    </div>
-                    <div class="form-group">
-                        <label>Пароль</label>
-                        <input type="password" id="loginPassword" placeholder="Пароль">
-                    </div>
-                    <button class="btn btn-primary" style="width:100%" onclick="login()">Войти</button>
-                </div>
-
-                <div id="registerTab" style="display:none">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="registerEmail" placeholder="example@gmail.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Имя пользователя</label>
-                        <input type="text" id="registerUsername" placeholder="username">
-                    </div>
-                    <div class="form-group">
-                        <label>Пароль</label>
-                        <input type="password" id="registerPassword" placeholder="Минимум 6 символов">
-                    </div>
-                    <button class="btn btn-primary" style="width:100%" onclick="register()">Зарегистрироваться</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Deposit modal -->
-    <div class="modal" id="depositModal" aria-hidden="true">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Пополнение баланса</h3>
-                <button onclick="closeModal('depositModal')" style="background:none;border:0;color:#94a3b8;font-size:20px;cursor:pointer">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="card" style="margin-bottom:12px">
-                    <strong>Реквизиты для оплаты:</strong>
-                    <div class="small-muted" style="margin-top:8px"><strong>Т-Банк (СПБ)</strong></div>
-                    <div class="small-muted">Номер: <strong>+7 (917) 863-04-11</strong></div>
-                    <div class="small-muted" style="margin-top:8px"><strong>Тинькофф</strong></div>
-                    <div class="small-muted">Карта: <strong>2200 7010 2813 9613</strong></div>
-                </div>
-                <div class="form-group">
-                    <label>Сумма (₽)</label>
-                    <input type="number" id="depositAmount" value="1000" min="100">
-                </div>
-                <div class="form-group">
-                    <label>Комментарий к платежу (укажите ваш email)</label>
-                    <input type="text" id="depositComment" placeholder="test@mail.com">
-                </div>
-                <button class="btn btn-primary" style="width:100%" onclick="submitDeposit()">Отправить заявку на пополнение</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- File upload modal for admin -->
-    <div class="modal" id="fileUploadModal" aria-hidden="true">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Добавить файлы к читу</h3>
-                <button onclick="closeModal('fileUploadModal')" style="background:none;border:0;color:#94a3b8;font-size:20px;cursor:pointer">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Название файла</label>
-                    <input type="text" id="fileName" placeholder="Чит.apk">
-                </div>
-                <div class="form-group">
-                    <label>Ссылка на файл</label>
-                    <input type="text" id="fileUrl" placeholder="https://example.com/файл.apk">
-                </div>
-                <div class="form-group">
-                    <label>Тип файла</label>
-                    <select id="fileType">
-                        <option value="apk">APK</option>
-                        <option value="zip">ZIP</option>
-                        <option value="exe">EXE</option>
-                        <option value="rar">RAR</option>
-                        <option value="other">Другой</option>
-                    </select>
-                </div>
-                <button class="btn btn-primary" style="width:100%" onclick="addFileToCheat()">Добавить файл</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Avatar upload modal for admin -->
-    <div class="modal" id="avatarUploadModal" aria-hidden="true">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Загрузить аватар</h3>
-                <button onclick="closeModal('avatarUploadModal')" style="background:none;border:0;color:#94a3b8;font-size:20px;cursor:pointer">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Тип</label>
-                    <select id="avatarType" onchange="updateAvatarFields()">
-                        <option value="game">Для игры</option>
-                        <option value="cheat">Для чита</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Ссылка на изображение</label>
-                    <input type="text" id="avatarUrl" placeholder="https://example.com/изображение.jpg">
-                </div>
-                <div class="form-group" id="gameSelectGroup" style="display:block">
-                    <label>Выберите игру</label>
-                    <select id="selectGameForAvatar"></select>
-                </div>
-                <div class="form-group" id="cheatSelectGroup" style="display:none">
-                    <label>Выберите чит</label>
-                    <select id="selectCheatForAvatar"></select>
-                </div>
-                <button class="btn btn-primary" style="width:100%" onclick="addAvatar()">Загрузить аватар</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="notifications"></div>
-
-    <footer>
-        <div class="menu container">
-            <a href="#" onclick="showPage('home')"><span>🏠</span><span>Главная</span></a>
-            <a href="#" onclick="showPage('catalog')"><span>🔍</span><span>Каталог</span></a>
-            <a href="#" onclick="showPage('keys')"><span>🔑</span><span>Ключи</span></a>
-            <a href="#" onclick="showPage('profile')"><span>👤</span><span>Профиль</span></a>
-            <a href="#" onclick="showPage('about')"><span>⭐</span><span>Комета</span></a>
-        </div>
-    </footer>
-
-<script>
-/* ------------ state ------------ */
-let currentUser = null;
-let currentPage = 'home';
-let games = [];
-let purchases = [];
-let depositRequests = [];
-let currentCheatForFiles = null;
-let currentGameForAvatar = null;
-let currentCheatForAvatar = null;
-
-/* ------------ init ------------ */
-document.addEventListener('DOMContentLoaded',()=>{
-    loadFromStorage();
-    createTestAdmin();
-    renderNav();
-    updateUserMenu();
-    showPage('home');
-});
-
-/* ---------- storage helpers ---------- */
-function loadFromStorage(){
-    const g = localStorage.getItem('kometa_games');
-    const p = localStorage.getItem('kometa_purchases');
-    const u = localStorage.getItem('kometa_user');
-    const d = localStorage.getItem('kometa_deposit_requests');
-    const savedGames = g ? JSON.parse(g) : [];
-    const savedPurchases = p ? JSON.parse(p) : [];
-    const savedUser = u ? JSON.parse(u) : null;
-    const savedDeposits = d ? JSON.parse(d) : [];
-    games = savedGames;
-    purchases = savedPurchases;
-    currentUser = savedUser;
-    depositRequests = savedDeposits;
-}
-
-function saveGames(){ localStorage.setItem('kometa_games', JSON.stringify(games)); }
-function savePurchases(){ localStorage.setItem('kometa_purchases', JSON.stringify(purchases)); }
-function saveDepositRequests(){ localStorage.setItem('kometa_deposit_requests', JSON.stringify(depositRequests)); }
-function saveCurrentUserInUsersList(){
-    if(!currentUser) return;
-    let users = JSON.parse(localStorage.getItem('kometa_users')||'[]');
-    const idx = users.findIndex(u=>u.id===currentUser.id);
-    if(idx!==-1){ users[idx].balance = currentUser.balance; localStorage.setItem('kometa_users', JSON.stringify(users)); }
-    localStorage.setItem('kometa_user', JSON.stringify(currentUser));
-}
-
-/* ---------- create test admin ---------- */
-function createTestAdmin(){
-    let users = JSON.parse(localStorage.getItem('kometa_users') || '[]');
-    const adminExists = users.some(u => u.email === 'nurislamovradmir9@gmail.com');
-    if(!adminExists){
-        users.push({id:1,email:'nurislamovradmir9@gmail.com',username:'Admin',password:'makson555777',balance:0,isAdmin:true});
-        localStorage.setItem('kometa_users', JSON.stringify(users));
-    }
-    
-    if(!localStorage.getItem('kometa_games') || games.length === 0){
-        games = [
-            {id:1,name:'Standoff 2',icon:'🛡️',description:'Шутер онлайн',avatar:'',cheats:[
-                {id:1,name:'Plutonium',version:'0.36.1',avatar:'',variants:[
-                    {label:'7 дней',price:99},{label:'30 дней',price:249},{label:'Навсегда',price:99500}
-                ], files: []}
-            ]},
-            {id:2,name:'PUBG Mobile',icon:'🔫',description:'Мобильный королевская битва',avatar:'',cheats:[]},
-            {id:3,name:'Roblox',icon:'🧩',description:'Песочница',avatar:'',cheats:[]}
-        ];
-        saveGames();
-    }
-}
-
-/* ---------- rendering: nav & user menu ---------- */
-function renderNav(){
-    const nav = document.getElementById('mainNav');
-    nav.innerHTML = `
-        <a href="#" class="nav-link ${currentPage==='home'?'active':''}" onclick="showPage('home')">Главная</a>
-        <a href="#" class="nav-link ${currentPage==='catalog'?'active':''}" onclick="showPage('catalog')">Каталог</a>
-        <a href="#" class="nav-link ${currentPage==='keys'?'active':''}" onclick="showPage('keys')">Ключи</a>
-        <a href="#" class="nav-link ${currentPage==='profile'?'active':''}" onclick="showPage('profile')">Профиль</a>
-    `;
-}
-
-function updateUserMenu(){
-    const menu = document.getElementById('userMenu');
-    if(currentUser){
-        menu.innerHTML = `
-            <div class="balance">${currentUser.balance} ₽</div>
-            <button class="btn btn-primary" onclick="openDepositModal()">Пополнить</button>
-            <div class="user-avatar" title="Профиль" onclick="showPage('profile')">${(currentUser.username||'U').charAt(0).toUpperCase()}</div>
-            <button class="btn" onclick="logout()" style="background:rgba(255,255,255,0.06);color:#fff">Выйти</button>
-        `;
-    } else {
-        menu.innerHTML = `<button class="btn btn-primary" onclick="openAuthModal()">Войти</button>`;
-    }
-    renderNav();
-}
-
-/* ---------- page router ---------- */
-function showPage(page){
-    currentPage = page;
-    const main = document.getElementById('mainContent');
-    renderNav();
-    
-    if(page==='home'){
-        main.innerHTML = `
-            <div class="hero">
-                <h1 style="color:var(--primary)">Магазин игровых ключей</h1>
-                <p class="small-muted" style="margin:10px 0 18px">Покупай DLC, читы и ключи — безопасно через баланс</p>
-                ${currentUser ? `<button class="btn btn-primary" onclick="showPage('catalog')">В каталог</button>` : `<button class="btn btn-primary" onclick="openAuthModal()">Начать покупки</button>`}
-            </div>
-            <h2 style="margin:10px 0 14px">Популярные игры</h2>
-            <div class="grid cols-3">
-                ${games.map(g=>`
-                    <div class="card" style="cursor:pointer;text-align:center" onclick="openGame(${g.id})">
-                        ${g.avatar ? `<img src="${g.avatar}" class="game-avatar" style="margin:0 auto 12px" alt="${g.name}">` : `<div class="game-icon">${g.icon}</div>`}
-                        <div style="font-weight:800">${g.name}</div>
-                        <div class="small-muted" style="margin-top:6px">${g.description}</div>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    } else if(page==='catalog'){
-        main.innerHTML = `
-            <h1 style="margin:14px 0">Каталог игр</h1>
-            <div class="grid cols-3">
-                ${games.map(g=>`
-                    <div class="card" style="cursor:pointer;text-align:center" onclick="openGame(${g.id})">
-                        ${g.avatar ? `<img src="${g.avatar}" class="game-avatar" style="margin:0 auto 12px" alt="${g.name}">` : `<div class="game-icon">${g.icon}</div>`}
-                        <div style="font-weight:800">${g.name}</div>
-                        <div class="small-muted" style="margin-top:6px">${g.description}</div>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    } else if(page==='profile'){
-        if(!currentUser){ openAuthModal(); return; }
-        const userPurchases = purchases.filter(p=>p.userId===currentUser.id);
-        const userDeposits = depositRequests.filter(d=>d.userId===currentUser.id);
-        main.innerHTML = `
-            <div style="max-width:720px;margin:16px auto">
-                <h1>Личный кабинет</h1>
-                <div class="card" style="margin:12px 0;padding:16px">
-                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-                        <div class="user-avatar">${(currentUser.username||'U').charAt(0).toUpperCase()}</div>
-                        <div>
-                            <div style="font-weight:800">${currentUser.username||'Пользователь'}</div>
-                            <div class="small-muted">${currentUser.email}</div>
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <ul class="nav-menu">
+                    <li class="nav-item active" data-page="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Главная</span>
+                    </li>
+                    <li class="nav-item" data-page="journal">
+                        <i class="fas fa-book"></i>
+                        <span>Журнал оценок</span>
+                    </li>
+                    <li class="nav-item" data-page="students">
+                        <i class="fas fa-users"></i>
+                        <span>Ученики</span>
+                    </li>
+                    <li class="nav-item" data-page="teachers">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Учителя</span>
+                    </li>
+                    <li class="nav-item" data-page="classes">
+                        <i class="fas fa-school"></i>
+                        <span>Классы</span>
+                    </li>
+                    <li class="nav-item" data-page="schedule">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Расписание</span>
+                    </li>
+                    <li class="nav-item" data-page="sor-soch">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>СОР/СОЧ</span>
+                    </li>
+                    <li class="nav-item" data-page="reports">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Отчеты</span>
+                    </li>
+                    <li class="nav-item" data-page="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Настройки</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Dashboard Page -->
+                <div class="page-content" id="dashboardPage">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h2><i class="fas fa-home"></i> Главная панель</h2>
+                            <div class="current-date" id="currentDate"></div>
                         </div>
                     </div>
-                    <div style="display:flex;justify-content:space-between;align-items:center">
-                        <div>
-                            <div class="small-muted">Баланс</div>
-                            <div style="font-size:20px;font-weight:800;color:var(--success)">${currentUser.balance} ₽</div>
-                        </div>
-                        <div>
-                            <button class="btn btn-primary" onclick="openDepositModal()">Пополнить</button>
-                            ${currentUser.isAdmin?` <button class="btn" onclick="showAdminPanel()" style="background:rgba(245,158,11,0.12);margin-left:8px">Админ</button>`:''}
-                        </div>
-                    </div>
-                </div>
-
-                <h2>Мои заявки на пополнение</h2>
-                <div id="depositRequestsList">
-                    ${userDeposits.length===0?`<p class="small-muted">У вас нет заявок на пополнение</p>`: userDeposits.map(d=>{
-                        let statusClass = 'status-pending';
-                        let statusText = 'Ожидание';
-                        if(d.status === 'approved') { statusClass = 'status-approved'; statusText = 'Одобрено'; }
-                        if(d.status === 'rejected') { statusClass = 'status-rejected'; statusText = 'Отклонено'; }
-                        return `
-                        <div class="card" style="margin:8px 0">
-                            <div style="display:flex;justify-content:space-between;align-items:center">
-                                <div>
-                                    <div style="font-weight:800">${d.amount} ₽</div>
-                                    <div class="small-muted">${new Date(d.date).toLocaleString('ru-RU')}</div>
-                                </div>
-                                <div style="text-align:right">
-                                    <div class="deposit-status ${statusClass}">${statusText}</div>
-                                    ${d.status === 'pending' ? `<div class="small-muted" style="margin-top:4px">Ожидает проверки</div>` : ''}
-                                    ${d.adminComment ? `<div class="small-muted" style="margin-top:4px">${d.adminComment}</div>` : ''}
-                                </div>
+                    
+                    <!-- Statistics -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon total">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalStudents">0</h3>
+                                <p>Всего учеников</p>
                             </div>
                         </div>
-                        `;
-                    }).join('')}
-                </div>
-
-                <h2>Мои покупки</h2>
-                <div id="purchasesList">
-                    ${userPurchases.length===0?`<p class="small-muted">У вас еще нет покупок</p>`: userPurchases.map(p=>{
-                        const game = games.find(g=>g.id===p.gameId);
-                        const cheat = game ? game.cheats.find(c=>c.id===p.cheatId) : null;
-                        const files = cheat ? cheat.files || [] : [];
-                        return `
-                        <div class="card" style="margin:8px 0">
-                            <div style="display:flex;justify-content:space-between;align-items:center">
-                                <div>
-                                    <div style="display:flex;align-items:center;gap:8px">
-                                        ${game && game.avatar ? `<img src="${game.avatar}" class="cheat-avatar">` : ''}
-                                        <div>
-                                            <div style="font-weight:800">${p.gameName} — ${p.cheatName}</div>
-                                            <div class="small-muted">${p.variantLabel} — ${new Date(p.date).toLocaleString('ru-RU')}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style="text-align:right">
-                                    <div class="price">${p.price} ₽</div>
-                                    <button class="btn" onclick="copyKey('${p.key}')" style="margin-top:6px">Копировать ключ</button>
-                                </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon active">
+                                <i class="fas fa-user-check"></i>
                             </div>
-                            <div style="margin-top:8px"><pre class="key">${p.key}</pre></div>
-                            ${files.length > 0 ? `
-                            <div style="margin-top:12px">
-                                <div class="small-muted" style="margin-bottom:6px">Файлы для скачивания:</div>
-                                ${files.map(f=>`
-                                    <a href="${f.url}" target="_blank" class="file-link">${f.name}</a>
-                                `).join('')}
-                            </div>
-                            ` : ''}
-                        </div>
-                        `;
-                    }).join('')}
-                </div>
-            </div>
-        `;
-    } else if(page==='keys'){
-        if(!currentUser){ openAuthModal(); return; }
-        const userPurchases = purchases.filter(p=>p.userId===currentUser.id);
-        main.innerHTML = `
-            <h1 style="margin:12px 0">Мои ключи</h1>
-            <div style="max-width:720px;margin:0 auto">
-                ${userPurchases.length===0?`<p class="small-muted">Покупок нет</p>`: userPurchases.map(p=>{
-                    const game = games.find(g=>g.id===p.gameId);
-                    const cheat = game ? game.cheats.find(c=>c.id===p.cheatId) : null;
-                    const files = cheat ? cheat.files || [] : [];
-                    return `
-                    <div class="card" style="margin:8px 0">
-                        <div style="display:flex;justify-content:space-between;align-items:center">
-                            <div style="display:flex;align-items:center;gap:8px">
-                                ${game && game.avatar ? `<img src="${game.avatar}" class="cheat-avatar">` : ''}
-                                <div>
-                                    <strong>${p.gameName}</strong>
-                                    <div class="small-muted">${p.cheatName} — ${p.variantLabel}</div>
-                                </div>
-                            </div>
-                            <div class="price">${p.price} ₽</div>
-                        </div>
-                        <div style="margin-top:8px"><pre class="key">${p.key}</pre></div>
-                        ${files.length > 0 ? `
-                        <div style="margin-top:12px">
-                            <div class="small-muted" style="margin-bottom:6px">Файлы для скачивания:</div>
-                            ${files.map(f=>`
-                                <a href="${f.url}" target="_blank" class="file-link">${f.name}</a>
-                            `).join('')}
-                        </div>
-                        ` : ''}
-                    </div>
-                `}).join('')}
-            </div>
-        `;
-    } else if(page==='about'){
-        main.innerHTML = `
-            <h1 style="margin:12px 0">О проекте</h1>
-            <div class="card" style="padding:16px;max-width:720px;margin:0 auto">
-                <p class="small-muted">Информация о магазине Kometa.space. По вопросам возвратов: <a href="https://t.me/kometspace" style="color:var(--primary)">t.me/kometspace</a></p>
-            </div>
-        `;
-    }
-}
-
-/* ---------- open a game's page ---------- */
-function openGame(gameId){
-    const game = games.find(g=>g.id===gameId);
-    if(!game) return;
-    currentPage = 'game';
-    const main = document.getElementById('mainContent');
-    main.innerHTML = `
-        <div style="max-width:900px;margin:12px auto">
-            <button onclick="showPage('catalog')" class="btn" style="margin-bottom:12px;background:transparent;border:1px solid rgba(255,255,255,0.05)">← Вернуться</button>
-            <div style="display:flex;gap:16px;align-items:center">
-                ${game.avatar ? `<img src="${game.avatar}" class="game-avatar" style="width:100px;height:100px">` : `<div class="game-icon" style="font-size:48px">${game.icon}</div>`}
-                <div>
-                    <h1 style="margin-bottom:6px">${game.name}</h1>
-                    <div class="small-muted">${game.description}</div>
-                </div>
-            </div>
-
-            <div style="margin-top:16px">
-                <h3>Доступные читы / DLC</h3>
-                <div id="cheatsList">
-                    ${game.cheats.length===0?`<p class="small-muted">Пока нет доступных читов/длc для этой игры</p>`: game.cheats.map(c=>`
-                        <div class="card" style="margin:10px 0">
-                            <div style="display:flex;justify-content:space-between;align-items:center">
-                                <div style="display:flex;align-items:center;gap:12px">
-                                    ${c.avatar ? `<img src="${c.avatar}" class="cheat-avatar">` : ''}
-                                    <div>
-                                        <div style="font-weight:800">${c.name} ${c.version?(' v'+c.version):''}</div>
-                                        <div class="small-muted" style="margin-top:6px">Добавил администратор</div>
-                                    </div>
-                                </div>
-                                <div style="text-align:right">
-                                    <div class="price">${c.variants[0].price} ₽</div>
-                                    <button class="btn btn-primary" onclick="openCheat(${game.id},${c.id})" style="margin-top:8px">Купить</button>
-                                </div>
+                            <div class="stat-content">
+                                <h3 id="activeStudents">0</h3>
+                                <p>Активные ученики</p>
                             </div>
                         </div>
-                    `).join('')}
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-/* ---------- open cheat purchase page ---------- */
-function openCheat(gameId, cheatId){
-    const game = games.find(g=>g.id===gameId);
-    const cheat = game.cheats.find(cc=>cc.id===cheatId);
-    if(!game || !cheat) return;
-    const main = document.getElementById('mainContent');
-    main.innerHTML = `
-        <div style="max-width:720px;margin:12px auto">
-            <button onclick="openGame(${gameId})" class="btn" style="margin-bottom:12px;background:transparent;border:1px solid rgba(255,255,255,0.05)">← Назад</button>
-            <div class="card">
-                <div style="display:flex;justify-content:space-between;align-items:center">
-                    <div style="display:flex;align-items:center;gap:12px">
-                        ${cheat.avatar ? `<img src="${cheat.avatar}" class="cheat-avatar" style="width:80px;height:80px">` : game.avatar ? `<img src="${game.avatar}" class="game-avatar" style="width:80px;height:80px">` : ''}
-                        <div>
-                            <div style="font-weight:800">${game.name} — ${cheat.name} ${cheat.version?(' v'+cheat.version):''}</div>
-                            <div class="small-muted" style="margin-top:6px">Выберите вариант</div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon inactive">
+                                <i class="fas fa-user-times"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="inactiveStudents">0</h3>
+                                <p>Неактивные ученики</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon teacher">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalTeachers">0</h3>
+                                <p>Всего учителей</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon class">
+                                <i class="fas fa-school"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalClasses">0</h3>
+                                <p>Всего классов</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: rgba(156, 39, 176, 0.1); color: #9c27b0;">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalSubjects">5</h3>
+                                <p>Предметов</p>
+                            </div>
                         </div>
                     </div>
-                    <div style="text-align:right">
-                        <div class="small-muted">К оплате</div>
-                        <div id="purchasePrice" class="price">${cheat.variants[0].price} ₽</div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="page-header">
+                        <h2><i class="fas fa-history"></i> Последние действия</h2>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Дата</th>
+                                    <th>Действие</th>
+                                    <th>Пользователь</th>
+                                    <th>Детали</th>
+                                </tr>
+                            </thead>
+                            <tbody id="activityLog">
+                                <!-- Activity log will be populated here -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                <div style="margin-top:12px">
-                    <div id="variantsContainer"></div>
-                </div>
-
-                <div style="margin-top:12px;display:flex;gap:8px">
-                    <button class="btn btn-primary" id="buyBtn">Оплатить</button>
-                    <button class="btn" id="contactBtn" style="background:rgba(255,255,255,0.04)">Написать</button>
-                </div>
-            </div>
-        </div>
-    `;
-    const variantsContainer = document.getElementById('variantsContainer');
-    variantsContainer.innerHTML = cheat.variants.map((v,i)=>`
-        <button class="variant-btn ${i===0?'active':''}" data-idx="${i}" onclick="selectVariant(${gameId},${cheatId},${i})">${v.label} — ${v.price} ₽</button>
-    `).join('');
-
-    window._currentSelection = {gameId,cheatId,variantIndex:0};
-    document.getElementById('buyBtn').onclick = ()=> {
-        buyCheat(gameId, cheatId, window._currentSelection.variantIndex);
-    };
-    document.getElementById('contactBtn').onclick = ()=> {
-        showNotification('info','Напишите в Telegram: t.me/kometspace');
-    };
-}
-
-function selectVariant(gameId,cheatId,variantIndex){
-    const game = games.find(g=>g.id===gameId);
-    const cheat = game.cheats.find(c=>c.id===cheatId);
-    if(!cheat) return;
-    document.querySelectorAll('#variantsContainer .variant-btn').forEach(btn=>btn.classList.remove('active'));
-    const btn = document.querySelector(`#variantsContainer .variant-btn[data-idx="${variantIndex}"]`);
-    if(btn) btn.classList.add('active');
-    const price = cheat.variants[variantIndex].price;
-    document.getElementById('purchasePrice').innerText = `${price} ₽`;
-    window._currentSelection = {gameId,cheatId,variantIndex};
-}
-
-/* ---------- purchase logic ---------- */
-function buyCheat(gameId,cheatId,variantIndex){
-    if(!currentUser){ openAuthModal(); return; }
-    const game = games.find(g=>g.id===gameId);
-    const cheat = game.cheats.find(c=>c.id===cheatId);
-    if(!cheat) return;
-    const variant = cheat.variants[variantIndex];
-    if(currentUser.balance < variant.price){
-        showNotification('error','Недостаточно средств');
-        openDepositModal();
-        return;
-    }
-    currentUser.balance -= variant.price;
-    saveCurrentUserInUsersList();
-    const key = generateKey();
-    const purchase = {
-        id: Date.now(),
-        userId: currentUser.id,
-        gameId: game.id,
-        gameName: game.name,
-        cheatId: cheat.id,
-        cheatName: cheat.name,
-        variantLabel: variant.label,
-        price: variant.price,
-        key: key,
-        date: new Date().toISOString()
-    };
-    purchases.push(purchase);
-    savePurchases();
-    showNotification('success', `Покупка успешна! Ключ: ${key}`);
-    updateUserMenu();
-    showPage('profile');
-}
-
-/* ---------- deposit system ---------- */
-function submitDeposit(){
-    if(!currentUser){ openAuthModal(); return; }
-    const amount = parseInt(document.getElementById('depositAmount').value);
-    const comment = document.getElementById('depositComment').value.trim() || currentUser.email;
-    
-    if(!amount || amount < 100){ showNotification('error','Минимальная сумма 100 ₽'); return; }
-    if(!comment){ showNotification('error','Укажите комментарий к платежу'); return; }
-    
-    const depositRequest = {
-        id: Date.now(),
-        userId: currentUser.id,
-        userEmail: currentUser.email,
-        username: currentUser.username,
-        amount: amount,
-        comment: comment,
-        status: 'pending',
-        date: new Date().toISOString(),
-        adminComment: ''
-    };
-    
-    depositRequests.push(depositRequest);
-    saveDepositRequests();
-    
-    showNotification('success', `Заявка на пополнение ${amount} ₽ отправлена администратору. Ожидайте проверки.`);
-    closeModal('depositModal');
-    showPage('profile');
-}
-
-/* ---------- file management ---------- */
-function openFileUploadModal(gameId, cheatId){
-    currentCheatForFiles = {gameId, cheatId};
-    document.getElementById('fileUploadModal').classList.add('active');
-}
-
-function addFileToCheat(){
-    if(!currentCheatForFiles) return;
-    
-    const name = document.getElementById('fileName').value.trim();
-    const url = document.getElementById('fileUrl').value.trim();
-    const type = document.getElementById('fileType').value;
-    
-    if(!name || !url){ 
-        showNotification('error','Заполните все поля'); 
-        return; 
-    }
-    
-    const game = games.find(g=>g.id===currentCheatForFiles.gameId);
-    const cheat = game ? game.cheats.find(c=>c.id===currentCheatForFiles.cheatId) : null;
-    
-    if(!cheat){
-        showNotification('error','Чит не найден');
-        return;
-    }
-    
-    if(!cheat.files) cheat.files = [];
-    
-    cheat.files.push({
-        name: name,
-        url: url,
-        type: type
-    });
-    
-    saveGames();
-    showNotification('success', `Файл "${name}" добавлен к читу`);
-    closeModal('fileUploadModal');
-    showAdminPanel();
-}
-
-function removeFile(gameId, cheatId, fileIndex){
-    const game = games.find(g=>g.id===gameId);
-    const cheat = game ? game.cheats.find(c=>c.id===cheatId) : null;
-    
-    if(!cheat || !cheat.files || cheat.files.length <= fileIndex){
-        showNotification('error','Файл не найден');
-        return;
-    }
-    
-    const fileName = cheat.files[fileIndex].name;
-    cheat.files.splice(fileIndex, 1);
-    saveGames();
-    showNotification('success', `Файл "${fileName}" удален`);
-    showAdminPanel();
-}
-
-/* ---------- avatar management ---------- */
-function openAvatarUploadModal(gameId = null, cheatId = null){
-    currentGameForAvatar = gameId;
-    currentCheatForAvatar = cheatId;
-    
-    // Update game select options
-    const gameSelect = document.getElementById('selectGameForAvatar');
-    if(gameSelect) {
-        gameSelect.innerHTML = games.map(g=>`<option value="${g.id}" ${currentGameForAvatar === g.id ? 'selected' : ''}>${g.name}</option>`).join('');
-    }
-    
-    // Update cheat select options based on selected game
-    updateCheatSelectOptions();
-    
-    document.getElementById('avatarUploadModal').classList.add('active');
-}
-
-function updateAvatarFields(){
-    const type = document.getElementById('avatarType').value;
-    if(type === 'game'){
-        document.getElementById('gameSelectGroup').style.display = 'block';
-        document.getElementById('cheatSelectGroup').style.display = 'none';
-    } else {
-        document.getElementById('gameSelectGroup').style.display = 'none';
-        document.getElementById('cheatSelectGroup').style.display = 'block';
-        updateCheatSelectOptions();
-    }
-}
-
-function updateCheatSelectOptions(){
-    const gameId = parseInt(document.getElementById('selectGameForAvatar').value);
-    const game = games.find(g=>g.id===gameId);
-    const cheatSelect = document.getElementById('selectCheatForAvatar');
-    
-    if(game && cheatSelect){
-        cheatSelect.innerHTML = game.cheats.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
-    }
-}
-
-function addAvatar(){
-    const avatarUrl = document.getElementById('avatarUrl').value.trim();
-    const avatarType = document.getElementById('avatarType').value;
-    
-    if(!avatarUrl){ 
-        showNotification('error','Введите ссылку на изображение'); 
-        return; 
-    }
-    
-    if(avatarType === 'game'){
-        const gameId = parseInt(document.getElementById('selectGameForAvatar').value);
-        const game = games.find(g=>g.id===gameId);
-        
-        if(game){
-            game.avatar = avatarUrl;
-            saveGames();
-            showNotification('success', `Аватар для игры "${game.name}" добавлен`);
-        } else {
-            showNotification('error','Игра не найдена');
-            return;
-        }
-    } else {
-        const gameId = parseInt(document.getElementById('selectGameForAvatar').value);
-        const cheatId = parseInt(document.getElementById('selectCheatForAvatar').value);
-        const game = games.find(g=>g.id===gameId);
-        
-        if(game){
-            const cheat = game.cheats.find(c=>c.id===cheatId);
-            if(cheat){
-                cheat.avatar = avatarUrl;
-                saveGames();
-                showNotification('success', `Аватар для чита "${cheat.name}" добавлен`);
-            } else {
-                showNotification('error','Чит не найден');
-                return;
-            }
-        } else {
-            showNotification('error','Игра не найдена');
-            return;
-        }
-    }
-    
-    closeModal('avatarUploadModal');
-    showAdminPanel();
-}
-
-function removeAvatar(gameId, cheatId = null){
-    const game = games.find(g=>g.id===gameId);
-    
-    if(cheatId){
-        const cheat = game ? game.cheats.find(c=>c.id===cheatId) : null;
-        if(cheat){
-            cheat.avatar = '';
-            saveGames();
-            showNotification('success', 'Аватар чита удален');
-        }
-    } else {
-        if(game){
-            game.avatar = '';
-            saveGames();
-            showNotification('success', `Аватар игры "${game.name}" удален`);
-        }
-    }
-    showAdminPanel();
-}
-
-/* ---------- utilities ---------- */
-function generateKey(){
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    let key = '';
-    for(let i=0;i<16;i++){
-        if(i>0 && i%4===0) key += '-';
-        key += chars.charAt(Math.floor(Math.random()*chars.length));
-    }
-    return key;
-}
-
-function copyKey(k){
-    navigator.clipboard.writeText(k).then(()=>showNotification('success','Ключ скопирован!')).catch(()=>showNotification('error','Не удалось скопировать'));
-}
-
-/* ---------- auth ---------- */
-function openAuthModal(){ document.getElementById('authModal').classList.add('active'); }
-function closeModal(id){ document.getElementById(id).classList.remove('active'); }
-function switchTab(tab){
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('#authModal .modal-body > div').forEach(d=>d.style.display='none');
-    if(tab==='login'){ document.querySelector('.tab[data-tab="login"]').classList.add('active'); document.getElementById('loginTab').style.display='block'; }
-    else { document.querySelector('.tab[data-tab="register"]').classList.add('active'); document.getElementById('registerTab').style.display='block'; }
-}
-function login(){
-    const email = document.getElementById('loginEmail').value.trim();
-    const password = document.getElementById('loginPassword').value;
-    if(!email||!password){ showNotification('error','Заполните все поля'); return; }
-    const users = JSON.parse(localStorage.getItem('kometa_users')||'[]');
-    const user = users.find(u=>u.email===email&&u.password===password);
-    if(user){
-        currentUser = { id:user.id, email:user.email, username:user.username, balance:user.balance||0, isAdmin:user.isAdmin||false };
-        localStorage.setItem('kometa_user', JSON.stringify(currentUser));
-        updateUserMenu();
-        closeModal('authModal');
-        showNotification('success','Успешный вход!');
-        showPage('home');
-    } else showNotification('error','Неверный email или пароль');
-}
-function register(){
-    const email = document.getElementById('registerEmail').value.trim();
-    const username = document.getElementById('registerUsername').value.trim();
-    const password = document.getElementById('registerPassword').value;
-    if(!email||!username||!password){ showNotification('error','Заполните все поля'); return; }
-    if(password.length<6){ showNotification('error','Пароль минимум 6 символов'); return; }
-    let users = JSON.parse(localStorage.getItem('kometa_users')||'[]');
-    if(users.some(u=>u.email===email)){ showNotification('error','Пользователь с таким email уже существует'); return; }
-    const newUser = { id:Date.now(), email, username, password, balance:0, isAdmin:false };
-    users.push(newUser);
-    localStorage.setItem('kometa_users', JSON.stringify(users));
-    currentUser = { id:newUser.id, email:newUser.email, username:newUser.username, balance:0, isAdmin:false };
-    localStorage.setItem('kometa_user', JSON.stringify(currentUser));
-    updateUserMenu();
-    closeModal('authModal');
-    showNotification('success','Регистрация успешна!');
-    showPage('home');
-}
-function logout(){ currentUser = null; localStorage.removeItem('kometa_user'); updateUserMenu(); showPage('home'); showNotification('success','Вы вышли'); }
-
-function openDepositModal(){ 
-    if(!currentUser){ openAuthModal(); return; } 
-    document.getElementById('depositModal').classList.add('active');
-    if(currentUser && document.getElementById('depositComment')) {
-        document.getElementById('depositComment').value = currentUser.email;
-    }
-}
-
-/* ---------- admin panel ---------- */
-function showAdminPanel(){
-    if(!currentUser || !currentUser.isAdmin){ showNotification('error','Доступ запрещен'); return; }
-    currentPage = 'admin';
-    const users = JSON.parse(localStorage.getItem('kometa_users')||'[]');
-    const main = document.getElementById('mainContent');
-    main.innerHTML = `
-        <div style="max-width:1000px;margin:12px auto">
-            <button class="btn" onclick="showPage('profile')" style="margin-bottom:12px;background:transparent;border:1px solid rgba(255,255,255,0.05)">← Назад</button>
-            <h1>Админ-панель</h1>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:12px 0">
-                <div class="card"><div style="font-size:24px;font-weight:800">${users.length}</div><div class="small-muted">Пользователей</div></div>
-                <div class="card"><div style="font-size:24px;font-weight:800">${purchases.length}</div><div class="small-muted">Продаж</div></div>
-                <div class="card"><div style="font-size:24px;font-weight:800">${purchases.reduce((s,p)=>s+p.price,0)} ₽</div><div class="small-muted">Выручка</div></div>
-                <div class="card"><div style="font-size:24px;font-weight:800">${depositRequests.filter(d=>d.status==='pending').length}</div><div class="small-muted">Заявок на пополнение</div></div>
-            </div>
-
-            <div style="margin-top:10px">
-                <h3>Заявки на пополнение</h3>
-                <div class="card" id="adminDepositRequests">
-                    ${depositRequests.length===0?'<p class="small-muted">Нет заявок на пополнение</p>': depositRequests.map(d=>{
-                        const user = users.find(u=>u.id===d.userId);
-                        let statusClass = 'status-pending';
-                        let statusText = 'Ожидание';
-                        if(d.status === 'approved') { statusClass = 'status-approved'; statusText = 'Одобрено'; }
-                        if(d.status === 'rejected') { statusClass = 'status-rejected'; statusText = 'Отклонено'; }
-                        return `
-                        <div style="padding:10px;border-bottom:1px solid var(--border)">
-                            <div style="display:flex;justify-content:space-between;align-items:center">
-                                <div>
-                                    <div><strong>${d.amount} ₽</strong></div>
-                                    <div class="small-muted">${user ? user.email : d.userEmail} (${d.username})</div>
-                                    <div class="small-muted">Комментарий: ${d.comment}</div>
-                                </div>
-                                <div>
-                                    <div class="deposit-status ${statusClass}" style="margin-bottom:8px">${statusText}</div>
-                                    ${d.status === 'pending' ? `
-                                        <div style="display:flex;gap:6px">
-                                            <button class="btn" style="padding:6px 10px;background:var(--success)" onclick="approveDeposit(${d.id})">✓ Одобрить</button>
-                                            <button class="btn" style="padding:6px 10px;background:var(--danger)" onclick="rejectDeposit(${d.id})">✗ Отклонить</button>
-                                        </div>
-                                    ` : ''}
-                                </div>
-                            </div>
-                            <div class="small-muted" style="margin-top:6px">${new Date(d.date).toLocaleString('ru-RU')}</div>
-                            ${d.adminComment ? `<div class="small-muted" style="margin-top:6px">Комментарий админа: ${d.adminComment}</div>` : ''}
-                        </div>
-                        `;
-                    }).join('')}
-                </div>
-            </div>
-
-            <div style="margin-top:18px">
-                <h3>Управление аватарами</h3>
-                <div class="card">
-                    <button class="btn btn-primary" onclick="openAvatarUploadModal()" style="width:100%">🖼️ Загрузить аватар для игры или чита</button>
-                </div>
-            </div>
-
-            <div style="margin-top:18px">
-                <h3>Все игры и читы</h3>
-                <div id="gamesList">
-                    ${games.map(g=>`
-                        <div class="card" style="margin-bottom:12px">
-                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-                                <div style="display:flex;align-items:center;gap:12px">
-                                    ${g.avatar ? `<img src="${g.avatar}" class="game-avatar">` : `<div class="game-icon">${g.icon}</div>`}
-                                    <div>
-                                        <div style="font-weight:800">${g.name}</div>
-                                        <div class="small-muted">${g.description}</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn" style="background:var(--warning);color:white;margin-right:8px" onclick="openAvatarUploadModal(${g.id})">🖼️</button>
-                                    <button class="btn" style="background:var(--primary);color:white;margin-right:8px" onclick="addNewCheatToGame(${g.id})">+ Чит</button>
-                                    ${g.avatar ? `<button class="btn" style="background:var(--danger);color:white" onclick="removeAvatar(${g.id})">🗑️</button>` : ''}
-                                </div>
-                            </div>
+                
+                <!-- Grade Journal Page -->
+                <div class="page-content" id="journalPage" style="display: none;">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h2><i class="fas fa-book"></i> Журнал оценок</h2>
                             <div>
-                                ${g.cheats.length===0?'<p class="small-muted">Нет читов</p>': g.cheats.map(c=>{
-                                    const minPrice = Math.min(...c.variants.map(v=>v.price));
-                                    const maxPrice = Math.max(...c.variants.map(v=>v.price));
-                                    return `
-                                    <div style="padding:10px;background:rgba(255,255,255,0.02);border-radius:8px;margin:6px 0">
-                                        <div style="display:flex;justify-content:space-between;align-items:center">
-                                            <div style="display:flex;align-items:center;gap:12px">
-                                                ${c.avatar ? `<img src="${c.avatar}" class="cheat-avatar">` : ''}
-                                                <div>
-                                                    <strong>${c.name} ${c.version?'v'+c.version:''}</strong>
-                                                    <div class="small-muted">Цена: ${minPrice} ₽ - ${maxPrice} ₽</div>
-                                                </div>
-                                            </div>
-                                            <div style="display:flex;gap:4px">
-                                                <button class="btn" style="padding:6px 10px;background:var(--warning);color:white" onclick="openAvatarUploadModal(${g.id}, ${c.id})">🖼️</button>
-                                                <button class="btn" style="padding:6px 10px;background:var(--primary);color:white" onclick="openFileUploadModal(${g.id},${c.id})">📁</button>
-                                                ${c.avatar ? `<button class="btn" style="padding:6px 10px;background:var(--danger);color:white" onclick="removeAvatar(${g.id}, ${c.id})">🗑️</button>` : ''}
-                                            </div>
-                                        </div>
-                                        <div style="margin-top:8px">
-                                            <div class="small-muted" style="margin-bottom:4px">Варианты:</div>
-                                            <div style="display:flex;flex-wrap:wrap;gap:4px">
-                                                ${c.variants.map(v=>`<span style="padding:4px 8px;background:rgba(99,102,241,0.1);border-radius:4px;color:var(--primary)">${v.label} - ${v.price}₽</span>`).join('')}
-                                            </div>
-                                        </div>
-                                        ${c.files && c.files.length > 0 ? `
-                                        <div style="margin-top:8px">
-                                            <div class="small-muted">Файлы:</div>
-                                            ${c.files.map((f,idx)=>`
-                                                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
-                                                    <a href="${f.url}" target="_blank" style="color:var(--primary)">${f.name}</a>
-                                                    <button class="btn" style="padding:2px 6px;background:var(--danger);color:white;font-size:12px" onclick="removeFile(${g.id},${c.id},${idx})">✕</button>
-                                                </div>
-                                            `).join('')}
-                                        </div>
-                                        ` : '<div class="small-muted">Нет файлов</div>'}
-                                    </div>
-                                    `;
-                                }).join('')}
+                                <select id="classSelect" style="padding: 8px 15px; border-radius: 6px; border: 1px solid var(--border); margin-right: 10px;">
+                                    <option value="all">Все классы</option>
+                                    <option value="beginner">Beginner A1</option>
+                                    <option value="elementary">Elementary A2</option>
+                                    <option value="intermediate">Intermediate B1</option>
+                                    <option value="upper">Upper-Intermediate B2</option>
+                                    <option value="advanced">Advanced C1</option>
+                                </select>
+                                <select id="subjectSelect" style="padding: 8px 15px; border-radius: 6px; border: 1px solid var(--border);">
+                                    <option value="all">Все предметы</option>
+                                    <option value="english">Английский язык</option>
+                                    <option value="grammar">Грамматика</option>
+                                    <option value="speaking">Разговорная практика</option>
+                                    <option value="listening">Аудирование</option>
+                                    <option value="writing">Письмо</option>
+                                </select>
                             </div>
                         </div>
-                    `).join('')}
-                </div>
-            </div>
-
-            <div style="margin-top:18px">
-                <h3>Добавить новую игру</h3>
-                <div class="card">
-                    <div class="form-group"><label>Название</label><input id="newGameName" placeholder="Standoff 2"></div>
-                    <div class="form-group"><label>Иконка (эмодзи)</label><input id="newGameIcon" placeholder="🎮"></div>
-                    <div class="form-group"><label>Описание</label><input id="newGameDesc" placeholder="Описание"></div>
-                    <button class="btn btn-primary" onclick="addNewGame()">Добавить игру</button>
-                </div>
-            </div>
-
-            <div style="margin-top:18px">
-                <h3>Все покупки</h3>
-                <div class="card" id="adminPurchases">
-                    ${purchases.length===0?'<p class="small-muted">Покупок нет</p>': purchases.map(p=>{
-                        const u = users.find(x=>x.id===p.userId);
-                        const game = games.find(g=>g.id===p.gameId);
-                        const cheat = game ? game.cheats.find(c=>c.id===p.cheatId) : null;
-                        const files = cheat ? cheat.files || [] : [];
-                        return `<div style="padding:10px;border-bottom:1px solid var(--border)">
-                            <div style="display:flex;justify-content:space-between">
-                                <div>
-                                    <div style="font-weight:800">${p.gameName}</div>
-                                    <div class="small-muted">${p.cheatName} — ${u?u.email:'-'}</div>
-                                    <div class="small-muted">${p.variantLabel} — ${new Date(p.date).toLocaleString('ru-RU')}</div>
+                    </div>
+                    
+                    <!-- Grade Journal -->
+                    <div class="grade-journal-container">
+                        <div class="journal-header">
+                            <div class="class-info">
+                                <h3>Класс: Beginner A1</h3>
+                                <p>Предмет: Английский язык | Учитель: John Smith</p>
+                            </div>
+                            <div class="grade-controls">
+                                <div class="grade-type-selector">
+                                    <button class="grade-type-btn active" data-type="regular">Обычные оценки</button>
+                                    <button class="grade-type-btn" data-type="sor">СОР</button>
+                                    <button class="grade-type-btn" data-type="soch">СОЧ</button>
                                 </div>
-                                <div class="price">${p.price} ₽</div>
+                                <button class="btn btn-success" id="addGradeColumn">
+                                    <i class="fas fa-plus"></i> Добавить колонку
+                                </button>
                             </div>
-                            <div style="margin-top:8px"><pre class="key">${p.key}</pre></div>
-                            ${files.length > 0 ? `
-                            <div style="margin-top:8px">
-                                <div class="small-muted">Файлы:</div>
-                                ${files.map(f=>`<a href="${f.url}" target="_blank" class="file-link" style="margin-right:4px">${f.name}</a>`).join('')}
+                        </div>
+                        
+                        <div class="table-container">
+                            <table class="grades-table" id="gradesTable">
+                                <thead>
+                                    <tr>
+                                        <th class="student-name">Ученик</th>
+                                        <th>12.03</th>
+                                        <th>14.03</th>
+                                        <th>16.03</th>
+                                        <th>19.03</th>
+                                        <th>21.03</th>
+                                        <th>СОР1</th>
+                                        <th>26.03</th>
+                                        <th>28.03</th>
+                                        <th>СОЧ1</th>
+                                        <th>Средний</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="gradesTableBody">
+                                    <!-- Grades will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Quarter Statistics -->
+                    <div class="quarter-stats">
+                        <h4>Статистика по I четверти</h4>
+                        <div class="stats-cards">
+                            <div class="stat-card-small">
+                                <h5>Средний балл</h5>
+                                <p id="avgGrade">0.0</p>
                             </div>
-                            ` : ''}
-                        </div>`
-                    }).join('')}
+                            <div class="stat-card-small">
+                                <h5>Успеваемость</h5>
+                                <p id="successRate">0%</p>
+                            </div>
+                            <div class="stat-card-small">
+                                <h5>СОР выполнено</h5>
+                                <p id="sorCompleted">0/2</p>
+                            </div>
+                            <div class="stat-card-small">
+                                <h5>СОЧ выполнено</h5>
+                                <p id="sochCompleted">0/1</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Students Page -->
+                <div class="page-content" id="studentsPage" style="display: none;">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h2><i class="fas fa-users"></i> Ученики</h2>
+                            <button class="btn btn-primary" id="addStudentBtn">
+                                <i class="fas fa-user-plus"></i> Добавить ученика
+                            </button>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <input type="text" id="studentSearch" placeholder="Поиск ученика..." style="flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 6px;">
+                            <select id="studentClassFilter" style="padding: 10px; border: 1px solid var(--border); border-radius: 6px;">
+                                <option value="all">Все классы</option>
+                                <option value="beginner">Beginner A1</option>
+                                <option value="elementary">Elementary A2</option>
+                            </select>
+                            <select id="studentStatusFilter" style="padding: 10px; border: 1px solid var(--border); border-radius: 6px;">
+                                <option value="all">Все статусы</option>
+                                <option value="active">Активные</option>
+                                <option value="inactive">Неактивные</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>ФИО</th>
+                                    <th>Класс</th>
+                                    <th>Телефон</th>
+                                    <th>Email</th>
+                                    <th>Статус</th>
+                                    <th>Дата регистрации</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsTable">
+                                <!-- Students will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- СОР/СОЧ Page -->
+                <div class="page-content" id="sorSochPage" style="display: none;">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h2><i class="fas fa-chart-bar"></i> СОР и СОЧ</h2>
+                            <button class="btn btn-primary" id="addSORBtn">
+                                <i class="fas fa-plus-circle"></i> Добавить СОР
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- СОР/СОЧ Explanation -->
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                        <h3 style="color: var(--primary); margin-bottom: 10px;">Система оценивания</h3>
+                        <p style="margin-bottom: 10px; line-height: 1.6;">
+                            <strong>СОР (Суммативное оценивание раздела)</strong> - проводится по завершении изучения раздела учебной программы. 
+                            Максимальный балл: <strong>25 из 25</strong>.
+                        </p>
+                        <p style="margin-bottom: 10px; line-height: 1.6;">
+                            <strong>СОЧ (Суммативное оценивание за четверть)</strong> - проводится в конце четверти. 
+                            Максимальный балл: <strong>50 из 50</strong>.
+                        </p>
+                        <p style="line-height: 1.6; color: var(--gray); font-size: 0.9rem;">
+                            <i class="fas fa-info-circle"></i> Оценка выставляется автоматически на основе полученных баллов.
+                        </p>
+                    </div>
+                    
+                    <!-- СОР Table -->
+                    <div class="table-container" style="margin-bottom: 30px;">
+                        <div style="background: var(--info); color: white; padding: 15px; font-weight: bold;">
+                            <i class="fas fa-tasks"></i> СОР (Суммативное оценивание раздела) - Максимум 25 баллов
+                        </div>
+                        <table style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Название СОР</th>
+                                    <th>Класс</th>
+                                    <th>Предмет</th>
+                                    <th>Дата проведения</th>
+                                    <th>Макс. балл</th>
+                                    <th>Выполнили</th>
+                                    <th>Средний балл</th>
+                                    <th>Статус</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sorTable">
+                                <!-- СОР items will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- СОЧ Table -->
+                    <div class="table-container">
+                        <div style="background: var(--warning); color: var(--dark); padding: 15px; font-weight: bold;">
+                            <i class="fas fa-chart-line"></i> СОЧ (Суммативное оценивание за четверть) - Максимум 50 баллов
+                        </div>
+                        <table style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Название СОЧ</th>
+                                    <th>Класс</th>
+                                    <th>Предмет</th>
+                                    <th>Дата проведения</th>
+                                    <th>Макс. балл</th>
+                                    <th>Выполнили</th>
+                                    <th>Средний балл</th>
+                                    <th>Четверть</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sochTable">
+                                <!-- СОЧ items will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Other pages would go here... -->
+            </main>
+        </div>
+        
+        <!-- Grade Modal -->
+        <div class="grade-modal" id="gradeModal">
+            <div class="grade-modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Выставление оценки</h3>
+                    <button class="close-modal" id="closeModal">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="grade-form">
+                        <div class="form-group">
+                            <label>Студент: <strong id="modalStudentName">Иванов Иван</strong></label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Тип оценки:</label>
+                            <div class="grade-type-buttons">
+                                <button type="button" class="type-btn active" data-grade-type="regular">
+                                    <i class="fas fa-star"></i> Обычная
+                                </button>
+                                <button type="button" class="type-btn" data-grade-type="sor">
+                                    <i class="fas fa-tasks"></i> СОР <span class="max-points-display">25 баллов</span>
+                                </button>
+                                <button type="button" class="type-btn" data-grade-type="soch">
+                                    <i class="fas fa-chart-line"></i> СОЧ <span class="max-points-display">50 баллов</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Regular Grade Selection -->
+                        <div class="form-group" id="regularGradeSection">
+                            <label>Выберите оценку (10-балльная система):</label>
+                            <div class="grade-options">
+                                <div class="grade-option grade-1" data-grade="1">1</div>
+                                <div class="grade-option grade-2" data-grade="2">2</div>
+                                <div class="grade-option grade-3" data-grade="3">3</div>
+                                <div class="grade-option grade-4" data-grade="4">4</div>
+                                <div class="grade-option grade-5" data-grade="5">5</div>
+                                <div class="grade-option grade-6" data-grade="6">6</div>
+                                <div class="grade-option grade-7" data-grade="7">7</div>
+                                <div class="grade-option grade-8" data-grade="8">8</div>
+                                <div class="grade-option grade-9" data-grade="9">9</div>
+                                <div class="grade-option grade-10" data-grade="10">10</div>
+                            </div>
+                        </div>
+                        
+                        <!-- СОР/SОЧ Points Selection -->
+                        <div class="form-group" id="pointsGradeSection" style="display: none;">
+                            <label id="pointsLabel">Баллы СОР (максимум 25):</label>
+                            <div class="points-input-container">
+                                <span>0</span>
+                                <input type="range" min="0" max="25" value="0" class="points-slider" id="pointsSlider">
+                                <span id="pointsMax">25</span>
+                                <div class="points-value" id="pointsValue">0</div>
+                            </div>
+                            <div style="margin-top: 15px; text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);" id="calculatedGrade">0</div>
+                                <div style="font-size: 0.9rem; color: var(--gray);" id="gradeExplanation">
+                                    Баллы автоматически конвертируются в оценку
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gradeDate">Дата:</label>
+                            <input type="date" id="gradeDate" style="width: 100%; padding: 10px;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gradeComment">Комментарий (необязательно):</label>
+                            <textarea id="gradeComment" rows="3" placeholder="Например: Домашняя работа, Контрольная работа, Устный ответ..." style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn btn-danger" id="cancelGrade">Отмена</button>
+                    <button class="btn btn-success" id="saveGrade">
+                        <i class="fas fa-save"></i> Сохранить оценку
+                    </button>
                 </div>
             </div>
         </div>
-    `;
-}
+    </div>
 
-function addNewCheatToGame(gameId){
-    const game = games.find(g=>g.id===gameId);
-    if(!game) return;
-    
-    const name = prompt('Введите название чита:', 'Plutonium');
-    if(!name) return;
-    
-    const version = prompt('Введите версию чита (опционально):', '0.36.1');
-    
-    const variantsInput = prompt('Введите варианты и цены (формат: название:цена, через запятую):', '7 дней:99,30 дней:249,Навсегда:99500');
-    if(!variantsInput) return;
-    
-    const variants = variantsInput.split(',').map(s=>{
-        const [label, price] = s.split(':').map(x=>x && x.trim());
-        return { label: label || 'Вариант', price: parseInt(price||'0') || 0 };
-    });
-    
-    const cheat = { id: Date.now(), name, version, avatar:'', variants, files: [] };
-    game.cheats.push(cheat);
-    saveGames();
-    showNotification('success', `Чит "${name}" добавлен к "${game.name}"`);
-    showAdminPanel();
-}
-
-function approveDeposit(depositId){
-    const deposit = depositRequests.find(d=>d.id===depositId);
-    if(!deposit) return;
-    
-    deposit.status = 'approved';
-    deposit.adminComment = 'Пополнение одобрено администратором';
-    
-    let users = JSON.parse(localStorage.getItem('kometa_users')||'[]');
-    const user = users.find(u=>u.id===deposit.userId);
-    if(user){
-        user.balance += deposit.amount;
-        localStorage.setItem('kometa_users', JSON.stringify(users));
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://your-project.supabase.co';
+        const SUPABASE_KEY = 'your-anon-key';
         
-        if(currentUser && currentUser.id === deposit.userId){
-            currentUser.balance = user.balance;
-            localStorage.setItem('kometa_user', JSON.stringify(currentUser));
-            updateUserMenu();
+        // For demo purposes, we'll use localStorage instead
+        // In real app, replace with actual Supabase connection
+        
+        // Demo Data
+        const demoData = {
+            students: [
+                { id: 1, name: "Иванов Иван", class: "beginner", phone: "+7 777 123 4567", email: "ivanov@example.com", status: "active", regDate: "2024-01-15" },
+                { id: 2, name: "Петрова Анна", class: "beginner", phone: "+7 777 234 5678", email: "petrova@example.com", status: "active", regDate: "2024-01-20" },
+                { id: 3, name: "Сидоров Алексей", class: "elementary", phone: "+7 777 345 6789", email: "sidorov@example.com", status: "active", regDate: "2024-02-01" },
+                { id: 4, name: "Кузнецова Мария", class: "intermediate", phone: "+7 777 456 7890", email: "kuznetsova@example.com", status: "inactive", regDate: "2024-01-10" },
+                { id: 5, name: "Смирнов Дмитрий", class: "upper", phone: "+7 777 567 8901", email: "smirnov@example.com", status: "active", regDate: "2024-02-15" },
+                { id: 6, name: "Волкова Екатерина", class: "advanced", phone: "+7 777 678 9012", email: "volkova@example.com", status: "active", regDate: "2024-01-25" }
+            ],
+            teachers: [
+                { id: 1, name: "John Smith", subject: "Английский язык", email: "john@primespeak.kz", status: "active" },
+                { id: 2, name: "Sarah Johnson", subject: "Грамматика", email: "sarah@primespeak.kz", status: "active" }
+            ],
+            classes: ["Beginner A1", "Elementary A2", "Intermediate B1", "Upper-Intermediate B2", "Advanced C1"],
+            grades: [],
+            sorList: [],
+            sochList: []
+        };
+
+        // Current state
+        let currentUser = null;
+        let currentPage = 'dashboard';
+        let currentQuarter = 1;
+        let currentGradeType = 'regular';
+        let selectedStudentId = null;
+        let selectedGradeCell = null;
+        let currentMaxPoints = 25;
+
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const appContainer = document.getElementById('appContainer');
+        const loginForm = document.getElementById('loginForm');
+        const loginError = document.getElementById('loginError');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const userRole = document.getElementById('userRole');
+        const currentDate = document.getElementById('currentDate');
+        const navItems = document.querySelectorAll('.nav-item');
+        const pageContents = document.querySelectorAll('.page-content');
+        const quarterBtns = document.querySelectorAll('.quarter-btn');
+        const gradeTypeBtns = document.querySelectorAll('.grade-type-btn');
+        const gradeModal = document.getElementById('gradeModal');
+        const closeModal = document.getElementById('closeModal');
+        const cancelGrade = document.getElementById('cancelGrade');
+        const saveGrade = document.getElementById('saveGrade');
+        const typeBtns = document.querySelectorAll('.type-btn');
+        const pointsSlider = document.getElementById('pointsSlider');
+        const pointsValue = document.getElementById('pointsValue');
+        const pointsMax = document.getElementById('pointsMax');
+        const calculatedGrade = document.getElementById('calculatedGrade');
+        const gradeOptions = document.querySelectorAll('.grade-option');
+        const regularGradeSection = document.getElementById('regularGradeSection');
+        const pointsGradeSection = document.getElementById('pointsGradeSection');
+        const pointsLabel = document.getElementById('pointsLabel');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current date
+            const now = new Date();
+            currentDate.textContent = now.toLocaleDateString('ru-RU', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Load demo data
+            loadDemoData();
+            
+            // Setup event listeners
+            setupEventListeners();
+        });
+
+        // Load demo data
+        function loadDemoData() {
+            // Set statistics
+            document.getElementById('totalStudents').textContent = demoData.students.length;
+            document.getElementById('activeStudents').textContent = demoData.students.filter(s => s.status === 'active').length;
+            document.getElementById('inactiveStudents').textContent = demoData.students.filter(s => s.status === 'inactive').length;
+            document.getElementById('totalTeachers').textContent = demoData.teachers.length;
+            document.getElementById('totalClasses').textContent = demoData.classes.length;
+
+            // Populate students table
+            const studentsTable = document.getElementById('studentsTable');
+            demoData.students.forEach(student => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td><strong>${student.name}</strong></td>
+                    <td><span class="grade-value grade-7" style="font-size: 0.9rem;">${student.class}</span></td>
+                    <td>${student.phone}</td>
+                    <td>${student.email}</td>
+                    <td><span class="${student.status === 'active' ? 'grade-value grade-10' : 'grade-value grade-3'}" style="font-size: 0.9rem;">${student.status === 'active' ? 'Активный' : 'Неактивный'}</span></td>
+                    <td>${student.regDate}</td>
+                    <td>
+                        <button class="btn btn-success" style="padding: 5px 10px; font-size: 0.8rem;">Изменить</button>
+                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 0.8rem;">Удалить</button>
+                    </td>
+                `;
+                studentsTable.appendChild(row);
+            });
+
+            // Populate activity log
+            const activityLog = document.getElementById('activityLog');
+            const activities = [
+                { date: '2024-03-28 10:30', action: 'Выставлена оценка', user: 'John Smith', details: 'СОР1: 22/25 баллов' },
+                { date: '2024-03-27 14:15', action: 'Добавлен ученик', user: 'Администратор', details: 'Иванов Иван, Beginner A1' },
+                { date: '2024-03-26 09:45', action: 'Обновлено расписание', user: 'Sarah Johnson', details: 'Класс Intermediate B1' },
+                { date: '2024-03-25 16:20', action: 'Выставлена оценка', user: 'John Smith', details: 'СОЧ1: 45/50 баллов' }
+            ];
+            
+            activities.forEach(activity => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${activity.date}</td>
+                    <td>${activity.action}</td>
+                    <td>${activity.user}</td>
+                    <td>${activity.details}</td>
+                `;
+                activityLog.appendChild(row);
+            });
+
+            // Populate СОР table
+            const sorTable = document.getElementById('sorTable');
+            const sorItems = [
+                { name: 'СОР1: Present Simple', class: 'Beginner A1', subject: 'Английский язык', date: '2024-03-28', max: 25, completed: 15, avg: 18.5, status: 'Завершено' },
+                { name: 'СОР2: Past Simple', class: 'Elementary A2', subject: 'Английский язык', date: '2024-03-25', max: 25, completed: 12, avg: 20.2, status: 'Завершено' },
+                { name: 'СОР1: Articles', class: 'Intermediate B1', subject: 'Грамматика', date: '2024-04-05', max: 25, completed: 8, avg: 0, status: 'Запланировано' }
+            ];
+            
+            sorItems.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${item.name}</strong></td>
+                    <td>${item.class}</td>
+                    <td>${item.subject}</td>
+                    <td>${item.date}</td>
+                    <td><span class="grade-value grade-8">${item.max}</span></td>
+                    <td>${item.completed} из 20</td>
+                    <td><span class="grade-value grade-${Math.floor(item.avg/25*10)}">${item.avg.toFixed(1)}</span></td>
+                    <td><span class="${item.status === 'Завершено' ? 'grade-value grade-10' : 'grade-value grade-6'}">${item.status}</span></td>
+                    <td>
+                        <button class="btn btn-success" style="padding: 5px 10px; font-size: 0.8rem;">Редактировать</button>
+                    </td>
+                `;
+                sorTable.appendChild(row);
+            });
+
+            // Populate СОЧ table
+            const sochTable = document.getElementById('sochTable');
+            const sochItems = [
+                { name: 'СОЧ1: I четверть', class: 'Beginner A1', subject: 'Английский язык', date: '2024-03-30', max: 50, completed: 15, avg: 38.5, quarter: 1 },
+                { name: 'СОЧ1: I четверть', class: 'Elementary A2', subject: 'Английский язык', date: '2024-03-29', max: 50, completed: 12, avg: 42.3, quarter: 1 },
+                { name: 'СОЧ1: I четверть', class: 'Intermediate B1', subject: 'Грамматика', date: '2024-04-10', max: 50, completed: 8, avg: 0, quarter: 1 }
+            ];
+            
+            sochItems.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${item.name}</strong></td>
+                    <td>${item.class}</td>
+                    <td>${item.subject}</td>
+                    <td>${item.date}</td>
+                    <td><span class="grade-value grade-9">${item.max}</span></td>
+                    <td>${item.completed} из 20</td>
+                    <td><span class="grade-value grade-${Math.floor(item.avg/50*10)}">${item.avg.toFixed(1)}</span></td>
+                    <td><span class="grade-value grade-8">${item.quarter} четверть</span></td>
+                    <td>
+                        <button class="btn btn-success" style="padding: 5px 10px; font-size: 0.8rem;">Редактировать</button>
+                    </td>
+                `;
+                sochTable.appendChild(row);
+            });
+
+            // Populate grades table
+            populateGradesTable();
         }
-    }
-    
-    saveDepositRequests();
-    showNotification('success', `Заявка на ${deposit.amount} ₽ одобрена!`);
-    showAdminPanel();
-}
 
-function rejectDeposit(depositId){
-    const deposit = depositRequests.find(d=>d.id===depositId);
-    if(!deposit) return;
-    
-    const reason = prompt('Укажите причину отказа:', 'Платеж не поступил');
-    if(reason === null) return;
-    
-    deposit.status = 'rejected';
-    deposit.adminComment = reason || 'Платеж не поступил';
-    
-    saveDepositRequests();
-    showNotification('info', `Заявка на ${deposit.amount} ₽ отклонена.`);
-    showAdminPanel();
-}
+        // Populate grades table with demo data
+        function populateGradesTable() {
+            const gradesTableBody = document.getElementById('gradesTableBody');
+            gradesTableBody.innerHTML = '';
 
-function addNewGame(){
-    const name = document.getElementById('newGameName').value.trim();
-    const icon = document.getElementById('newGameIcon').value.trim() || '🎮';
-    const desc = document.getElementById('newGameDesc').value.trim() || '';
-    if(!name){ showNotification('error','Введите название игры'); return; }
-    const newGame = { id: Date.now(), name, icon, avatar:'', description:desc, cheats: [] };
-    games.push(newGame);
-    saveGames();
-    showNotification('success', `Игра "${name}" добавлена`);
-    document.getElementById('newGameName').value = '';
-    document.getElementById('newGameIcon').value = '';
-    document.getElementById('newGameDesc').value = '';
-    showAdminPanel();
-}
+            const students = [
+                { id: 1, name: "Иванов Иван", grades: [8, 9, null, 7, 10, {type: 'sor', points: 22, max: 25}, 8, 9, {type: 'soch', points: 45, max: 50}, 8.5] },
+                { id: 2, name: "Петрова Анна", grades: [7, 8, 9, null, 8, {type: 'sor', points: 18, max: 25}, 7, 8, {type: 'soch', points: 38, max: 50}, 7.8] },
+                { id: 3, name: "Сидоров Алексей", grades: [9, 10, 8, 9, 10, {type: 'sor', points: 24, max: 25}, 9, 10, {type: 'soch', points: 48, max: 50}, 9.3] },
+                { id: 4, name: "Кузнецова Мария", grades: [6, 7, null, 6, 7, {type: 'sor', points: 15, max: 25}, 6, null, {type: 'soch', points: 0, max: 50}, 6.5] }
+            ];
 
-/* ---------- notifications ---------- */
-function showNotification(type, message){
-    const notifications = document.getElementById('notifications');
-    const el = document.createElement('div');
-    el.className = 'notification';
-    el.innerText = message;
-    el.style.borderLeftColor = type==='success' ? 'var(--success)' : type==='error' ? 'var(--danger)' : 'var(--primary)';
-    notifications.appendChild(el);
-    setTimeout(()=>{ el.remove(); }, 3000);
-}
-</script>
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                
+                // Student name cell
+                const nameCell = document.createElement('td');
+                nameCell.className = 'student-cell';
+                nameCell.innerHTML = `
+                    <div class="student-avatar">${student.name.charAt(0)}</div>
+                    <div>${student.name}</div>
+                `;
+                row.appendChild(nameCell);
+
+                // Grade cells
+                student.grades.forEach((grade, index) => {
+                    const cell = document.createElement('td');
+                    cell.className = 'grade-cell';
+                    cell.dataset.studentId = student.id;
+                    cell.dataset.column = index;
+                    
+                    if (grade === null) {
+                        cell.innerHTML = '<div style="color: var(--gray);">-</div>';
+                    } else if (typeof grade === 'object') {
+                        // СОР or СОЧ
+                        const points = grade.points;
+                        const maxPoints = grade.max;
+                        const calculatedGrade = Math.round((points / maxPoints) * 10);
+                        const gradeClass = calculatedGrade >= 1 && calculatedGrade <= 10 ? `grade-${calculatedGrade}` : 'grade-1';
+                        
+                        cell.innerHTML = `
+                            <div class="grade-value ${gradeClass}">${calculatedGrade}</div>
+                            <div class="grade-points">${points}/${maxPoints}</div>
+                        `;
+                        cell.dataset.gradeType = grade.type;
+                        cell.dataset.points = points;
+                        cell.dataset.maxPoints = maxPoints;
+                    } else {
+                        // Regular grade
+                        const gradeClass = grade >= 1 && grade <= 10 ? `grade-${grade}` : 'grade-1';
+                        cell.innerHTML = `<div class="grade-value ${gradeClass}">${grade}</div>`;
+                        cell.dataset.grade = grade;
+                    }
+                    
+                    cell.addEventListener('click', () => openGradeModal(student.id, student.name, cell));
+                    row.appendChild(cell);
+                });
+
+                gradesTableBody.appendChild(row);
+            });
+
+            // Update statistics
+            updateQuarterStats();
+        }
+
+        // Update quarter statistics
+        function updateQuarterStats() {
+            // In a real app, calculate these from actual data
+            document.getElementById('avgGrade').textContent = '8.3';
+            document.getElementById('successRate').textContent = '92%';
+            document.getElementById('sorCompleted').textContent = '2/2';
+            document.getElementById('sochCompleted').textContent = '1/1';
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Login form
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                const role = document.getElementById('loginRole').value;
+                
+                // Simple demo validation
+                if (email && password) {
+                    loginUser(email, role);
+                } else {
+                    showLoginError();
+                }
+            });
+
+            // Logout
+            logoutBtn.addEventListener('click', logoutUser);
+
+            // Navigation
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const page = item.dataset.page;
+                    switchPage(page);
+                    
+                    // Update active state
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+                });
+            });
+
+            // Quarter selection
+            quarterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    quarterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentQuarter = parseInt(btn.dataset.quarter);
+                    // In real app, reload data for selected quarter
+                });
+            });
+
+            // Grade type selection
+            gradeTypeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    gradeTypeBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    // In real app, filter grades by type
+                });
+            });
+
+            // Grade modal
+            closeModal.addEventListener('click', () => {
+                gradeModal.style.display = 'none';
+            });
+
+            cancelGrade.addEventListener('click', () => {
+                gradeModal.style.display = 'none';
+            });
+
+            // Close modal on outside click
+            gradeModal.addEventListener('click', (e) => {
+                if (e.target === gradeModal) {
+                    gradeModal.style.display = 'none';
+                }
+            });
+
+            // Save grade
+            saveGrade.addEventListener('click', saveGradeToSystem);
+
+            // Grade type selection in modal
+            typeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    typeBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    currentGradeType = btn.dataset.gradeType;
+                    
+                    if (currentGradeType === 'regular') {
+                        regularGradeSection.style.display = 'block';
+                        pointsGradeSection.style.display = 'none';
+                    } else {
+                        regularGradeSection.style.display = 'none';
+                        pointsGradeSection.style.display = 'block';
+                        
+                        if (currentGradeType === 'sor') {
+                            currentMaxPoints = 25;
+                            pointsLabel.textContent = 'Баллы СОР (максимум 25):';
+                            pointsSlider.max = 25;
+                            pointsMax.textContent = '25';
+                        } else if (currentGradeType === 'soch') {
+                            currentMaxPoints = 50;
+                            pointsLabel.textContent = 'Баллы СОЧ (максимум 50):';
+                            pointsSlider.max = 50;
+                            pointsMax.textContent = '50';
+                        }
+                        
+                        pointsSlider.value = 0;
+                        updatePointsDisplay();
+                    }
+                });
+            });
+
+            // Points slider
+            pointsSlider.addEventListener('input', updatePointsDisplay);
+
+            // Regular grade selection
+            gradeOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    gradeOptions.forEach(opt => opt.style.borderColor = 'var(--border)');
+                    option.style.borderColor = 'var(--primary)';
+                });
+            });
+
+            // Add student button
+            document.getElementById('addStudentBtn')?.addEventListener('click', () => {
+                alert('В реальном приложении здесь будет форма добавления ученика');
+            });
+
+            // Add СОР button
+            document.getElementById('addSORBtn')?.addEventListener('click', () => {
+                alert('В реальном приложении здесь будет форма добавления СОР');
+            });
+
+            // Add grade column button
+            document.getElementById('addGradeColumn')?.addEventListener('click', () => {
+                alert('В реальном приложении здесь будет форма добавления колонки оценок');
+            });
+        }
+
+        // Open grade modal
+        function openGradeModal(studentId, studentName, cell) {
+            selectedStudentId = studentId;
+            selectedGradeCell = cell;
+            
+            document.getElementById('modalStudentName').textContent = studentName;
+            
+            // Set current date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('gradeDate').value = today;
+            
+            // Reset form
+            typeBtns.forEach(btn => btn.classList.remove('active'));
+            typeBtns[0].classList.add('active');
+            currentGradeType = 'regular';
+            regularGradeSection.style.display = 'block';
+            pointsGradeSection.style.display = 'none';
+            
+            gradeOptions.forEach(opt => opt.style.borderColor = 'var(--border)');
+            
+            // If cell has existing grade, pre-fill
+            if (cell.dataset.grade) {
+                const grade = parseInt(cell.dataset.grade);
+                gradeOptions.forEach(opt => {
+                    if (parseInt(opt.dataset.grade) === grade) {
+                        opt.style.borderColor = 'var(--primary)';
+                    }
+                });
+            } else if (cell.dataset.gradeType) {
+                // СОР or СОЧ
+                if (cell.dataset.gradeType === 'sor') {
+                    typeBtns[1].click();
+                    pointsSlider.value = cell.dataset.points;
+                    updatePointsDisplay();
+                } else if (cell.dataset.gradeType === 'soch') {
+                    typeBtns[2].click();
+                    pointsSlider.value = cell.dataset.points;
+                    updatePointsDisplay();
+                }
+            }
+            
+            gradeModal.style.display = 'flex';
+        }
+
+        // Update points display
+        function updatePointsDisplay() {
+            const points = parseInt(pointsSlider.value);
+            pointsValue.textContent = points;
+            
+            // Calculate grade from points
+            let calculated = 0;
+            if (currentMaxPoints > 0) {
+                calculated = Math.round((points / currentMaxPoints) * 10);
+                if (calculated > 10) calculated = 10;
+                if (calculated < 1 && points > 0) calculated = 1;
+            }
+            
+            calculatedGrade.textContent = calculated;
+            calculatedGrade.className = `grade-value grade-${calculated}`;
+        }
+
+        // Save grade to system
+        function saveGradeToSystem() {
+            let gradeValue, points, maxPoints, gradeType;
+            
+            if (currentGradeType === 'regular') {
+                // Get selected regular grade
+                const selectedGrade = document.querySelector('.grade-option[style*="border-color: var(--primary)"]');
+                if (!selectedGrade) {
+                    alert('Пожалуйста, выберите оценку');
+                    return;
+                }
+                gradeValue = parseInt(selectedGrade.dataset.grade);
+                gradeType = 'regular';
+            } else {
+                // СОР or СОЧ
+                points = parseInt(pointsSlider.value);
+                maxPoints = currentMaxPoints;
+                gradeValue = Math.round((points / maxPoints) * 10);
+                if (gradeValue > 10) gradeValue = 10;
+                if (gradeValue < 1 && points > 0) gradeValue = 1;
+                gradeType = currentGradeType;
+            }
+            
+            const date = document.getElementById('gradeDate').value;
+            const comment = document.getElementById('gradeComment').value;
+            
+            // Update the cell in the table
+            if (selectedGradeCell) {
+                const gradeClass = `grade-${gradeValue}`;
+                
+                if (gradeType === 'regular') {
+                    selectedGradeCell.innerHTML = `<div class="grade-value ${gradeClass}">${gradeValue}</div>`;
+                    selectedGradeCell.dataset.grade = gradeValue;
+                    delete selectedGradeCell.dataset.gradeType;
+                    delete selectedGradeCell.dataset.points;
+                    delete selectedGradeCell.dataset.maxPoints;
+                } else {
+                    selectedGradeCell.innerHTML = `
+                        <div class="grade-value ${gradeClass}">${gradeValue}</div>
+                        <div class="grade-points">${points}/${maxPoints}</div>
+                    `;
+                    selectedGradeCell.dataset.gradeType = gradeType;
+                    selectedGradeCell.dataset.points = points;
+                    selectedGradeCell.dataset.maxPoints = maxPoints;
+                }
+                
+                // Add to activity log
+                addActivityLog(gradeType === 'regular' ? 
+                    `Выставлена оценка: ${gradeValue}` :
+                    `${gradeType.toUpperCase()}: ${points}/${maxPoints} баллов → оценка ${gradeValue}`);
+            }
+            
+            // Close modal
+            gradeModal.style.display = 'none';
+            
+            // Show success message
+            showNotification(`Оценка успешно сохранена!`, 'success');
+            
+            // Update statistics
+            updateQuarterStats();
+        }
+
+        // Add activity to log
+        function addActivityLog(action) {
+            const activityLog = document.getElementById('activityLog');
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+            
+            const userName = document.getElementById('userName').textContent;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${dateStr}</td>
+                <td>Выставлена оценка</td>
+                <td>${userName}</td>
+                <td>${action}</td>
+            `;
+            
+            // Add at the beginning
+            if (activityLog.firstChild) {
+                activityLog.insertBefore(row, activityLog.firstChild);
+            } else {
+                activityLog.appendChild(row);
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--info)'};
+                color: white;
+                border-radius: 6px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 3000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Switch between pages
+        function switchPage(page) {
+            // Hide all pages
+            pageContents.forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Show selected page
+            const selectedPage = document.getElementById(`${page}Page`);
+            if (selectedPage) {
+                selectedPage.style.display = 'block';
+            }
+            
+            currentPage = page;
+        }
+
+        // Login user
+        function loginUser(email, role) {
+            currentUser = {
+                email: email,
+                role: role,
+                name: role === 'admin' ? 'Администратор' : 
+                       role === 'teacher' ? 'John Smith' : 
+                       'Иванов Иван'
+            };
+            
+            // Update UI
+            userAvatar.textContent = currentUser.name.charAt(0);
+            userName.textContent = currentUser.name;
+            userRole.textContent = role === 'admin' ? 'Администратор' : 
+                                  role === 'teacher' ? 'Учитель' : 'Студент';
+            
+            // Switch to app view
+            loginPage.style.display = 'none';
+            appContainer.style.display = 'block';
+            
+            // Show welcome notification
+            showNotification(`Добро пожаловать, ${currentUser.name}!`, 'success');
+        }
+
+        // Logout user
+        function logoutUser() {
+            currentUser = null;
+            
+            // Switch to login view
+            appContainer.style.display = 'none';
+            loginPage.style.display = 'flex';
+            
+            // Clear login form
+            loginForm.reset();
+            loginError.style.display = 'none';
+        }
+
+        // Show login error
+        function showLoginError() {
+            loginError.style.display = 'block';
+            setTimeout(() => {
+                loginError.style.display = 'none';
+            }, 3000);
+        }
+
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
-</html>
+    </html>
